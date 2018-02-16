@@ -38,6 +38,8 @@
 #### 3. 信号 ####
 信号有很多种类型，系统给不同的信号定义了不同的意义，其中也保留了用户可以自定义的信号
 ![信号图](../../img/bookread.computer_system.exception_control_flow/1.png)
+(图出自<\<Computer Systems Third edition>>)
+
 比如在当前进程按下ctrl+c..实际上就是键盘通过操作系统给当前进程发送了一个2信号
 
 #### 4. 除了系统程序可以给用户程序发送信号，用户程序也可以给用户程序发送信号 ####
@@ -45,10 +47,11 @@
 
 在程序逻辑里，可以调用c的kill函数给进程id传入信号。如果进程id大于0，向进程id发送信号；如果进程id为0，则为自己和自己所在的进程组每个进程发送信号；如果进程id小于0，则为进程id的绝对值以及进程id绝对值所在的进程组所有的进程都发送信号。
 ![c kill函数](../../img/bookread.computer_system.exception_control_flow/c_kill.png)
+(图出自<\<Computer Systems Third edition>>)
 
 在程序逻辑里面，用户也可以注册信号的handler函数，当进程被传入信号时，程序控制就会交给handler函数。处理完后，控制交还给故障发生时的后一句命令，程序继续执行。
 ![c signal函数](../../img/bookread.computer_system.exception_control_flow/c_signal.png)
-
+(图出自<\<Computer Systems Third edition>>)
 
 #### 5. 计算机系统的用户级异常控制流 ####
 c语言提供setjump和longjump方法。setjmp方法保存当前进程的运行状态（包括程序计数器,栈指针和通用目的寄存器)，而longjmp根据之前保存的状态还原程序执行的状态，继续执行setjmp处后面的逻辑。
