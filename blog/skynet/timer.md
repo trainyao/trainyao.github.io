@@ -70,7 +70,7 @@ timer线程每次取出Near槽里需要执行的事件队列时,都会抢占一�
 
 参考资料:
 
-[linux网络编程二十三：高性能定时器之时间堆](https://blog.csdn.net/jasonliuvip/article/details/24738605)
-[游戏后台定时器系统设计与实现](https://www.jianshu.com/p/5a973f3ac409)
-[深入剖析Linux内核定时器实现机制](https://blog.csdn.net/tianmohust/article/details/8707162)
-[基于Hash和多级时间轮：实现定时器的高效数据结构](http://www.lpnote.com/2017/11/16/hashed-and-hierarchical-timing-wheels/)
+- [linux网络编程二十三：高性能定时器之时间堆](https://blog.csdn.net/jasonliuvip/article/details/24738605)
+- [游戏后台定时器系统设计与实现](https://www.jianshu.com/p/5a973f3ac409)
+- [深入剖析Linux内核定时器实现机制](https://blog.csdn.net/tianmohust/article/details/8707162)
+- [基于Hash和多级时间轮：实现定时器的高效数据结构](http://www.lpnote.com/2017/11/16/hashed-and-hierarchical-timing-wheels/)
