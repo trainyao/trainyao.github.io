@@ -1,0 +1,10 @@
+baseURL = "https://trainyao.github.io/"
+languageCode = "zh-cn"
+title = "Hello, I'm trainyao"
+theme = "hugo-theme-nix"
+Name="trainyao"
+  HeaderUsername = "user"
+  HeaderHostname = "host"
+  About = "info_about_you"
+  ProfilePicture = "profile_picture_url"
+
