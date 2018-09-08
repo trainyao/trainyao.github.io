@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://trainyao.github.io/post/bookread/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/other/repid_develop/linux_alias/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/php/php_extension/overview/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/skynet/overview/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/skynet/timer/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/thoughts/lockmash/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/welcome/</loc>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/post/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

@@ -1,10 +1,15 @@
 baseURL = "https://trainyao.github.io/"
 languageCode = "zh-cn"
-title = "Hello, I'm trainyao"
+title = "trainyao.github.io"
 theme = "hugo-theme-nix"
-Name="trainyao"
-  HeaderUsername = "user"
-  HeaderHostname = "host"
-  About = "info_about_you"
-  ProfilePicture = "profile_picture_url"
-
+[params]
+  Name = "Hello, I'm trainyao."
+  HeaderUsername = "trainyao"
+  HeaderHostname = "home"
+  About = "about train"
+  ProfilePicture = "https://www.google.com.hk/webhp?hl=en&sa=X&ved=0ahUKEwiDxNTYi6vdAhVCMN4KHTENDCkQPAgD"
+[menu]
+  [[menu.header]]
+    name = "读书笔记"
+    weight = 0
+    url = "/content/post/bookread"
