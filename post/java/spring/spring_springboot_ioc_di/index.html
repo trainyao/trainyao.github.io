@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>  &middot; trainyao.github.io </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.48" />
+
+
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://trainyao.github.io/>trainyao@home ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://trainyao.github.io/">/home/trainyao</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/content/post/bookread">~/读书笔记</a>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/"></a></h1>
+            <span class="post-date">Jan 1, 0001 </span>
+            <div class="post-content">
+                <p>@(linux)</p>
+
+<p>#Spring与SpringBoot的IoC和DI
+###前言
+spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。</p>
+
+<p>##Ioc(控制反转)
+控制反转即反转控制类实例的方式。
+从<strong>控制</strong>反转为<strong>被控制</strong>
+从<strong>自己</strong>生成/销毁反转为<strong>别人</strong>生成/销毁
+控制反转的好处在于：
+- 业务逻辑中不用考虑实例的生成/销毁，可以专注于业务逻辑(使用类实例)
+- 对测试更加友好(mock实例行为)</p>
+
+<p>##DI(依赖注入)
+依赖注入是控制反转的一种实现方法。&rdquo;别人&rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。</p>
+
+<p>##Spring的IoC
+一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。
+Spring按类实例的种类管理容器中的类实例（种类有唯一的种类id：beanId）。每一种类实例称为Bean。
+与很多IoC框架类似，类实例的注入方式有很多种(单例/非单例)，Spring中类实例存在方式可以是：
+- 单例 (singleton)
+- 每次注入返回新的实例 (prototype)
+- 每次请求返回同一的实例 (request)
+- 每次回话返回同一实例 (session/global session)</p>
+
+<p>以下是spring注册Bean的其中某些特性：
+- <strong>1. xml可以配置BeanId，默认以类名为beanId。</strong>
+- <strong>2. 注解为bean的时候默认以类名为beanId，也可以指定beanId</strong>
+- <strong>3. 在获取bean时，如果无法查找到beanId，会查找对应的类是否有注册，如果不存在，会查找对应类的子类是否有注册</strong></p>
+
+<p>另外，spring的IoC和DI利用了java的注解实现，也是面向切面编程的一个体现。在加载应用的时候，切换到应用bean管理切面，扫描类并注册Bean，在需要注入时，再次切换到bean管理切面，返回需要的bean。</p>
+
+<p>##SpringBoot的IoC
+springBoot简化了spring的配置部分
+spring通过xml配置文件扫描/注解方式注册类实例
+springBoot默认通过注解方式注册类实例，并默认扫描application包以及子包的所有类实例。默认以注解方式标记类实例。
+springBoot可以沿用spring注解配置Bean时的规则</p>
+
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2018 Hello, I&#39;m trainyao. -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+    </body>
