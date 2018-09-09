@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>  &middot; trainyao.github.io </title>
+        <title> 现代计算机的异常控制流 &middot; trainyao.github.io </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -54,7 +54,39 @@
 				
 				<li class="dropdown">
                     
-            		<a href="/content/post/bookread">~/读书笔记</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">日志 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/skynet">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/bookread/computer_system">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/post/thoughts">~/脑洞</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/other/repid_develop">~/快速开发</a>
+				    		</li>
+                		
+            		</ul>
             		
         		</li>
         		
@@ -66,12 +98,10 @@
 </header>
 
         <div class="container wrapper">
-            <h1><a href="https://trainyao.github.io/post/bookread/computer_system/exception_control_flow/"></a></h1>
-            <span class="post-date">Jan 1, 0001 </span>
+            <h1><a href="https://trainyao.github.io/post/bookread/computer_system/exception_control_flow/">现代计算机的异常控制流</a></h1>
+            <span class="post-date">Feb 16, 2018 </span>
             <div class="post-content">
                 
-
-<h2 id="现代计算机的异常控制流">现代计算机的异常控制流</h2>
 
 <h3 id="一-为什么需要知道异常控制流">一 为什么需要知道异常控制流</h3>
 
@@ -94,19 +124,20 @@
 
 <ul>
 <li>异常控制流是用户程序和系统程序交互的基础</li>
-
-<li><p>计算机系统供一种用户级的异常控制流，让开发者可以在代码的异常逻辑里面，无需解开嵌套多层的调用栈，直接跳转到异常处理的代码里面</p>
+<li>计算机系统供一种用户级的异常控制流，让开发者可以在代码的异常逻辑里面，无需解开嵌套多层的调用栈，直接跳转到异常处理的代码里面</li>
+</ul>
 
 <h4 id="2-异常控制流是-用户程序和系统程序交互-软硬件交互-的基础">2. 异常控制流是<em>用户程序和系统程序交互</em>&amp;*软硬件交互*的基础</h4>
 
-<p>要说明这点，先要说一下什么是用户程序，什么是系统程序。</p></li>
-</ul>
+<p>要说明这点，先要说一下什么是用户程序，什么是系统程序。</p>
 
-<p>为了<strong>限制用户程序的权限</strong>，和<strong>将一些系统操作抽象出来</strong>，计算机系统将一些高等操作称为系统程序，如申请内存，读取内存信息到寄存器／读取磁盘信息到内存，从一个外部设备读取信息到磁盘，等。
-同时这样分离还有一个好处，就是<strong>提高系统的吞吐率</strong>。众所周知，cpu寄存器-一级缓存-二级缓存-内存-磁盘-网络存储设备，越往后读取的速度越慢，而让cpu盲目的等待IO的数据到位，然后再执行后续的程序，是极其浪费cpu计算资源的。而另一方面，由于计算机系统的多进程特性，一个用户程序在一个进程调用系统程序，进行耗时的IO时，完全可以对这个进程进行挂起，让cpu资源去处理其他进程的逻辑，待IO完毕，给挂起的程序一个通知，让挂起的程序继续进行IO后的逻辑。</p>
+<p>为了<strong>限制用户程序的权限</strong>，和<strong>将一些系统操作抽象出来</strong>，计算机系统将一些高等操作称为系统程序，如申请内存，读取内存信息到寄存器／读取磁盘信息到内存，从一个外部设备读取信息到磁盘，等。</p>
 
-<p>这种通知进程的行为，就是异常，而这个通知，就是后面要讲到的信号。
-计算机系统的异常有4种：中断,陷阱,故障,终止</p>
+<p>同时这样分离还有一个好处，就是<strong>提高系统的吞吐率</strong>。众所周知，cpu寄存器-一级缓存-二级缓存-内存-磁盘-网络存储设备，越往后读取的速度越慢，而让cpu盲目的等待IO的数据到位，然后再执行后续的程序，是极其浪费cpu计算资源的。而另一方面，由于计算机系统的多进程特性，一个用户程序在一个进程调用系统程序，进行耗时的IO时，完全可以对这个进程进行挂起，让cpu资源去处理其他进程的逻辑，待IO完毕，给挂起的程序一个通知，让挂起的程序继续进行IO后的逻辑。</p>
+
+<p>这种通知进程的行为，就是异常，而这个通知，就是后面要讲到的信号。</p>
+
+<p>计算机系统的异常有4种：中断,陷阱,故障,终止</p>
 
 <ul>
 <li><p>中断</p>
@@ -115,7 +146,7 @@
 
 <li><p>陷阱</p>
 
-<p>陷阱和中断类似，只不过陷阱是同步的。陷阱像是一种故意的异常，发生在软件程序上的调用，如用户程序向系统程序申请fock一个子进程，或者执行另外一个程序。所以实现系统程序的封装和系统程序和用户程序的隔离，接口化，使用的也是陷阱这种异常。</p></li>
+<p>陷阱和中断类似，只不过陷阱是同步的。陷阱像是一种故意的异常，发生在软件程序上的调用，如用户程序向系统程序申请fock一个子进程，或者执行另外一个程序。所以实现系统程序的封装和系统程序和用户程序的隔离，接口化，使用的也是陷阱这种异常。</p></li>
 
 <li><p>故障</p>
 
@@ -128,9 +159,11 @@
 
 <h4 id="3-信号">3. 信号</h4>
 
-<p>信号有很多种类型，系统给不同的信号定义了不同的意义，其中也保留了用户可以自定义的信号
-<img src="../../img/bookread.computer_system.exception_control_flow/1.png" alt="信号图" />
-(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
+<p>信号有很多种类型，系统给不同的信号定义了不同的意义，其中也保留了用户可以自定义的信号</p>
+
+<p><img src="../../img/bookread.computer_system.exception_control_flow/1.png" alt="信号图" /></p>
+
+<p>(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
 
 <p>比如在当前进程按下ctrl+c..实际上就是键盘通过操作系统给当前进程发送了一个2信号</p>
 
@@ -138,13 +171,17 @@
 
 <p>通过kill命令，传入信号和进程id，可以给进程发送一个信号。常见的nginx通过kill命令重启nginx，平滑重新加载配置，就是用了这个特性。</p>
 
-<p>在程序逻辑里，可以调用c的kill函数给进程id传入信号。如果进程id大于0，向进程id发送信号；如果进程id为0，则为自己和自己所在的进程组每个进程发送信号；如果进程id小于0，则为进程id的绝对值以及进程id绝对值所在的进程组所有的进程都发送信号。
-<img src="../../img/bookread.computer_system.exception_control_flow/c_kill.png" alt="c kill函数" />
-(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
+<p>在程序逻辑里，可以调用c的kill函数给进程id传入信号。如果进程id大于0，向进程id发送信号；如果进程id为0，则为自己和自己所在的进程组每个进程发送信号；如果进程id小于0，则为进程id的绝对值以及进程id绝对值所在的进程组所有的进程都发送信号。</p>
 
-<p>在程序逻辑里面，用户也可以注册信号的handler函数，当进程被传入信号时，程序控制就会交给handler函数。处理完后，控制交还给故障发生时的后一句命令，程序继续执行。
-<img src="../../img/bookread.computer_system.exception_control_flow/c_signal.png" alt="c signal函数" />
-(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
+<p><img src="../../img/bookread.computer_system.exception_control_flow/c_kill.png" alt="c kill函数" /></p>
+
+<p>(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
+
+<p>在程序逻辑里面，用户也可以注册信号的handler函数，当进程被传入信号时，程序控制就会交给handler函数。处理完后，控制交还给故障发生时的后一句命令，程序继续执行。</p>
+
+<p><img src="../../img/bookread.computer_system.exception_control_flow/c_signal.png" alt="c signal函数" /></p>
+
+<p>(图出自&lt;&lt;Computer Systems Third edition&gt;&gt;)</p>
 
 <h4 id="5-计算机系统的用户级异常控制流">5. 计算机系统的用户级异常控制流</h4>
 

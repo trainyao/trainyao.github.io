@@ -6,69 +6,128 @@
     <description>Recent content on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
+    <lastBuildDate>Sat, 08 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://trainyao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title></title>
+      <title>Lock mesh</title>
+      <link>https://trainyao.github.io/post/thoughts/lockmash/</link>
+      <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/thoughts/lockmash/</guid>
+      <description> 1. 想法 前些天在研究分布式锁的方案，突发奇想，在云原生时代，像 php、c、go、java 这种原来用特定编程语言开发的程序，已经通过打包、编排，变成了云原生操作系统里的一个工作进程。而像是网络这种原本的操作系统基础设施，也在云原生操作系统里面有了实现（从微服务发展到 service mesh）。
+那么，锁是不是也可以看作是基础设施，提供给云原生操作系统的工作进程使用呢？
+云原生开发者在编写工作进程逻辑的时候，无需考虑引入哪个分布式锁的包/库，就像是调用系统调用一样，将资源锁住，读写资源，然后再调用系统调用进行解锁。而云原生操作系统负责调度容器进行资源的访问，防止容器争抢资源。这样做的好处是，可以屏蔽掉不同语言的分布式锁之间的实现差异，让业务逻辑开发者专注业务逻辑的优化、思考业务应该使用哪种锁，以及锁的粒度等业务相关的工作。
+其实不止是锁，也许还可以思考一下，原生操作系统的基础设施有哪些可以对应到云原生操作系统上的。
+且不论叫它 lock mesh 是否合理吧：）
+有这个想法后，我在 github、google 和 CNCF landscape 上搜索了一番，没有找到相关的项目或者资料。后续我会再进行一些搜索，确定我是不是想别人已经想到的东西。
+如果你也觉得这个想法可行，不妨跟我联系哦：）
+2. 怎么办 有了想法，然后呢？
+我列了一些 todo 项：
+ 再搜索一下是否已经存在相关的资料、项目 思考这个方案是否有必要，是否可行  有没有必要做这一层抽象，编写容器逻辑的开发者，其实是不是按照原来的方式，调用库就好了 如果要做，怎么基于云原生平台（像是 kubernetes）去实现这种基础设施  如果可行，根据具体方案，给出架构图 立项，做项目规划 写demo 开源出去，让更多的开发者接触到项目，并参与代码贡献 建立社区，完善文档（微信群、钉钉群（国内）、slack（国外））  </description>
+    </item>
+    
+    <item>
+      <title>skynet里的定时器</title>
+      <link>https://trainyao.github.io/post/skynet/timer/</link>
+      <pubDate>Sun, 10 Jun 2018 22:48:30 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/skynet/timer/</guid>
+      <description>这周花了点时间看了 skynet 关于定时器功能的源码,以及扩展的了解了一下定时器实现的其他方案,写一遍博客总结一下.内容会分为下面几部分:
+ skynet的定时器结构图 skynet定时器执行过程 关于skynet定时器的一些思考 其他定时器方案 linux定时器方案 总结  1. skynet 的定时器结构图 2. skynet 定时器执行过程 首先确定定时器里面的几个概念:
+ tick: 指 skynet timer 线程每一次处理事件的循环.由于这个循环每隔 0.00025 秒会执行一次,很像时钟滴答滴答的走,很多书籍都称为 tick skynet 启动时间戳: 顾名思义,比如 1528613417 时间戳(北京时间 2018/6/10 14:50:17)代表 skynet 是这个时间点启动的,而且这个时间是不会变的.这个比较容易理解 系统启动时间数: 单位 0.01 秒. 顾名思义,但是为什么说是时间数呢?因为这是一个时间的量,比如300,表示系统启动了3秒. skynet timer 线程在每一次 tick 都会去同步这个时间量 skynet 启动时间数: 单位 0.01 秒. 与系统启动时间数类似,如 300,表示 skynet 启动了 3 秒,每次 tick skynet timer 线程也会去更新这个时间量  首先需要说明的是, skynet 定时器的时间刻度是百分秒(0.01秒).意味着 skynet 最小可以定义事件 0.01 秒后执行.这个精度对于游戏领域可以说是够用了.</description>
+    </item>
+    
+    <item>
+      <title>skynet 概览</title>
+      <link>https://trainyao.github.io/post/skynet/overview/</link>
+      <pubDate>Mon, 04 Jun 2018 07:15:34 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/skynet/overview/</guid>
+      <description>这个星期以来，由于工作需要使用skynet，于是看了5天skynet的源码。收获很多，于是周末写篇博文总结一下这周以来的学习。
+这5天的学习过程可以概括为5句话：（因为5天嘛）
+ 代码结构，从main函数开始 skynet启动过程，worker线程工作过程 skynet启动过程，skynet数据结构熟悉， worker回调函数注册，worker的c层回调lua逻辑原理， lua层逻辑协程的使用熟悉，服务之间通过消息交互的过程  看了5天后回过头来发现，其实了解的还停留在skynet的核心部分，还没有走出核心。因为skynet还包含很多其他内容，比如他的消息机制的各种api、socket支持、loginserver gateserver、datacenter、harbor等等。。。
+不过问题也不大，毕竟核心比较重要，后续还要继续学习。
+那下面就来总结一下这5天都看到来什么内容。有可能因为我了解尚浅，写出来的和实际的skynet有出入。不过没关系，后续会回过头来再看看。
+下面的总结会按照这个结构：
+ 源码目录结构 skynet的结构图以及工作过程  那么，开始吧。
+1. 源码目录结构 可以用一个段落来说明
+$ ll drwxr-xr-x 26 root staff 884 6 1 06:30 . drwxr-xr-x 5 root staff 170 6 2 07:07 .. drwxr-xr-x 12 root staff 408 6 1 07:10 .git -rw-r--r-- 1 root staff 94 6 1 05:36 .gitignore -rw-r--r-- 1 root staff 96 6 1 05:36 .gitmodules drwxr-xr-x 8 root staff 272 6 1 22:25 .</description>
+    </item>
+    
+    <item>
+      <title>Spring与SpringBoot的IoC和DI</title>
+      <link>https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/</link>
+      <pubDate>Fri, 16 Feb 2018 15:41:02 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/</guid>
+      <description>Spring与SpringBoot的IoC和DI 前言 spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。
+Ioc(控制反转) 控制反转即反转控制类实例的方式。 从控制反转为被控制 从自己生成/销毁反转为别人生成/销毁 控制反转的好处在于： - 业务逻辑中不用考虑实例的生成/销毁，可以专注于业务逻辑(使用类实例) - 对测试更加友好(mock实例行为)
+DI(依赖注入) 依赖注入是控制反转的一种实现方法。&amp;rdquo;别人&amp;rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。
+Spring的IoC 一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。 Spring按类实例的种类管理容器中的类实例（种类有唯一的种类id：beanId）。每一种类实例称为Bean。 与很多IoC框架类似，类实例的注入方式有很多种(单例/非单例)，Spring中类实例存在方式可以是： - 单例 (singleton) - 每次注入返回新的实例 (prototype) - 每次请求返回同一的实例 (request) - 每次回话返回同一实例 (session/global session)
+以下是spring注册Bean的其中某些特性： - 1. xml可以配置BeanId，默认以类名为beanId。 - 2. 注解为bean的时候默认以类名为beanId，也可以指定beanId - 3. 在获取bean时，如果无法查找到beanId，会查找对应的类是否有注册，如果不存在，会查找对应类的子类是否有注册
+另外，spring的IoC和DI利用了java的注解实现，也是面向切面编程的一个体现。在加载应用的时候，切换到应用bean管理切面，扫描类并注册Bean，在需要注入时，再次切换到bean管理切面，返回需要的bean。
+SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置文件扫描/注解方式注册类实例 springBoot默认通过注解方式注册类实例，并默认扫描application包以及子包的所有类实例。默认以注解方式标记类实例。 springBoot可以沿用spring注解配置Bean时的规则</description>
+    </item>
+    
+    <item>
+      <title>现代计算机的异常控制流</title>
       <link>https://trainyao.github.io/post/bookread/computer_system/exception_control_flow/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 16 Feb 2018 15:41:02 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/bookread/computer_system/exception_control_flow/</guid>
-      <description>现代计算机的异常控制流 一 为什么需要知道异常控制流  异常控制流发生在程序执行的各个阶段 异常控制流使程序更加简洁和优雅，而且它为程序并行执行提供了条件 了解异常控制流机制对了解计算机程序的执行原理有帮助  二 知道了异常控制流能干什么  了解计算机程序执行原理 设计更优雅的程序  三 什么是异常控制流 1. 两个小定义  异常控制流是用户程序和系统程序交互的基础 计算机系统供一种用户级的异常控制流，让开发者可以在代码的异常逻辑里面，无需解开嵌套多层的调用栈，直接跳转到异常处理的代码里面
-2. 异常控制流是用户程序和系统程序交互&amp;amp;*软硬件交互*的基础 要说明这点，先要说一下什么是用户程序，什么是系统程序。
-  为了限制用户程序的权限，和将一些系统操作抽象出来，计算机系统将一些高等操作称为系统程序，如申请内存，读取内存信息到寄存器／读取磁盘信息到内存，从一个外部设备读取信息到磁盘，等。 同时这样分离还有一个好处，就是提高系统的吞吐率。众所周知，cpu寄存器-一级缓存-二级缓存-内存-磁盘-网络存储设备，越往后读取的速度越慢，而让cpu盲目的等待IO的数据到位，然后再执行后续的程序，是极其浪费cpu计算资源的。而另一方面，由于计算机系统的多进程特性，一个用户程序在一个进程调用系统程序，进行耗时的IO时，完全可以对这个进程进行挂起，让cpu资源去处理其他进程的逻辑，待IO完毕，给挂起的程序一个通知，让挂起的程序继续进行IO后的逻辑。
-这种通知进程的行为，就是异常，而这个通知，就是后面要讲到的信号。 计算机系统的异常有4种：中断,陷阱,故障,终止
+      <description> 一 为什么需要知道异常控制流  异常控制流发生在程序执行的各个阶段 异常控制流使程序更加简洁和优雅，而且它为程序并行执行提供了条件 了解异常控制流机制对了解计算机程序的执行原理有帮助  二 知道了异常控制流能干什么  了解计算机程序执行原理 设计更优雅的程序  三 什么是异常控制流 1. 两个小定义  异常控制流是用户程序和系统程序交互的基础 计算机系统供一种用户级的异常控制流，让开发者可以在代码的异常逻辑里面，无需解开嵌套多层的调用栈，直接跳转到异常处理的代码里面  2. 异常控制流是用户程序和系统程序交互&amp;amp;*软硬件交互*的基础 要说明这点，先要说一下什么是用户程序，什么是系统程序。
+为了限制用户程序的权限，和将一些系统操作抽象出来，计算机系统将一些高等操作称为系统程序，如申请内存，读取内存信息到寄存器／读取磁盘信息到内存，从一个外部设备读取信息到磁盘，等。
+同时这样分离还有一个好处，就是提高系统的吞吐率。众所周知，cpu寄存器-一级缓存-二级缓存-内存-磁盘-网络存储设备，越往后读取的速度越慢，而让cpu盲目的等待IO的数据到位，然后再执行后续的程序，是极其浪费cpu计算资源的。而另一方面，由于计算机系统的多进程特性，一个用户程序在一个进程调用系统程序，进行耗时的IO时，完全可以对这个进程进行挂起，让cpu资源去处理其他进程的逻辑，待IO完毕，给挂起的程序一个通知，让挂起的程序继续进行IO后的逻辑。
+这种通知进程的行为，就是异常，而这个通知，就是后面要讲到的信号。
+计算机系统的异常有4种：中断,陷阱,故障,终止
  中断
 中断通常发生在用户程序和硬件交互。中断的过程是异步的，即发生中断时用户程序被挂起（被中断了），待硬件返回后，用户程序继续发生中断代码后续的命令。
  陷阱
-陷阱和中断类似，只不过陷阱是同步的。陷阱像是一种故意的异常，发生在软件程序上的调用，如用户程序向系统程序申请fock一个子进程，或者执行另外一个程序。所以实现系统程序的封装和系统程序和用户程序的隔离，接口化，使用的也是陷阱这种异常。
+陷阱和中断类似，只不过陷阱是同步的。陷阱像是一种故意的异常，发生在软件程序上的调用，如用户程序向系统程序申请fock一个子进程，或者执行另外一个程序。所以实现系统程序的封装和系统程序和用户程序的隔离，接口化，使用的也是陷阱这种异常。
  故障
 故障是由于错误引起的。故障发生时，程序的控制转移到故障处理程序，待故障处理程序逻辑结束后，程序计数器会尝试回到故障出现的行命令。一个典型的故障就是内存缺页故障。当程序读取内存的某一个虚拟地址，发现读取的内存页面不在内存里面，于是引起缺页故障，处理程序将数据从磁盘读取到内存对应的页面，故障处理结束，程序再次回到读取内存页面的那行，这时候，读取的代码再次执行，就可以正常运行了。
  终止
 终止发生在程序出现致命错误的时候，系统在执行完故障处理程序后，会停止该程序。如：内存损坏时。
-  3. 信号 信号有很多种类型，系统给不同的信号定义了不同的意义，其中也保留了用户可以自定义的信号 (图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
+  3. 信号 信号有很多种类型，系统给不同的信号定义了不同的意义，其中也保留了用户可以自定义的信号
+(图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
 比如在当前进程按下ctrl+c..实际上就是键盘通过操作系统给当前进程发送了一个2信号
 4. 除了系统程序可以给用户程序发送信号，用户程序也可以给用户程序发送信号 通过kill命令，传入信号和进程id，可以给进程发送一个信号。常见的nginx通过kill命令重启nginx，平滑重新加载配置，就是用了这个特性。
-在程序逻辑里，可以调用c的kill函数给进程id传入信号。如果进程id大于0，向进程id发送信号；如果进程id为0，则为自己和自己所在的进程组每个进程发送信号；如果进程id小于0，则为进程id的绝对值以及进程id绝对值所在的进程组所有的进程都发送信号。 (图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
-在程序逻辑里面，用户也可以注册信号的handler函数，当进程被传入信号时，程序控制就会交给handler函数。处理完后，控制交还给故障发生时的后一句命令，程序继续执行。 (图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
+在程序逻辑里，可以调用c的kill函数给进程id传入信号。如果进程id大于0，向进程id发送信号；如果进程id为0，则为自己和自己所在的进程组每个进程发送信号；如果进程id小于0，则为进程id的绝对值以及进程id绝对值所在的进程组所有的进程都发送信号。
+(图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
+在程序逻辑里面，用户也可以注册信号的handler函数，当进程被传入信号时，程序控制就会交给handler函数。处理完后，控制交还给故障发生时的后一句命令，程序继续执行。
+(图出自&amp;lt;&amp;lt;Computer Systems Third edition&amp;gt;&amp;gt;)
 5. 计算机系统的用户级异常控制流 c语言提供setjump和longjump方法。setjmp方法保存当前进程的运行状态（包括程序计数器,栈指针和通用目的寄存器)，而longjmp根据之前保存的状态还原程序执行的状态，继续执行setjmp处后面的逻辑。
-高级语言的异常捕捉trycatch，或者说php的yield，实际上是setjmp longjmp的封装：在catch处setjmp，然后执行try里面的代码段，throw时调用longjmp。</description>
+高级语言的异常捕捉trycatch，或者说php的yield，实际上是setjmp longjmp的封装：在catch处setjmp，然后执行try里面的代码段，throw时调用longjmp。
+四 小结  异常控制流不止发生在我们理解的异常时，而是发生在用户程序运行的各个阶段 异常控制流通过信号辨别异常的类型 不止系统程序可以给用户程序发送信号，用户程序也可以 计算机系统提供一种用户级的异常控制流，供开发者进行代码跳转  </description>
     </item>
     
     <item>
-      <title></title>
+      <title>&lt;&lt;深入了解计算机系统&gt;&gt;整理</title>
       <link>https://trainyao.github.io/post/bookread/computer_system/overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 09 Feb 2018 09:44:45 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/bookread/computer_system/overview/</guid>
-      <description>&amp;lt;&amp;lt;深入了解计算机系统&amp;gt;&amp;gt;整理 一. 信息在计算机里面的存储 无论是保存在硬盘里面作永久储存,还是保存在内存/寄存器里面作为计算的临时储存,信息在计算机里面需要一个表示方法,或者叫做保存方法. 首先,可以先来看一下c语言都有哪些信息的类型,或者说我们编程时候都用到哪些信息类型: * 布尔型,表示是与否 * 整型,表示整数 * 浮点型,表示小数 * 字符串,表示一系列字符的集合 * 数组,一系列上述类型的集合 * 对象,一系列上述类型的索引集合
-其中,布尔型可以用简单的 整型0&amp;amp;整型1 表示,就不单独说明. 由于一些基本的概念,比如字符串用ASCII码/UTF-8编码表示,整型根据不同的长度有,是否有符号,会有不同的范围,下面只挑选不同信息类型(或者叫数据类型)的值得提一下的点作说明.
- 整型: 整型无符号形式不用多说,而有符号的表示形式除了简单的使用最高位作为符号位(1000 0001 表示-1),还有两种表现形式:补码表示和反码表示. 实际上,补码相对于原码和反码,对于计算机的计算是更优化的.大多数现代计算机都用补码表示有符号数. 补码中, 如 1000 0001,将最高有效位解释成负权,而后, 所以 1000 1111 = -2^7 +2^3 +2^2 +2^1 +2^0 = -113 而反码就与补码类似,不过补码的负权为 - 2 ^(w-1), 反码的负权为 -2^(w-1) - 1, 其中w为整型长度 补码相比反码和原码(即最高位表示符号位的形式)的差别在于:
- 补码的0000 0000表示0,没有-0表示,而反码和原码都存在一个-0表示 (反码为1111 1111, 原码为 1000 0000) 补码的加减乘除运算,都等价于将补码转换为无符号数的加减乘除,再转换回补码,而反码和原码都要先作相应的转换.(至于为什么反码和补码不能直接运算,可以参考这个文章: 原码, 反码, 补码 详解)  浮点型 书中介绍了一种浮点型表示的标准: IEEE浮点表示. IEEE浮点表示用是三部分来表示一个浮点数: 符号位,尾数,阶码 其中,符号位s直接编码正负; 尾数和阶码编码浮点数的两部分值得: 指数E和小数M&amp;hellip;浮点数V可以表示为: V = (-1)^s * M * 2^E 指数M和尾数E的计算如图&amp;hellip;</description>
+      <description>一. 信息在计算机里面的存储 无论是保存在硬盘里面作永久储存,还是保存在内存/寄存器里面作为计算的临时储存,信息在计算机里面需要一个表示方法,或者叫做保存方法.
+首先,可以先来看一下c语言都有哪些信息的类型,或者说我们编程时候都用到哪些信息类型:
+ 布尔型,表示是与否 整型,表示整数 浮点型,表示小数 字符串,表示一系列字符的集合 数组,一系列上述类型的集合 对象,一系列上述类型的索引集合  其中,布尔型可以用简单的 整型0&amp;amp;整型1 表示,就不单独说明.
+由于一些基本的概念,比如字符串用ASCII码/UTF-8编码表示,整型根据不同的长度有,是否有符号,会有不同的范围,下面只挑选不同信息类型(或者叫数据类型)的值得提一下的点作说明.
+ 整型:  整型无符号形式不用多说,而有符号的表示形式除了简单的使用最高位作为符号位(1000 0001 表示-1),还有两种表现形式:补码表示和反码表示.
+实际上,补码相对于原码和反码,对于计算机的计算是更优化的.大多数现代计算机都用补码表示有符号数.
+补码中, 如 1000 0001,将最高有效位解释成负权,而后, 所以 1000 1111 = -2^7 +2^3 +2^2 +2^1 +2^0 = -113
+而反码就与补码类似,不过补码的负权为 - 2 ^(w-1), 反码的负权为 -2^(w-1) - 1, 其中w为整型长度
+补码相比反码和原码(即最高位表示符号位的形式)的差别在于:
+ 补码的0000 0000表示0,没有-0表示,而反码和原码都存在一个-0表示 (反码为1111 1111, 原码为 1000 0000)
+ 补码的加减乘除运算,都等价于将补码转换为无符号数的加减乘除,再转换回补码,而反码和原码都要先作相应的转换.(至于为什么反码和补码不能直接运算,可以参考这个文章: 原码, 反码, 补码 详解)
+   浮点型  书中介绍了一种浮点型表示的标准: IEEE浮点表示.</description>
     </item>
     
     <item>
-      <title></title>
-      <link>https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/</guid>
-      <description>@(linux)
-#Spring与SpringBoot的IoC和DI ###前言 spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。
-##Ioc(控制反转) 控制反转即反转控制类实例的方式。 从控制反转为被控制 从自己生成/销毁反转为别人生成/销毁 控制反转的好处在于： - 业务逻辑中不用考虑实例的生成/销毁，可以专注于业务逻辑(使用类实例) - 对测试更加友好(mock实例行为)
-##DI(依赖注入) 依赖注入是控制反转的一种实现方法。&amp;rdquo;别人&amp;rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。
-##Spring的IoC 一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。 Spring按类实例的种类管理容器中的类实例（种类有唯一的种类id：beanId）。每一种类实例称为Bean。 与很多IoC框架类似，类实例的注入方式有很多种(单例/非单例)，Spring中类实例存在方式可以是： - 单例 (singleton) - 每次注入返回新的实例 (prototype) - 每次请求返回同一的实例 (request) - 每次回话返回同一实例 (session/global session)
-以下是spring注册Bean的其中某些特性： - 1. xml可以配置BeanId，默认以类名为beanId。 - 2. 注解为bean的时候默认以类名为beanId，也可以指定beanId - 3. 在获取bean时，如果无法查找到beanId，会查找对应的类是否有注册，如果不存在，会查找对应类的子类是否有注册
-另外，spring的IoC和DI利用了java的注解实现，也是面向切面编程的一个体现。在加载应用的时候，切换到应用bean管理切面，扫描类并注册Bean，在需要注入时，再次切换到bean管理切面，返回需要的bean。
-##SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置文件扫描/注解方式注册类实例 springBoot默认通过注解方式注册类实例，并默认扫描application包以及子包的所有类实例。默认以注解方式标记类实例。 springBoot可以沿用spring注解配置Bean时的规则</description>
-    </item>
-    
-    <item>
-      <title></title>
+      <title>类unix系统提示效率的alias</title>
       <link>https://trainyao.github.io/post/other/repid_develop/linux_alias/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 09 Feb 2018 09:44:45 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/other/repid_develop/linux_alias/</guid>
       <description># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39; alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &amp;quot; &amp;quot; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&amp;quot;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&amp;quot; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39;  </description>
@@ -89,58 +148,6 @@ string repeatString(string inputString, int repeatCount)  保存,使用ext_skel�
 ./ext_skel --extname=repeatString --proto=repeatString.proto  你会看到ext目录下会多了一个repeatString的文件夹,里面放的就是你扩展的所有所需文件 需要留意的有几个文件:
  config.m4 &amp;ndash; *unix平台下配置文件,这里是官方解释:   扩展的 config.m4 文件告诉 UNIX 构建系统哪些扩展 configure 选项是支持的，你需要哪些扩展库，以及哪些源文件要编译成它的一部分。对所有经常使用的 autoconf 宏，包括 PHP 特定的及 autoconf 内建的，请查看 Zend Engine 2 API 参考 章节。
   config.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://trainyao.github.io/post/skynet/overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/skynet/overview/</guid>
-      <description>这个星期以来，由于工作需要使用skynet，于是看了5天skynet的源码。收获很多，于是周末写篇博文总结一下这周以来的学习。 这5天的学习过程可以概括为5句话：（因为5天嘛） 1. 代码结构，从main函数开始 2. skynet启动过程，worker线程工作过程 3. skynet启动过程，skynet数据结构熟悉， 4. worker回调函数注册，worker的c层回调lua逻辑原理， 5. lua层逻辑协程的使用熟悉，服务之间通过消息交互的过程
-看了5天后回过头来发现，其实了解的还停留在skynet的核心部分，还没有走出核心。因为skynet还包含很多其他内容，比如他的消息机制的各种api、socket支持、loginserver gateserver、datacenter、harbor等等。。。 不过问题也不大，毕竟核心比较重要，后续还要继续学习。 那下面就来总结一下这5天都看到来什么内容。有可能因为我了解尚浅，写出来的和实际的skynet有出入。不过没关系，后续会回过头来再看看。
-下面的总结会按照这个结构： - 源码目录结构 - skynet的结构图以及工作过程
-那么，开始吧。
-1. 源码目录结构 可以用一个段落来说明
-``` shell $ ll drwxr-xr-x 26 root staff 884 6 1 06:30 . drwxr-xr-x 5 root staff 170 6 2 07:07 .. drwxr-xr-x 12 root staff 408 6 1 07:10 .git -rw-r&amp;ndash;r&amp;ndash; 1 root staff 94 6 1 05:36 .gitignore -rw-r&amp;ndash;r&amp;ndash; 1 root staff 96 6 1 05:36 .</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://trainyao.github.io/post/skynet/timer/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/skynet/timer/</guid>
-      <description>skynet里的定时器 这周花了点时间看了skynet关于定时器功能的源码,以及扩展的了解了一下定时器实现的其他方案,写一遍博客总结一下.内容会分为下面几部分:
- skynet的定时器结构图 skynet定时器执行过程 关于skynet定时器的一些思考 其他定时器方案 linux定时器方案 总结  1. skynet的定时器结构图 2. skynet定时器执行过程 首先确定定时器里面的几个概念:
- tick: 指skynet timer线程每一次处理事件的循环.由于这个循环每隔0.00025秒会执行一次,很像时钟滴答滴答的走,很多书籍都称为tick skynet启动时间戳: 顾名思义,比如1528613417时间戳(北京时间2018/6/10 14:50:17)代表skynet是这个时间点启动的,而且这个时间是不会变的.这个比较容易理解 系统启动时间数: 单位0.01秒. 顾名思义,但是为什么说是时间数呢?因为这是一个时间的量,比如300,表示系统启动了3秒.skynet timer线程在每一次tick都会去同步这个时间量 skynet启动时间数: 单位0.01秒. 与系统启动时间数类似,如300,表示skynet启动了3秒,每次tick skynet timer线程也会去更新这个时间量  首先需要说明的是,skynet定时器的时间刻度是百分秒(0.01秒).意味着skynet最小可以定义事件0.01秒后执行.这个精度对于游戏领域可以说是够用了.
-skynet初始化时会创建5个定时器的事件槽,分别是Near,level0-3.每个定时器事件是按照触发时间(这个触发时间是以skynet启动时间数作为参照的.比如触发时间为300,事件注册时skynet创建时间量为100,表示注册这个事件在2秒后执行)为索引插入到对应的槽里面的.用索引的方式安排这些事件保证了查询和插入的性能( 时间复杂度为O(1) ).
-那skynet是怎么安排这些事件应该放入哪个槽呢? 5个不同的槽又是什么关系呢?
-skynet根据触发时间得出事件应该插入到哪个槽,哪个索引.触发时间是一个32位的整型值.skynet将这32位分为 6 6 6 6 8位每个区间.如果前24位有值,表示这个事件是比较延后触发的,skynet将它们安排到level槽里面,表示这些事件暂时不关注,高0-6位有值的插入到level 3槽里,高7-12位有值的插入到level 2槽里,如此类推,高19-24位有值的,插入到level 0槽里.而高24位没有值,低8位有值的事件,skynet认为是需要比较关注的事件,并以低8位为索引插入到Near(near可能就是比较近会发生的事件的意思)槽里.具体插入后的结果就像上面图中画的一样.
-skynet timer的每次tick,都会以系统时间为参照,检查这次tick落后了系统时间多少百分秒,然后将落后的系统时间同步回skynet启动时间数里,并执行这个时间数低8位为索引的Near槽里的事件.
-你可能会有一个疑惑,假如我注册了一个0x01 01为触发时间的事件A(这个事件应该被插入到Level 0[0x01]槽里),还有一个0xff为触发时间的事件B(这个事件应该被插入到Near[0xff]槽里),当时间走到0xff时,时间B会被顺利执行.但是当时间走到0x01 01时,时间A怎么办?它会被怎么执行?
-skynet在每个高24有值的&amp;quot;整点&amp;quot;,都会将对应的Level槽里的事件整理到Near槽里,然后执行.高24位有值的整点指0x0f00 0x0100 0x1000 0000这些时间点.如上面的例子,当时间走到0x0100的时候,skynet会将Level 0[0x01(0x0101 的低15-9位是0x01)]槽里的事件整理到Near槽里,即将事件B插入到Near[0x01(0x0101 的低8-0位是0x01)]槽里.时间再走1个百分秒,timer线程就会执行Near[0x01]槽里的事件,就会将事件B处理掉了.
-这也是为什么上图在Near[0xf0]里会有事件的触发时间是0xf0,也有的是0x0f f0,0x0f f0的事件是timer线程从Level 0槽里整理过去的.只不过,上图有一点不对的是,0xf0和0x0f f0时间不可能同时存在在Near[0xf0]里面,这里只是为了说明Near槽里面有可能出现的事件,忽略细节.而Level 0槽里,一个索引的列表会有低8位有各种值的事件包含在里面,等到timer线程走到整点的时候,再被处理整理到Near槽里面去.
-上面就是skynet定时器整个工作的过程.用索引的方式保证了插入和查询的高效,而分槽的方式保证了触发事件的高效,着急的事件重点关注,不着急的事件延后处理.而按66668位每个区间来划分和注册事件,使用位操作作为哈希算法提升了插入和查找的性能.
-3. 关于skynet定时器的一些思考  timer线程在处理Near槽一个索引的事件队列时,如果同时有事件插入到这个槽里,会发生什么呢?</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://trainyao.github.io/post/thoughts/lockmash/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/thoughts/lockmash/</guid>
-      <description> Lock mesh  想法  前些天在研究分布式锁的方案，突发奇想，在云原生时代，像 php、c、go、java 这种原来用特定编程语言开发的程序，已经通过打包、编排，变成了云原生操作系统里的一个工作进程。而像是网络这种原本的操作系统基础设施，也在云原生操作系统里面有了实现（从微服务发展到 service mesh）。
-那么，锁是不是也可以看作是基础设施，提供给云原生操作系统的工作进程使用呢？
-云原生开发者在编写工作进程逻辑的时候，无需考虑引入哪个分布式锁的包/库，就像是调用系统调用一样，将资源锁住，读写资源，然后再调用系统调用进行解锁。而云原生操作系统负责调度容器进行资源的访问，防止容器争抢资源。这样做的好处是，可以屏蔽掉不同语言的分布式锁之间的实现差异，让业务逻辑开发者专注业务逻辑的优化、思考业务应该使用哪种锁，以及锁的粒度等业务相关的工作。
-其实不止是锁，也许还可以思考一下，原生操作系统的基础设施有哪些可以对应到云原生操作系统上的。
-且不论叫它 lock mesh 是否合理吧：）
-有这个想法后，我在 github、google 和 CNCF landscape 上搜索了一番，没有找到相关的项目或者资料。后续我会再进行一些搜索，确定我是不是想别人已经想到的东西。
-如果你也觉得这个想法可行，不妨跟我联系哦：）
- 怎么办  有了想法，然后呢？
-我列了一些 todo 项：
- 再搜索一下是否已经存在相关的资料、项目 思考这个方案是否有必要，是否可行  有没有必要做这一层抽象，编写容器逻辑的开发者，其实是不是按照原来的方式，调用库就好了 如果要做，怎么基于云原生平台（像是 kubernetes）去实现这种基础设施  如果可行，根据具体方案，给出架构图 立项，做项目规划 写demo 开源出去，让更多的开发者接触到项目，并参与代码贡献 建立社区，完善文档（微信群、钉钉群（国内）、slack（国外））  </description>
     </item>
     
   </channel>

@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>  &middot; trainyao.github.io </title>
+        <title> Spring与SpringBoot的IoC和DI &middot; trainyao.github.io </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -54,7 +54,39 @@
 				
 				<li class="dropdown">
                     
-            		<a href="/content/post/bookread">~/读书笔记</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">日志 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/skynet">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/bookread/computer_system">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/post/thoughts">~/脑洞</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/other/repid_develop">~/快速开发</a>
+				    		</li>
+                		
+            		</ul>
             		
         		</li>
         		
@@ -66,28 +98,33 @@
 </header>
 
         <div class="container wrapper">
-            <h1><a href="https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/"></a></h1>
-            <span class="post-date">Jan 1, 0001 </span>
+            <h1><a href="https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/">Spring与SpringBoot的IoC和DI</a></h1>
+            <span class="post-date">Feb 16, 2018 </span>
             <div class="post-content">
-                <p>@(linux)</p>
+                
 
-<p>#Spring与SpringBoot的IoC和DI
-###前言
-spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。</p>
+<h1 id="spring与springboot的ioc和di">Spring与SpringBoot的IoC和DI</h1>
 
-<p>##Ioc(控制反转)
-控制反转即反转控制类实例的方式。
+<h3 id="前言">前言</h3>
+
+<p>spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。</p>
+
+<h2 id="ioc-控制反转">Ioc(控制反转)</h2>
+
+<p>控制反转即反转控制类实例的方式。
 从<strong>控制</strong>反转为<strong>被控制</strong>
 从<strong>自己</strong>生成/销毁反转为<strong>别人</strong>生成/销毁
 控制反转的好处在于：
 - 业务逻辑中不用考虑实例的生成/销毁，可以专注于业务逻辑(使用类实例)
 - 对测试更加友好(mock实例行为)</p>
 
-<p>##DI(依赖注入)
-依赖注入是控制反转的一种实现方法。&rdquo;别人&rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。</p>
+<h2 id="di-依赖注入">DI(依赖注入)</h2>
 
-<p>##Spring的IoC
-一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。
+<p>依赖注入是控制反转的一种实现方法。&rdquo;别人&rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。</p>
+
+<h2 id="spring的ioc">Spring的IoC</h2>
+
+<p>一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。
 Spring按类实例的种类管理容器中的类实例（种类有唯一的种类id：beanId）。每一种类实例称为Bean。
 与很多IoC框架类似，类实例的注入方式有很多种(单例/非单例)，Spring中类实例存在方式可以是：
 - 单例 (singleton)
@@ -102,8 +139,9 @@ Spring按类实例的种类管理容器中的类实例（种类有唯一的种�
 
 <p>另外，spring的IoC和DI利用了java的注解实现，也是面向切面编程的一个体现。在加载应用的时候，切换到应用bean管理切面，扫描类并注册Bean，在需要注入时，再次切换到bean管理切面，返回需要的bean。</p>
 
-<p>##SpringBoot的IoC
-springBoot简化了spring的配置部分
+<h2 id="springboot的ioc">SpringBoot的IoC</h2>
+
+<p>springBoot简化了spring的配置部分
 spring通过xml配置文件扫描/注解方式注册类实例
 springBoot默认通过注解方式注册类实例，并默认扫描application包以及子包的所有类实例。默认以注解方式标记类实例。
 springBoot可以沿用spring注解配置Bean时的规则</p>
