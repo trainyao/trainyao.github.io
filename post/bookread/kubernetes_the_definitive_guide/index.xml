@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>读书笔记/Kubernetes 权威指南 on trainyao.github.io</title>
+    <link>https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/</link>
+    <description>Recent content in 读书笔记/Kubernetes 权威指南 on trainyao.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 16 Sep 2018 16:08:03 +0000</lastBuildDate>
+    
+	<atom:link href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>kubernetes是怎么工作的以及其架构</title>
+      <link>https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/</link>
+      <pubDate>Sun, 16 Sep 2018 16:08:03 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/</guid>
+      <description>本文简单概括了 kubernetes 里有什么组件，以及它们是如何工作的。
+一、kubernetes 的组件和架构 一个 kubernetes 集群包含两部分：master 节点和 node 节点。master 节点负责接收管理员对于 kubernetes 资源对象的修改，并根据这些修改，对 node 节点进行配置和调度。node 节点是 kubernetes 集群内的计算节点，负责给部署在上面的业务应用提供计算以及储存能力。
+kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Scheduler、kubelet 和 kube-proxy。
+其中，Kubernetes API Server、Controll Manager、Scheduler 运行在 master节点上。而 kubelet 和 kube-proxy 运行在 node 节点上。
+这些组件分别负责 kubernetes 运行的不同职责：
+ Kubernetes API Server：kubernetes 集群的管理入口，它提供 HTTP REST 接口给 kubernetes 用户进行集群的配置，这些配置将会保存在 master 节点运行的 etcd 里面，供其他组件查阅。
+ Controll Manager：负责监听 etcd 变化并作出对应的动作。Controll Manager 是一系列 manager 的统称，其中有以下这些manager：
+ Replication Manager：负责 node 节点的 pod 管理。 Node Controller：负责 node 节点管理。 Namespace Controller：负责管理集群内的命名空间。 ResourceQuota Controller：负责针对 namespace、pod、容器这三个维度的资源限制管理。 ServiceAccount Controller：负责管理集群内访问的账号。 Token Controller：负责允许访问 kubernetes 集群的 token。 Service Controller：负责管理集群内的 Service。 Endpoint Controller：负责管理集群内的 Endpoint。  Scheduler：负责接收 Replication Controller 的指挥，对要部署在 node 上的 pod 进行调度。Scheduler 会根据调度算法以及调度策略，调度 pod 在哪个 node 上部署。</description>
+    </item>
+    
+  </channel>
+</rss>
