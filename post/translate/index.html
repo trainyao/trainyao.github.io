@@ -113,6 +113,24 @@
 			</div>
 			<ul id="post-list">
                 	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Kubernetes 使用 IPVS/LVS 作为网络服务代理</a></h4>
+							<h4 class="post-date">Sep 18, 2018</h4>
+						</div>
+						<div class="post-summary"><p>本文翻译自：https://cloudnativelabs.github.io/post/2017-05-10-kube-network-service-proxy/
+服务是 Kubernetes 的一个抽象概念。服务将一组逻辑上的、提供相同功能的 pod 组合在一起。一个在 Kubernetes 内的服务可以是多种类型的，比如 ‘ClusterIP’ 和 ‘NodePort’ 类型实现服务发现和负载均衡。这些服务的类型的实现都需要一个运行在各个 Kubernetes 集群节点的服务代理。Kubernetes 有一种名为 ‘kube-proxy’ 的代理，是基于 iptable 实现的。虽然，kube-proxy 提供了一种开箱即用的代理解决方案，它并不是一种最优的方案。在这篇文章里，我们会深入研究另一种 Kubernetes 里网络服务代理的实现：kube-router，它是基于 Liunx IPVS 的。我们还会讨论基于 iptables 的 kube-proxy 的好处与不足，以及将它与基于 IPVS/LVS 实现的 Kubernetes 网络服务代理进行对比。
+请看下面的 demo，感受 IPVS 实现的 kube-router 作为 Kubernetes 服务代理的效果。
+（此处查看原文可以看到 asciinema demo，如果不能访问，asciinema 地址在这里）
+下面我们来深入研究一下细节。
+ClusterIP 和 NodeProt 类型的服务 在服务的生命周期里，每个 ‘ClusterIP’ 和 ‘NodePort’ 服务会被分配一个唯一的 IP 地址（称为 ClusterIP）。Kubernetes 会配置 Pods 通过 ClusterIP 与服务进行交互，而且 pods 发送至 service 的请求会被自动地负载均衡到 service 的成员 pods 上。另外，Kubernetes master 节点会为 ‘NodePort’ 类 service 分配一个标志配置范围（默认是 30000 至 23767）的端口，然后每个 node 节点会将该 service 的请求代理到这个端口上。</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
 			</ul>
             
 
