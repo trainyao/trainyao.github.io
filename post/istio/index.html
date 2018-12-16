@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 
-    <head>
-        <title> 类unix系统提示效率的alias &middot; trainyao.github.io </title>
+	<head>
+		<title> istio &middot; trainyao.github.io </title>
 
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="generator" content="Hugo 0.48" />
 
@@ -28,10 +28,10 @@
 
 
 
-    </head>
+	</head>
 
-    <body>
-        <header>
+	<body>
+		<header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -109,61 +109,39 @@
 </nav>
 </header>
 
-        <div class="container wrapper">
-            <h1><a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">类unix系统提示效率的alias</a></h1>
-            <span class="post-date">Feb 9, 2018 </span>
-            <div class="post-content">
-                <pre><code class="language-shell"># git
-alias gs='git status '
-alias ga='git add '
-# usage: gc 'comment info' 
-alias gc='git commit -m '
-alias gd='git diff  '
-alias gsh='git show '
-alias grm='git rm '
-alias gck='git checkout '
-alias gps='git push origin '
-alias gpl='git pull origin '
-alias gpl='git branch | grep \* | cut -d &quot; &quot; -f 2 | xargs git pull origin '
-alias grs='git reset '
-alias gl='git log '
-alias gb='git branch '
-alias gmg='git merge '
-alias gst='git stash '
-alias gf='git fetch'
-alias grollback=&quot;gl | grep commit | head -n 1 | awk '{print \$2}' | xargs -I {} git reset --hard {}&quot;
-alias u='gck online
-gb -D develop
-gb -D master
-git fetch
-gck develop
-gck master
-'
-
-# other
-alias ll='ls -al'
-alias ip='ifconfig | grep 172'
-
-# docker
-alias de='docker exec -it '
-alias dp='docker ps'
-alias dpa='docker ps -a'
-alias di='docker images'
-alias drmi='docker rmi '
-alias drm='docker rm '
-alias dr='docker run '
-alias dk='docker kill '
-</code></pre>
-
-            </div>
+		<div class="container wrapper">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h1 id=>istio</h1>
+				</div>
+			</div>
+			<ul id="post-list">
+                	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">istio 流量劫持实验</a></h4>
+							<h4 class="post-date">Dec 8, 2018</h4>
+						</div>
+						<div class="post-summary"><p>istio 是通过给每个生产 pod 注入一个 envoy sidecar 进行流量劫持的。注入后，流入 pod 的流量和 pod 请求的流量都会经过 sidecar 进行路由。
+这样的流量劫持是通过 sidecar pod 和生产 pod 共享一个网络命名空间，然后设置 iptable 规则实现的。
+PS1：下面的步骤前提是在一个 k8s 集群内操作，并且已经安装了 istio） PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大的两篇博文：用 vagrant 和 virtualbox 搭建一个 k8s 集群 理解 Istio Service Mesh 中 Envoy 代理 Sidecar 注入及流量劫持
+1.sidecar 是如何注入的呢？ 比如我们要部署一个服务，首先要编写一个关于 service 和 deployment 的 yaml 文件（拿 istio 官网的 bookinfo 为例子）：
+--- apiVersion: v1 kind: Service metadata: name: productpage labels: app: productpage spec: ports: - port: 9080 name: http selector: app: productpage --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: productpage-v1 spec: replicas: 1 template: metadata: labels: app: productpage version: v1 spec: containers: - name: productpage image: istio/examples-bookinfo-productpage-v1:1.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+			</ul>
             
-            <div class="post-comments">
-                
-            </div>
-            
-            <div class="push"></div>
-        </div>
-        <footer class="footer text-center">
+
+
+
+			<div class="push"></div>
+		</div>
+		<footer class="footer text-center">
 <p>Copyright &copy; 2018 Hello, I&#39;m trainyao. -
 <span class="credit">
 	Powered by
@@ -174,4 +152,5 @@ alias dk='docker kill '
 </p>
 </footer>
 
-    </body>
+	</body>
+</html>
