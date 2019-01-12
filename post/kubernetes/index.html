@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
+
 	<head>
-		<title> trainyao.github.io </title> 
+		<title> kubernetes &middot; trainyao.github.io </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -27,8 +28,8 @@
 
 
 
-
 	</head>
+
 	<body>
 		<header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
@@ -113,10 +114,33 @@
 </header>
 
 		<div class="container wrapper">
-			<h1>Uhm... WHAT?</h1>
-			<div class="post-content">
-				<p>Looks like you're lost. This page doesn't exist</p>
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h1 id=>kubernetes</h1>
+				</div>
 			</div>
+			<ul id="post-list">
+                	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">使用 kubernetes 的 CA 证书自签名服务端 &amp; 客户端证书</a></h4>
+							<h4 class="post-date">Jan 12, 2019</h4>
+						</div>
+						<div class="post-summary"><p>安装 cfssl  wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 chmod +x cfssl_linux-amd64 mv cfssl_linux-amd64 /usr/local/bin/cfssl wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 chmod +x cfssljson_linux-amd64 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 chmod +x cfssl-certinfo_linux-amd64 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo export PATH=/usr/local/bin:$PATH   找到 kubernetes 的根证书 ca.pem, ca-key.pem, ca-config.json
+ 生成证书请求配置文件, 可以替换 usage 为其他名字, 替换 usage.common.name 为服务器域名
+  cat &gt; usage.json &lt;&lt;EOF { &quot;CN&quot;: &quot;usage.common.name&quot;, &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 2048 }, &quot;names&quot;: [ { &quot;C&quot;: &quot;CN&quot;, &quot;ST&quot;: &quot;BeiJing&quot;, &quot;L&quot;: &quot;BeiJing&quot;, &quot;O&quot;: &quot;k8s&quot;, &quot;OU&quot;: &quot;System&quot; } ], &quot;ca&quot;: { &quot;expiry&quot;: &quot;87600h&quot; } } EOF   用 cfssl 工具签名服务端证书  cfssl gencert -ca=ca.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+			</ul>
+            
+
+
+
 			<div class="push"></div>
 		</div>
 		<footer class="footer text-center">
@@ -132,4 +156,3 @@
 
 	</body>
 </html>
-

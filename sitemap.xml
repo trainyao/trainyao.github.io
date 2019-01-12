@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/</loc>
+    <lastmod>2019-01-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://trainyao.github.io/post/istio/traffic_hijeack_practise/</loc>
     <lastmod>2018-12-08T18:25:54+00:00</lastmod>
   </url>
@@ -87,13 +92,18 @@
   </url>
   
   <url>
+    <loc>https://trainyao.github.io/post/kubernetes/</loc>
+    <lastmod>2019-01-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://trainyao.github.io/post/skynet/</loc>
     <lastmod>2018-06-10T22:48:30+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://trainyao.github.io/</loc>
-    <lastmod>2018-12-08T18:25:54+00:00</lastmod>
+    <lastmod>2019-01-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
