@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.59.1" />
 
 
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -63,6 +63,10 @@
                 		
                     		<li>
                     		<a href="/post/istio">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/sofastack/mosn">~/sofastack/mosn</a>
 				    		</li>
                 		
                     		<li>
@@ -590,13 +594,14 @@ Chain ISTIO_REDIRECT (3 references)
 
 ````
 
-```shell
-root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
+</code></pre>
+
+<p>shell
+root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  &lsquo;tcp and (port 9080)&rsquo;
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes</p>
 
-
-01:31:41.893128 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 1559746929:1559747549, ack 632117358, win 812, options [nop,nop,TS val 10435164 ecr 10415676], length 620
+<p>01:31:41.893128 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 1559746929:1559747549, ack 632117358, win 812, options [nop,nop,TS val 10435164 ecr 10415676], length 620
 01:31:41.893219 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172-33-22-3.ratings.default.svc.cluster.local.40248: Flags [.], ack 620, win 304, options [nop,nop,TS val 10435164 ecr 10435164], length 0
 01:31:41.948631 IP productpage-v1-5ddc866b9-9pz9f.43144 &gt; 172-33-36-2.details.default.svc.cluster.local.9080: Flags [P.], seq 1133078278:1133078980, ack 2372978620, win 589, options [nop,nop,TS val 10435222 ecr 10050441], length 702
 01:31:41.949095 IP 172-33-36-2.details.default.svc.cluster.local.9080 &gt; productpage-v1-5ddc866b9-9pz9f.43144: Flags [.], ack 702, win 676, options [nop,nop,TS val 10070009 ecr 10435222], length 0
@@ -607,12 +612,11 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 01:31:42.177826 IP 172-33-22-8.reviews.default.svc.cluster.local.9080 &gt; productpage-v1-5ddc866b9-9pz9f.51770: Flags [P.], seq 1:592, ack 702, win 380, options [nop,nop,TS val 10435451 ecr 10435245], length 591
 01:31:42.177858 IP productpage-v1-5ddc866b9-9pz9f.51770 &gt; 172-33-22-8.reviews.default.svc.cluster.local.9080: Flags [.], ack 592, win 358, options [nop,nop,TS val 10435451 ecr 10435451], length 0
 01:31:42.186483 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172-33-22-3.ratings.default.svc.cluster.local.40248: Flags [P.], seq 1:5893, ack 620, win 304, options [nop,nop,TS val 10435460 ecr 10435164], length 5892
-01:31:42.186527 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5893, win 904, options [nop,nop,TS val 10435460 ecr 10435460], length 0
+01:31:42.186527 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5893, win 904, options [nop,nop,TS val 10435460 ecr 10435460], length 0</p>
 
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i</p>
 
-root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
-
-COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+<p>COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 pilot-age   1 istio-proxy    5u  IPv4 123790      0t0  TCP productpage-v1-5ddc866b9-9pz9f:45522-&gt;istio-pilot.istio-system.svc.cluster.local:15007 (ESTABLISHED)
 envoy      11 istio-proxy    9u  IPv4 123811      0t0  TCP localhost:15000 (LISTEN)
 envoy      11 istio-proxy   17u  IPv4 123946      0t0  TCP productpage-v1-5ddc866b9-9pz9f:41874-&gt;istio-pilot.istio-system.svc.cluster.local:15010 (ESTABLISHED)
@@ -628,92 +632,95 @@ envoy      11 istio-proxy   55u  IPv4 126596      0t0  TCP productpage-v1-5ddc86
 envoy      11 istio-proxy   56u  IPv4 260502      0t0  TCP productpage-v1-5ddc866b9-9pz9f:15001-&gt;172-33-22-3.ratings.default.svc.cluster.local:40248 (ESTABLISHED)
 envoy      11 istio-proxy   57u  IPv4 273577      0t0  UDP productpage-v1-5ddc866b9-9pz9f:49378-&gt;kube-dns.kube-system.svc.cluster.local:53
 envoy      11 istio-proxy   58u  IPv4 126685      0t0  TCP productpage-v1-5ddc866b9-9pz9f:51770-&gt;172-33-22-8.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
-envoy      11 istio-proxy   59u  IPv4 126751      0t0  TCP productpage-v1-5ddc866b9-9pz9f:42232-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
+envoy      11 istio-proxy   59u  IPv4 126751      0t0  TCP productpage-v1-5ddc866b9-9pz9f:42232-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)</p>
+
+<pre><code>
+iptables 处理的结果与 1 一致，从 lsof -i 看出，ratings pod 的 40248 端口与 productpage pod 的 15001 端口通信。
+
+## 3) 从其他 pod 容器 curl service 的 IP 进入的流量
 
 </code></pre>
 
-<p>iptables 处理的结果与 1 一致，从 lsof -i 看出，ratings pod 的 40248 端口与 productpage pod 的 15001 端口通信。</p>
+<p>shell
+$ productpage=<code>kubectl get svc | grep product | awk '{print($1);}'</code>
+$ ip=<code>kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'</code>
+$ ratings=<code>kubectl get pods | grep ratings | awk '{print($1);}'</code>
+$ kubectl exec -it ${ratings} curl http://${ip}:9080/productpage</p>
 
-<h2 id="3-从其他-pod-容器-curl-service-的-ip-进入的流量">3) 从其他 pod 容器 curl service 的 IP 进入的流量</h2>
+<pre><code></code></pre>
 
-<pre><code class="language-shell">$ productpage=`kubectl get svc | grep product | awk '{print($1);}'`
-$ ip=`kubectl get svc productpage -o jsonpath='{.spec.clusterIP}'`
-$ ratings=`kubectl get pods | grep ratings | awk '{print($1);}'`
-$ kubectl exec -it ${ratings} curl http://${ip}:9080/productpage
-</code></pre>
-
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
-    3   180 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+    3   180 ISTIO_INBOUND  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain INPUT (policy ACCEPT 4 packets, 264 bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain INPUT (policy ACCEPT 4 packets, 264 bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain OUTPUT (policy ACCEPT 3834 packets, 352K bytes)
+<p>Chain OUTPUT (policy ACCEPT 3834 packets, 352K bytes)
  pkts bytes target     prot opt in     out     source               destination
-  158  9480 ISTIO_OUTPUT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+  158  9480 ISTIO_OUTPUT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain POSTROUTING (policy ACCEPT 3931 packets, 358K bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain POSTROUTING (policy ACCEPT 3931 packets, 358K bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain ISTIO_INBOUND (1 references)
+<p>Chain ISTIO_INBOUND (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    3   180 ISTIO_REDIRECT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080
+    3   180 ISTIO_REDIRECT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080</p>
 
-Chain ISTIO_OUTPUT (1 references)
+<p>Chain ISTIO_OUTPUT (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    0     0 ISTIO_REDIRECT  all  --  *      lo      0.0.0.0/0           !127.0.0.1
-   61  3660 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
-   97  5820 ISTIO_REDIRECT  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0 ISTIO_REDIRECT  all  &ndash;  *      lo      0.0.0.0/0           !127.0.0.1
+   61  3660 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            127.0.0.1
+   97  5820 ISTIO_REDIRECT  all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain ISTIO_REDIRECT (3 references)
+<p>Chain ISTIO_REDIRECT (3 references)
  pkts bytes target     prot opt in     out     source               destination
-  100  6000 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
+  100  6000 REDIRECT   tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
 root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
-    3   180 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+    3   180 ISTIO_INBOUND  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain INPUT (policy ACCEPT 4 packets, 264 bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain INPUT (policy ACCEPT 4 packets, 264 bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain OUTPUT (policy ACCEPT 3839 packets, 353K bytes)
+<p>Chain OUTPUT (policy ACCEPT 3839 packets, 353K bytes)
  pkts bytes target     prot opt in     out     source               destination
-  161  9660 ISTIO_OUTPUT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+  161  9660 ISTIO_OUTPUT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain POSTROUTING (policy ACCEPT 3938 packets, 359K bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain POSTROUTING (policy ACCEPT 3938 packets, 359K bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain ISTIO_INBOUND (1 references)
+<p>Chain ISTIO_INBOUND (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    3   180 ISTIO_REDIRECT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080
+    3   180 ISTIO_REDIRECT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080</p>
 
-Chain ISTIO_OUTPUT (1 references)
+<p>Chain ISTIO_OUTPUT (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    0     0 ISTIO_REDIRECT  all  --  *      lo      0.0.0.0/0           !127.0.0.1
-   62  3720 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
-   99  5940 ISTIO_REDIRECT  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0 ISTIO_REDIRECT  all  &ndash;  *      lo      0.0.0.0/0           !127.0.0.1
+   62  3720 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            127.0.0.1
+   99  5940 ISTIO_REDIRECT  all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain ISTIO_REDIRECT (3 references)
+<p>Chain ISTIO_REDIRECT (3 references)
  pkts bytes target     prot opt in     out     source               destination
-  102  6120 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
+  102  6120 REDIRECT   tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001</p>
+
+<pre><code>iptables 包处理还是一样的结果。
+
+来看 tcpdump 和 lsof -i
 
 </code></pre>
 
-<p>iptables 包处理还是一样的结果。</p>
-
-<p>来看 tcpdump 和 lsof -i</p>
-
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  &lsquo;tcp and (port 9080)&rsquo;
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes</p>
 
-02:19:50.989961 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 623:1246, ack 5889, win 1343, options [nop,nop,TS val 13324261 ecr 13319254], length 623 02:19:50.989988 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172-33-22-3.ratings.default.svc.cluster.local.40248: Flags [.], ack 1246, win 363, options [nop,nop,TS val 13324261 ecr 13324261], length 0
+<p>02:19:50.989961 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 623:1246, ack 5889, win 1343, options [nop,nop,TS val 13324261 ecr 13319254], length 623 02:19:50.989988 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172-33-22-3.ratings.default.svc.cluster.local.40248: Flags [.], ack 1246, win 363, options [nop,nop,TS val 13324261 ecr 13324261], length 0
 02:19:50.999811 IP productpage-v1-5ddc866b9-9pz9f.41600 &gt; 172-33-36-2.details.default.svc.cluster.local.9080: Flags [P.], seq 702:1404, ack 337, win 245, options [nop,nop,TS val 13324271 ecr 12952215], length 702
 02:19:51.003868 IP 172-33-36-2.details.default.svc.cluster.local.9080 &gt; productpage-v1-5ddc866b9-9pz9f.41600: Flags [P.], seq 337:673, ack 1404, win 260, options [nop,nop,TS val 12957490 ecr 13324271], length 336
 02:19:51.003937 IP productpage-v1-5ddc866b9-9pz9f.41600 &gt; 172-33-36-2.details.default.svc.cluster.local.9080: Flags [.], ack 673, win 254, options [nop,nop,TS val 13324277 ecr 12957490], length 0
@@ -721,9 +728,9 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 02:19:51.031450 IP 172-33-102-4.reviews.default.svc.cluster.local.9080 &gt; productpage-v1-5ddc866b9-9pz9f.34542: Flags [P.], seq 1:506, ack 702, win 413, options [nop,nop,TS val 12594799 ecr 13324289], length 505
 02:19:51.031510 IP productpage-v1-5ddc866b9-9pz9f.34542 &gt; 172-33-102-4.reviews.default.svc.cluster.local.9080: Flags [.], ack 506, win 371, options [nop,nop,TS val 13324305 ecr 12594799], length 0
 02:19:51.042185 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172-33-22-3.ratings.default.svc.cluster.local.40248: Flags [P.], seq 5889:10472, ack 1246, win 363, options [nop,nop,TS val 13324316 ecr 13324261], length 4583
-02:19:51.042225 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 10472, win 1414, options [nop,nop,TS val 13324316 ecr 13324316], length 0
+02:19:51.042225 IP 172-33-22-3.ratings.default.svc.cluster.local.40248 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 10472, win 1414, options [nop,nop,TS val 13324316 ecr 13324316], length 0</p>
 
-root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
 COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 pilot-age   1 istio-proxy    5u  IPv4 123790      0t0  TCP productpage-v1-5ddc866b9-9pz9f:45522-&gt;istio-pilot.istio-system.svc.cluster.local:15007 (ESTABLISHED)
 envoy      11 istio-proxy    9u  IPv4 123811      0t0  TCP localhost:15000 (LISTEN)
@@ -739,91 +746,96 @@ envoy      11 istio-proxy   55u  IPv4 126596      0t0  TCP productpage-v1-5ddc86
 envoy      11 istio-proxy   56u  IPv4 260502      0t0  TCP productpage-v1-5ddc866b9-9pz9f:15001-&gt;172-33-22-3.ratings.default.svc.cluster.local:40248 (ESTABLISHED)
 envoy      11 istio-proxy   57u  IPv4 330805      0t0  TCP productpage-v1-5ddc866b9-9pz9f:41600-&gt;172-33-36-2.details.default.svc.cluster.local:9080 (ESTABLISHED)
 envoy      11 istio-proxy   58u  IPv4 126685      0t0  TCP productpage-v1-5ddc866b9-9pz9f:51770-&gt;172-33-22-8.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
-envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc866b9-9pz9f:43926-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
+envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc866b9-9pz9f:43926-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)</p>
+
+<pre><code>
+结果跟用 service 名访问是一致的。
+
+## 4) 从其他 pod 容器的 sidecar 容器 curl service 的名字的流量
 
 </code></pre>
 
-<p>结果跟用 service 名访问是一致的。</p>
+<p>shell
+$ kubectl exec -it ratings-v1-7b9fb5464b-pfq7r bash -c istio-proxy
+$ curl <a href="http://productpage:9080/productpage">http://productpage:9080/productpage</a></p>
 
-<h2 id="4-从其他-pod-容器的-sidecar-容器-curl-service-的名字的流量">4) 从其他 pod 容器的 sidecar 容器 curl service 的名字的流量</h2>
-
-<pre><code class="language-shell">$ kubectl exec -it ratings-v1-7b9fb5464b-pfq7r bash -c istio-proxy
-$ curl http://productpage:9080/productpage
-
+<pre><code>
 </code></pre>
 
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
-    4   240 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+    4   240 ISTIO_INBOUND  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain INPUT (policy ACCEPT 5 packets, 324 bytes)
+<p>Chain INPUT (policy ACCEPT 5 packets, 324 bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
+
+<p>Chain OUTPUT (policy ACCEPT 4184 packets, 384K bytes)
  pkts bytes target     prot opt in     out     source               destination
+  168 10080 ISTIO_OUTPUT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain OUTPUT (policy ACCEPT 4184 packets, 384K bytes)
+<p>Chain POSTROUTING (policy ACCEPT 4289 packets, 391K bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
+
+<p>Chain ISTIO_INBOUND (1 references)
  pkts bytes target     prot opt in     out     source               destination
-  168 10080 ISTIO_OUTPUT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+    4   240 ISTIO_REDIRECT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080</p>
 
-Chain POSTROUTING (policy ACCEPT 4289 packets, 391K bytes)
+<p>Chain ISTIO_OUTPUT (1 references)
  pkts bytes target     prot opt in     out     source               destination
+    0     0 ISTIO_REDIRECT  all  &ndash;  *      lo      0.0.0.0/0           !127.0.0.1
+   63  3780 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            127.0.0.1
+  105  6300 ISTIO_REDIRECT  all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain ISTIO_INBOUND (1 references)
+<p>Chain ISTIO_REDIRECT (3 references)
  pkts bytes target     prot opt in     out     source               destination
-    4   240 ISTIO_REDIRECT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080
+  109  6540 REDIRECT   tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001</p>
 
-Chain ISTIO_OUTPUT (1 references)
- pkts bytes target     prot opt in     out     source               destination
-    0     0 ISTIO_REDIRECT  all  --  *      lo      0.0.0.0/0           !127.0.0.1
-   63  3780 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
-  105  6300 ISTIO_REDIRECT  all  --  *      *       0.0.0.0/0            0.0.0.0/0
-
-Chain ISTIO_REDIRECT (3 references)
- pkts bytes target     prot opt in     out     source               destination
-  109  6540 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
-
-root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
-    5   300 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+    5   300 ISTIO_INBOUND  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain INPUT (policy ACCEPT 6 packets, 384 bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain INPUT (policy ACCEPT 6 packets, 384 bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain OUTPUT (policy ACCEPT 4189 packets, 385K bytes)
+<p>Chain OUTPUT (policy ACCEPT 4189 packets, 385K bytes)
  pkts bytes target     prot opt in     out     source               destination
-  171 10260 ISTIO_OUTPUT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
+  171 10260 ISTIO_OUTPUT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain POSTROUTING (policy ACCEPT 4296 packets, 391K bytes)
- pkts bytes target     prot opt in     out     source               destination
+<p>Chain POSTROUTING (policy ACCEPT 4296 packets, 391K bytes)
+ pkts bytes target     prot opt in     out     source               destination</p>
 
-Chain ISTIO_INBOUND (1 references)
+<p>Chain ISTIO_INBOUND (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    5   300 ISTIO_REDIRECT  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080
+    5   300 ISTIO_REDIRECT  tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:9080</p>
 
-Chain ISTIO_OUTPUT (1 references)
+<p>Chain ISTIO_OUTPUT (1 references)
  pkts bytes target     prot opt in     out     source               destination
-    0     0 ISTIO_REDIRECT  all  --  *      lo      0.0.0.0/0           !127.0.0.1
-   64  3840 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
-  107  6420 ISTIO_REDIRECT  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+    0     0 ISTIO_REDIRECT  all  &ndash;  *      lo      0.0.0.0/0           !127.0.0.1
+   64  3840 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            127.0.0.1
+  107  6420 ISTIO_REDIRECT  all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0</p>
 
-Chain ISTIO_REDIRECT (3 references)
+<p>Chain ISTIO_REDIRECT (3 references)
  pkts bytes target     prot opt in     out     source               destination
-  112  6720 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
+  112  6720 REDIRECT   tcp  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001</p>
+
+<pre><code>
+这里看到有变化，开始有流量经过 PREROUTING 链了。有一个包从 PREROUTING 进入，并且被路由到 ISTIO_REDIRECT 链，然后从 OUTPUT 链出来。
+
+发现有不一样，赶紧跟踪一下 tcp 包处理过程。
+
 </code></pre>
 
-<p>这里看到有变化，开始有流量经过 PREROUTING 链了。有一个包从 PREROUTING 进入，并且被路由到 ISTIO_REDIRECT 链，然后从 OUTPUT 链出来。</p>
-
-<p>发现有不一样，赶紧跟踪一下 tcp 包处理过程。</p>
-
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  &lsquo;tcp and (port 9080)&rsquo;
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
+listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes</p>
 
-02:46:33.655102 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 37579681, win 29200, options [mss 1460,sackOK,TS val 14926928 ecr 0,nop,wscale 7], length 0
+<p>02:46:33.655102 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 37579681, win 29200, options [mss 1460,sackOK,TS val 14926928 ecr 0,nop,wscale 7], length 0
 02:46:33.655147 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172.33.22.1.50752: Flags [S.], seq 741248176, ack 37579682, win 28960, options [mss 1460,sackOK,TS val 14926928 ecr 14926928,nop,wscale 7], length 0
 02:46:33.655180 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 1, win 229, options [nop,nop,TS val 14926928 ecr 14926928], length 0
 02:46:33.655243 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 1:92, ack 1, win 229, options [nop,nop,TS val 14926928 ecr 14926928], length 91
@@ -841,10 +853,9 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 02:46:33.796894 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5933, win 321, options [nop,nop,TS val 14927070 ecr 14927070], length 0
 02:46:33.797370 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [F.], seq 92, ack 5933, win 321, options [nop,nop,TS val 14927071 ecr 14927070], length 0
 02:46:33.800799 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172.33.22.1.50752: Flags [F.], seq 5933, ack 93, win 227, options [nop,nop,TS val 14927074 ecr 14927071], length 0
-02:46:33.800863 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5934, win 321, options [nop,nop,TS val 14927074 ecr 14927074], length 0
+02:46:33.800863 IP 172.33.22.1.50752 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5934, win 321, options [nop,nop,TS val 14927074 ecr 14927074], length 0</p>
 
-
-root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
+<p>root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
 COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 pilot-age   1 istio-proxy    5u  IPv4 123790      0t0  TCP productpage-v1-5ddc866b9-9pz9f:45522-&gt;istio-pilot.istio-system.svc.cluster.local:15007 (ESTABLISHED)
 envoy      11 istio-proxy    9u  IPv4 123811      0t0  TCP localhost:15000 (LISTEN)
@@ -860,20 +871,21 @@ envoy      11 istio-proxy   55u  IPv4 126596      0t0  TCP productpage-v1-5ddc86
 envoy      11 istio-proxy   56u  IPv4 260502      0t0  TCP productpage-v1-5ddc866b9-9pz9f:15001-&gt;172-33-22-3.ratings.default.svc.cluster.local:40248 (ESTABLISHED)
 envoy      11 istio-proxy   57u  IPv4 330805      0t0  TCP productpage-v1-5ddc866b9-9pz9f:41600-&gt;172-33-36-2.details.default.svc.cluster.local:9080 (ESTABLISHED)
 envoy      11 istio-proxy   58u  IPv4 126685      0t0  TCP productpage-v1-5ddc866b9-9pz9f:51770-&gt;172-33-22-8.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
-envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc866b9-9pz9f:43926-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)
+envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc866b9-9pz9f:43926-&gt;172-33-36-7.reviews.default.svc.cluster.local:9080 (ESTABLISHED)</p>
+
+<pre><code>
+发现并没有 50752 的端口建立了连接，再请求一遍，发现这个端口变成了 50756。看来这个端口是临时建立的，请求完了就释放掉了。那么，我们还可以看看这个 172.33.22.1 的 ip 是属于谁的。
+
+由于测试集群是用的 flannel 的 k8s 网络方案，flannel 通过连接不同 node 的 docker0 网桥实现不同 node 上的 docker 不同网段仍能正常访问。所以，pod 上的 ip 是 172.33.22.2，那 172.33.22.1 有可能是 docker 网桥的 ip 地址。
+
+登录 productpage 所在的 node 执行 `ifonnfig` 发现果然如此。
+
+所以，在 istio-proxy sidecar 容器 curl 请求 productpage，流量是从 productpage 所在的 node 的 docker 网桥进来的。
+
+而流量从 docker0 网桥进来的原因是，我刚好选了一个与 productpage pod 同一个 node 的 pod 来实验，换一个不同 node 的 pod 情况如下：
 </code></pre>
 
-<p>发现并没有 50752 的端口建立了连接，再请求一遍，发现这个端口变成了 50756。看来这个端口是临时建立的，请求完了就释放掉了。那么，我们还可以看看这个 172.33.22.1 的 ip 是属于谁的。</p>
-
-<p>由于测试集群是用的 flannel 的 k8s 网络方案，flannel 通过连接不同 node 的 docker0 网桥实现不同 node 上的 docker 不同网段仍能正常访问。所以，pod 上的 ip 是 172.33.22.2，那 172.33.22.1 有可能是 docker 网桥的 ip 地址。</p>
-
-<p>登录 productpage 所在的 node 执行 <code>ifonnfig</code> 发现果然如此。</p>
-
-<p>所以，在 istio-proxy sidecar 容器 curl 请求 productpage，流量是从 productpage 所在的 node 的 docker 网桥进来的。</p>
-
-<p>而流量从 docker0 网桥进来的原因是，我刚好选了一个与 productpage pod 同一个 node 的 pod 来实验，换一个不同 node 的 pod 情况如下：</p>
-
-<pre><code>03:48:53.486108 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 2104800333, win 29200, options [mss 1460,sackOK,TS val 18313233 ecr 0,nop,wscale 7], length 0
+<p>03:48:53.486108 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 2104800333, win 29200, options [mss 1460,sackOK,TS val 18313233 ecr 0,nop,wscale 7], length 0
 03:48:53.486259 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172.17.8.102.44264: Flags [S.], seq 2430551524, ack 2104800334, win 28960, options [mss 1460,sackOK,TS val 18666760 ecr 18313233,nop,wscale 7], length 0
 03:48:53.486658 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 1, win 229, options [nop,nop,TS val 18313234 ecr 18666760], length 0
 03:48:53.487271 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 1:92, ack 1, win 229, options [nop,nop,TS val 18313234 ecr 18666760], length 91
@@ -889,82 +901,97 @@ envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc86
 03:48:53.988322 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 4629, win 301, options [nop,nop,TS val 18313735 ecr 18667261], length 0
 03:48:53.992174 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [F.], seq 92, ack 4629, win 301, options [nop,nop,TS val 18313739 ecr 18667261], length 0
 03:48:53.992662 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172.17.8.102.44264: Flags [F.], seq 4629, ack 93, win 227, options [nop,nop,TS val 18667266 ecr 18313739], length 0
-03:48:53.994325 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 4630, win 301, options [nop,nop,TS val 18313740 ecr 18667266], length 0
+03:48:53.994325 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 4630, win 301, options [nop,nop,TS val 18313740 ecr 18667266], length 0</p>
+
+<pre><code>流量从 node 的 ip 和某个端口与 productpage 的 9080 端口通信，而且这个 node 端口也是请求完即销毁的，可见，当同 node 的 pod 流量进入时，请求直接经过 docker0 网桥转发即可，而不同 node 请求时，productpage pod 会看到请求是以 node 为请求源发起请求，这个请求是由 flannel 转发的。
+
+那么还有一个问题，为什么由 istio-proxy curl 的流量会经过 docker0 网桥，并经过 iptables PREROUTING 链，而在 details，或者 ratings pod curl 的请求不会经过呢？
+
+通过 `/proc/net/nf_conntrack` 文件可以看到包被处理的过程：
 
 </code></pre>
 
-<p>流量从 node 的 ip 和某个端口与 productpage 的 9080 端口通信，而且这个 node 端口也是请求完即销毁的，可见，当同 node 的 pod 流量进入时，请求直接经过 docker0 网桥转发即可，而不同 node 请求时，productpage pod 会看到请求是以 node 为请求源发起请求，这个请求是由 flannel 转发的。</p>
-
-<p>那么还有一个问题，为什么由 istio-proxy curl 的流量会经过 docker0 网桥，并经过 iptables PREROUTING 链，而在 details，或者 ratings pod curl 的请求不会经过呢？</p>
-
-<p>通过 <code>/proc/net/nf_conntrack</code> 文件可以看到包被处理的过程：</p>
-
-<pre><code class="language-shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep 9080
+<p>shell
+root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep 9080
 ipv4     2 tcp      6 61 TIME_WAIT src=172.33.102.10 dst=10.254.224.87 sport=54598 dport=9080 src=127.0.0.1 dst=172.33.102.10 sport=15001 dport=54598 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 ipv4     2 tcp      6 61 TIME_WAIT src=127.0.0.1 dst=127.0.0.1 sport=35156 dport=9080 src=127.0.0.1 dst=127.0.0.1 sport=9080 dport=35156 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 ipv4     2 tcp      6 60 TIME_WAIT src=172.33.102.10 dst=10.254.96.234 sport=45460 dport=9080 src=127.0.0.1 dst=172.33.102.10 sport=15001 dport=45460 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
-ipv4     2 tcp      6 61 TIME_WAIT src=172.17.8.102 dst=172.33.102.10 sport=49770 dport=9080 src=172.33.102.10 dst=172.17.8.102 sport=15001 dport=49770 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+ipv4     2 tcp      6 61 TIME_WAIT src=172.17.8.102 dst=172.33.102.10 sport=49770 dport=9080 src=172.33.102.10 dst=172.17.8.102 sport=15001 dport=49770 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2</p>
+
+<pre><code>
+这个是在 istio-proxy sidecar 容器请求的包处理结果，而下面是在 ratings 容器里请求的包处理结果。
+
 </code></pre>
 
-<p>这个是在 istio-proxy sidecar 容器请求的包处理结果，而下面是在 ratings 容器里请求的包处理结果。</p>
-
-<pre><code class="language-shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep 9080
+<p>shell
+root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep 9080
 ipv4     2 tcp      6 116 TIME_WAIT src=172.33.102.10 dst=10.254.96.234 sport=45632 dport=9080 src=127.0.0.1 dst=172.33.102.10 sport=15001 dport=45632 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 ipv4     2 tcp      6 116 TIME_WAIT src=127.0.0.1 dst=127.0.0.1 sport=35328 dport=9080 src=127.0.0.1 dst=127.0.0.1 sport=9080 dport=35328 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
-ipv4     2 tcp      6 116 TIME_WAIT src=172.33.102.10 dst=10.254.224.87 sport=54770 dport=9080 src=127.0.0.1 dst=172.33.102.10 sport=15001 dport=54770 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+ipv4     2 tcp      6 116 TIME_WAIT src=172.33.102.10 dst=10.254.224.87 sport=54770 dport=9080 src=127.0.0.1 dst=172.33.102.10 sport=15001 dport=54770 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2</p>
+
+<pre><code>
+在 istio-proxy 容器（ratings 的 istio-proxy sidecar 容器）里请求的，被请求的服务（productpage 服务的pod）多了一个从 istio-proxy 容器来自的 node 的包（ratings pod 部署在 node2，ip为172.17.8.102）
+
+这种差异可以在 ratings istio-proxy sidecar 里的请求处理情况推断出来。
+
 </code></pre>
 
-<p>在 istio-proxy 容器（ratings 的 istio-proxy sidecar 容器）里请求的，被请求的服务（productpage 服务的pod）多了一个从 istio-proxy 容器来自的 node 的包（ratings pod 部署在 node2，ip为172.17.8.102）</p>
+<h1 id="在-ratings-生产容器里的请求">在 ratings 生产容器里的请求</h1>
 
-<p>这种差异可以在 ratings istio-proxy sidecar 里的请求处理情况推断出来。</p>
-
-<pre><code># 在 ratings 生产容器里的请求
-root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131.126
+<p>root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131.126
 ipv4     2 tcp      6 117 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49912 dport=9080 src=127.0.0.1 dst=172.33.36.2 sport=15001 dport=49912 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 root@ratings-v1-6bdbc7b978-s5dmx:~#
-root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131.126
-# 在 ratings istio-proxy sidecar 容器里的请求后，多了一条
-ipv4     2 tcp      6 113 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49920 dport=9080 src=10.254.131.126 dst=172.33.36.2 sport=9080 dport=49920 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
-ipv4     2 tcp      6 76 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49912 dport=9080 src=127.0.0.1 dst=172.33.36.2 sport=15001 dport=49912 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131.126</p>
+
+<h1 id="在-ratings-istio-proxy-sidecar-容器里的请求后-多了一条">在 ratings istio-proxy sidecar 容器里的请求后，多了一条</h1>
+
+<p>ipv4     2 tcp      6 113 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49920 dport=9080 src=10.254.131.126 dst=172.33.36.2 sport=9080 dport=49920 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
+ipv4     2 tcp      6 76 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49912 dport=9080 src=127.0.0.1 dst=172.33.36.2 sport=15001 dport=49912 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2</p>
+
+<pre><code>
+可以看到，生产容器里的请求其实是由重写到 envoy 并与端口通信的，而 sidecar 容器里的请求是真真实实与 `10.254.131.126` 通信的，这其实也验证了 istio 对 pod 的两条 iptables 规则：
 </code></pre>
 
-<p>可以看到，生产容器里的请求其实是由重写到 envoy 并与端口通信的，而 sidecar 容器里的请求是真真实实与 <code>10.254.131.126</code> 通信的，这其实也验证了 istio 对 pod 的两条 iptables 规则：</p>
-
-<pre><code>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
-...
+<p>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
+&hellip;
 Chain ISTIO_OUTPUT (1 references)
-... 
+&hellip;
  pkts bytes target     prot opt in     out     source               destination
-    3   180 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
-    0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
-... 
-    0     0 ISTIO_REDIRECT  all  --  *      *       0.0.0.0/0            0.0.0.0/0
-... 
+    3   180 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+    0     0 RETURN     all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0            owner GID match 1337
+&hellip;
+    0     0 ISTIO_REDIRECT  all  &ndash;  *      *       0.0.0.0/0            0.0.0.0/0
+&hellip;</p>
+
+<pre><code>
+来自用户空间 1337 的请求，直接返回，被直接返回的请求则经过 docker0 网桥，再经过 flannel 网桥，进入 prodcutpage 所在的 node 的 docker0 网桥，于是会触发 iptables 的 PREROUTING 链。
+
+而其他请求，则会重定向有 envoy 处理，而 envoy 已经创建了与各个 pod 的长连接。当流量经过 envoy 请求 productpage 时，请求直接由长连接处理了，所以 iptables PREROUTING 链处理的包数不是没变，而是在长连接建立时变化过（这个可以在 bookinfo 刚部署的时候看到），之后就不再变化了。
+
+
+## 5) 从 其他 pod 容器的 sidecar 容器 curl service 的 IP 进入的流量
+
+从 /proc/net/nf_conntrack 文件看到，实际上 service name 在 k8s 里是作为 dns 名的，可以推断出请求 service name 和 service ip 的结果是一样的。
+
+## 6) 从 productpage pod curl localhost 进入的流量
+
+可以推断出，请求会经过 lo 口，不会经过 PREROUTING 链，然后在请求时，会有3个请求（ratings reviews details）经过 OUTPUT 链，请求 productpage 服务的会被直接返回，而其他2个会被重定向到 ISTIO_REDIRET 链处理。实验后，数据也符合推断。
+
+## 7) 从 productpage istio-proxy sidecar 容器 curl localhost 进入的流量
+
+与 6）是差不多的，唯一不一样的地方是，请求在经过 ISTIO_OUTBOUND 链时，6）经过的是这条规则：
 </code></pre>
 
-<p>来自用户空间 1337 的请求，直接返回，被直接返回的请求则经过 docker0 网桥，再经过 flannel 网桥，进入 prodcutpage 所在的 node 的 docker0 网桥，于是会触发 iptables 的 PREROUTING 链。</p>
-
-<p>而其他请求，则会重定向有 envoy 处理，而 envoy 已经创建了与各个 pod 的长连接。当流量经过 envoy 请求 productpage 时，请求直接由长连接处理了，所以 iptables PREROUTING 链处理的包数不是没变，而是在长连接建立时变化过（这个可以在 bookinfo 刚部署的时候看到），之后就不再变化了。</p>
-
-<h2 id="5-从-其他-pod-容器的-sidecar-容器-curl-service-的-ip-进入的流量">5) 从 其他 pod 容器的 sidecar 容器 curl service 的 IP 进入的流量</h2>
-
-<p>从 /proc/net/nf_conntrack 文件看到，实际上 service name 在 k8s 里是作为 dns 名的，可以推断出请求 service name 和 service ip 的结果是一样的。</p>
-
-<h2 id="6-从-productpage-pod-curl-localhost-进入的流量">6) 从 productpage pod curl localhost 进入的流量</h2>
-
-<p>可以推断出，请求会经过 lo 口，不会经过 PREROUTING 链，然后在请求时，会有3个请求（ratings reviews details）经过 OUTPUT 链，请求 productpage 服务的会被直接返回，而其他2个会被重定向到 ISTIO_REDIRET 链处理。实验后，数据也符合推断。</p>
-
-<h2 id="7-从-productpage-istio-proxy-sidecar-容器-curl-localhost-进入的流量">7) 从 productpage istio-proxy sidecar 容器 curl localhost 进入的流量</h2>
-
-<p>与 6）是差不多的，唯一不一样的地方是，请求在经过 ISTIO_OUTBOUND 链时，6）经过的是这条规则：</p>
-
-<pre><code>    3   180 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+<pre><code>3   180 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
 </code></pre>
 
-<p>而 7）经过的是这条：</p>
-
-<pre><code>    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
+<pre><code>而 7）经过的是这条：
 </code></pre>
+
+<pre><code>0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
+</code></pre>
+
+<p>```</p>
 
 <h1 id="4-总结">4. 总结</h1>
 

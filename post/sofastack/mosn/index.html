@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 
 	<head>
-		<title> Tags &middot; trainyao.github.io </title>
+		<title> sofastack/mosn &middot; trainyao.github.io </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -120,11 +120,31 @@
 		<div class="container wrapper">
 			<div class="row">
 				<div class="col-xs-12 text-center">
-					<h1 id=>Tags</h1>
+					<h1 id=>sofastack/mosn</h1>
 				</div>
 			</div>
 			<ul id="post-list">
                 	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/sofastack/mosn/reconfig/">mosn 的reconfig 机制</a></h4>
+							<h4 class="post-date">Nov 24, 2019</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。
+本文的内容基于 mosn v0.8.1。
+我们先将被重启的 mosn 进程称为 旧 mosn，将重启并接管流量的进程成为 新 mosn。
+1. 机制 mosn 没有使用重新读取 config 文件的方法来实现 reconfig，而是通过 unix socket 作为进程间通信，并将旧进程的监听 fd 通过 socket 传过去，新 mosn 接管 fd 并且重新读取 config，旧 mosn 进行 gracefully shutdown，以达到 reconfig 和平滑重启的功能。
+2. 旧mosn 我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。
+mosn 的 reconfig 逻辑在 server 包的 reconfigure.go 内。
+mosn 进程启动后，会创建一个叫 reconfig.sock 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 reconfig 逻辑。
+reconfig 逻辑:  当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/sofastack/mosn/reconfig/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
 			</ul>
             
 

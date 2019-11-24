@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.59.1" />
 
 
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -66,6 +66,10 @@
 				    		</li>
                 		
                     		<li>
+                    		<a href="/post/sofastack/mosn">~/sofastack/mosn</a>
+				    		</li>
+                		
+                    		<li>
                     		<a href="/post/skynet">~/skynet</a>
 				    		</li>
                 		
@@ -118,8 +122,7 @@
             <span class="post-date">Jan 12, 2019 </span>
             <div class="post-content">
                 <ol>
-<li>安装 <code>cfssl</code></li>
-</ol>
+<li><p>安装 <code>cfssl</code></p>
 
 <pre><code class="language-shell">wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
 chmod +x cfssl_linux-amd64
@@ -134,55 +137,48 @@ chmod +x cfssl-certinfo_linux-amd64
 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo
 
 export PATH=/usr/local/bin:$PATH
-</code></pre>
+</code></pre></li>
 
-<ol>
 <li><p>找到 kubernetes 的根证书 <code>ca.pem</code>, <code>ca-key.pem</code>, <code>ca-config.json</code></p></li>
 
-<li><p>生成证书请求配置文件, 可以替换 <code>usage</code> 为其他名字, 替换 <code>usage.common.name</code> 为服务器域名</p></li>
-</ol>
+<li><p>生成证书请求配置文件, 可以替换 <code>usage</code> 为其他名字, 替换 <code>usage.common.name</code> 为服务器域名</p>
 
 <pre><code class="language-shell">cat &gt; usage.json &lt;&lt;EOF
 {
-  &quot;CN&quot;: &quot;usage.common.name&quot;,
-  &quot;key&quot;: {
-    &quot;algo&quot;: &quot;rsa&quot;,
-    &quot;size&quot;: 2048
-  },
-  &quot;names&quot;: [
-    {
-      &quot;C&quot;: &quot;CN&quot;,
-      &quot;ST&quot;: &quot;BeiJing&quot;,
-      &quot;L&quot;: &quot;BeiJing&quot;,
-      &quot;O&quot;: &quot;k8s&quot;,
-      &quot;OU&quot;: &quot;System&quot;
-    }
-  ],
-    &quot;ca&quot;: {
-       &quot;expiry&quot;: &quot;87600h&quot;
-    }
+&quot;CN&quot;: &quot;usage.common.name&quot;,
+&quot;key&quot;: {
+&quot;algo&quot;: &quot;rsa&quot;,
+&quot;size&quot;: 2048
+},
+&quot;names&quot;: [
+{
+  &quot;C&quot;: &quot;CN&quot;,
+  &quot;ST&quot;: &quot;BeiJing&quot;,
+  &quot;L&quot;: &quot;BeiJing&quot;,
+  &quot;O&quot;: &quot;k8s&quot;,
+  &quot;OU&quot;: &quot;System&quot;
+}
+],
+&quot;ca&quot;: {
+   &quot;expiry&quot;: &quot;87600h&quot;
+}
 }
 EOF
-</code></pre>
+</code></pre></li>
 
-<ol>
-<li>用 <code>cfssl</code> 工具签名服务端证书</li>
-</ol>
+<li><p>用 <code>cfssl</code> 工具签名服务端证书</p>
 
 <pre><code class="language-shell">cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=kubernetes usage.json | cfssljson -bare usage
 $ ls usage*
 usage.csr  usage.json  usage-key.pem  usage.pem
-</code></pre>
+</code></pre></li>
 
-<ol>
-<li>使用 <code>openssl</code> 签名客户端证书</li>
-</ol>
+<li><p>使用 <code>openssl</code> 签名客户端证书</p>
 
 <pre><code class="language-shell">openssl -in usage.pem -out usage.client.pem
-</code></pre>
+</code></pre></li>
 
-<ol>
-<li>使用 <code>usage.pem</code> <code>usage-key.pem</code> <code>usage.client.pem</code> 愉快的玩耍</li>
+<li><p>使用 <code>usage.pem</code> <code>usage-key.pem</code> <code>usage.client.pem</code> 愉快的玩耍</p></li>
 </ol>
 
 <p>参考资料:</p>

@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.59.1" />
 
 
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -63,6 +63,10 @@
                 		
                     		<li>
                     		<a href="/post/istio">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/sofastack/mosn">~/sofastack/mosn</a>
 				    		</li>
                 		
                     		<li>
@@ -127,9 +131,10 @@
 							<h4 class="post-link"><a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">使用 kubernetes 的 CA 证书自签名服务端 &amp; 客户端证书</a></h4>
 							<h4 class="post-date">Jan 12, 2019</h4>
 						</div>
-						<div class="post-summary"><p>安装 cfssl  wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 chmod +x cfssl_linux-amd64 mv cfssl_linux-amd64 /usr/local/bin/cfssl wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 chmod +x cfssljson_linux-amd64 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 chmod +x cfssl-certinfo_linux-amd64 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo export PATH=/usr/local/bin:$PATH   找到 kubernetes 的根证书 ca.pem, ca-key.pem, ca-config.json
+						<div class="post-summary"><p>安装 cfssl
+wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 chmod +x cfssl_linux-amd64 mv cfssl_linux-amd64 /usr/local/bin/cfssl wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 chmod +x cfssljson_linux-amd64 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 chmod +x cfssl-certinfo_linux-amd64 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo export PATH=/usr/local/bin:$PATH  找到 kubernetes 的根证书 ca.pem, ca-key.pem, ca-config.json
  生成证书请求配置文件, 可以替换 usage 为其他名字, 替换 usage.common.name 为服务器域名
-  cat &gt; usage.json &lt;&lt;EOF { &quot;CN&quot;: &quot;usage.common.name&quot;, &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 2048 }, &quot;names&quot;: [ { &quot;C&quot;: &quot;CN&quot;, &quot;ST&quot;: &quot;BeiJing&quot;, &quot;L&quot;: &quot;BeiJing&quot;, &quot;O&quot;: &quot;k8s&quot;, &quot;OU&quot;: &quot;System&quot; } ], &quot;ca&quot;: { &quot;expiry&quot;: &quot;87600h&quot; } } EOF   用 cfssl 工具签名服务端证书  cfssl gencert -ca=ca.</p></div>
+cat &gt; usage.json &lt;&lt;EOF { &quot;CN&quot;: &quot;usage.common.name&quot;, &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 2048 }, &quot;names&quot;: [ { &quot;C&quot;: &quot;CN&quot;, &quot;ST&quot;: &quot;BeiJing&quot;, &quot;L&quot;: &quot;BeiJing&quot;, &quot;O&quot;: &quot;k8s&quot;, &quot;OU&quot;: &quot;System&quot; } ], &quot;ca&quot;: { &quot;expiry&quot;: &quot;87600h&quot; } } EOF  用 cfssl 工具签名服务端证书</p></div>
 						<div class="post-list-footer text-center">
 							<a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">Read More</a>
 						</div>

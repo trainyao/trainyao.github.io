@@ -67,6 +67,8 @@ h1,h2,h3,h4,h5,h6 {
 	border-width: 5px;
 	border-color: #292929;
 	margin-top: 20px;
+	visibility: hidden;
+	width: 150px;
 }
 
 i {
