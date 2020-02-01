@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_02/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/</loc>
     <lastmod>2020-01-30T00:00:00+00:00</lastmod>
   </url>
@@ -69,12 +74,12 @@
   
   <url>
     <loc>https://trainyao.github.io/post/gloo/</loc>
-    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://trainyao.github.io/</loc>
-    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
