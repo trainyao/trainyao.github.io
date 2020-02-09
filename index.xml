@@ -6,10 +6,23 @@
     <description>Recent content on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://trainyao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MOSN 源码分析 - 插件机制</title>
+      <link>https://trainyao.github.io/post/mosn/source_filter/</link>
+      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/mosn/source_filter/</guid>
+      <description>本文记录了对 MOSN 的源码研究 - MOSN 的插件机制, 以及如何创建自己的插件来扩展 MOSN。
+本文的内容基于 MOSN v0.9.0。
+机制 使用过滤器模式来实现扩展是常见的设计模式，MOSN 也是使用了这种方式来构建可扩展性。
+MOSN 把过滤器相关的代码放在了 pkg/filter 目录下：
+➜ mosn git:(2c6f58c5) ✗ ll pkg/filter total 24 drwxr-xr-x 8 mac staff 256 Feb 5 08:52 . drwxr-xr-x 30 mac staff 960 Feb 5 08:52 .. drwxr-xr-x 3 mac staff 96 Aug 28 22:37 accept -rw-r--r-- 1 mac staff 2556 Feb 5 08:52 factory.go -rw-r--r-- 1 mac staff 2813 Feb 5 08:52 factory_test.</description>
+    </item>
     
     <item>
       <title>使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http</title>
@@ -35,10 +48,10 @@
     
     <item>
       <title>mosn 的reconfig 机制</title>
-      <link>https://trainyao.github.io/post/sofastack/mosn/reconfig/</link>
+      <link>https://trainyao.github.io/post/mosn/reconfig/</link>
       <pubDate>Sun, 24 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://trainyao.github.io/post/sofastack/mosn/reconfig/</guid>
+      <guid>https://trainyao.github.io/post/mosn/reconfig/</guid>
       <description>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。
 本文的内容基于 mosn v0.8.1。
 我们先将被重启的 mosn 进程称为 旧 mosn，将重启并接管流量的进程成为 新 mosn。

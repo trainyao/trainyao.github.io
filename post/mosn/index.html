@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 
 	<head>
-		<title> 快速开发 &middot; trainyao.github.io </title>
+		<title> mosn/mosn &middot; trainyao.github.io </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -124,7 +124,7 @@
 		<div class="container wrapper">
 			<div class="row">
 				<div class="col-xs-12 text-center">
-					<h1 id=>快速开发</h1>
+					<h1 id=>mosn/mosn</h1>
 				</div>
 			</div>
 			<ul id="post-list">
@@ -132,12 +132,36 @@
 				<li>
 					<div class="post-list-item">
 						<div class="post-header">
-							<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">类unix系统提示效率的alias</a></h4>
-							<h4 class="post-date">Feb 9, 2018</h4>
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_filter/">MOSN 源码分析 - 插件机制</a></h4>
+							<h4 class="post-date">Feb 9, 2020</h4>
 						</div>
-						<div class="post-summary"><p># git alias gs='git status ' alias ga='git add ' # usage: gc 'comment info' alias gc='git commit -m ' alias gd='git diff ' alias gsh='git show ' alias grm='git rm ' alias gck='git checkout ' alias gps='git push origin ' alias gpl='git pull origin ' alias gpl='git branch | grep \* | cut -d &quot; &quot; -f 2 | xargs git pull origin ' alias grs='git reset ' alias gl='git log ' alias gb='git branch ' alias gmg='git merge ' alias gst='git stash ' alias gf='git fetch' alias grollback=&quot;gl | grep commit | head -n 1 | awk '{print \$2}' | xargs -I {} git reset --hard {}&quot; alias u='gck online gb -D develop gb -D master git fetch gck develop gck master ' # other alias ll='ls -al' alias ip='ifconfig | grep 172' # docker alias de='docker exec -it ' alias dp='docker ps' alias dpa='docker ps -a' alias di='docker images' alias drmi='docker rmi ' alias drm='docker rm ' alias dr='docker run ' alias dk='docker kill '  </p></div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的插件机制, 以及如何创建自己的插件来扩展 MOSN。
+本文的内容基于 MOSN v0.9.0。
+机制 使用过滤器模式来实现扩展是常见的设计模式，MOSN 也是使用了这种方式来构建可扩展性。
+MOSN 把过滤器相关的代码放在了 pkg/filter 目录下：
+➜ mosn git:(2c6f58c5) ✗ ll pkg/filter total 24 drwxr-xr-x 8 mac staff 256 Feb 5 08:52 . drwxr-xr-x 30 mac staff 960 Feb 5 08:52 .. drwxr-xr-x 3 mac staff 96 Aug 28 22:37 accept -rw-r--r-- 1 mac staff 2556 Feb 5 08:52 factory.go -rw-r--r-- 1 mac staff 2813 Feb 5 08:52 factory_test.</p></div>
 						<div class="post-list-footer text-center">
-							<a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">Read More</a>
+							<a href="https://trainyao.github.io/post/mosn/source_filter/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/reconfig/">mosn 的reconfig 机制</a></h4>
+							<h4 class="post-date">Nov 24, 2019</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。
+本文的内容基于 mosn v0.8.1。
+我们先将被重启的 mosn 进程称为 旧 mosn，将重启并接管流量的进程成为 新 mosn。
+1. 机制 mosn 没有使用重新读取 config 文件的方法来实现 reconfig，而是通过 unix socket 作为进程间通信，并将旧进程的监听 fd 通过 socket 传过去，新 mosn 接管 fd 并且重新读取 config，旧 mosn 进行 gracefully shutdown，以达到 reconfig 和平滑重启的功能。
+2. 旧mosn 我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。
+mosn 的 reconfig 逻辑在 server 包的 reconfigure.go 内。
+mosn 进程启动后，会创建一个叫 reconfig.sock 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 reconfig 逻辑。
+reconfig 逻辑:  当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/reconfig/">Read More</a>
 						</div>
 					</div>
 				</li>

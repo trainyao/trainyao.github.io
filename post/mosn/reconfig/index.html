@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> kubernetes是怎么工作的以及其架构 &middot; trainyao.github.io </title>
+        <title> mosn 的reconfig 机制 &middot; trainyao.github.io </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -122,58 +122,82 @@
 </header>
 
         <div class="container wrapper">
-            <h1><a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">kubernetes是怎么工作的以及其架构</a></h1>
-            <span class="post-date">Sep 16, 2018 </span>
+            <h1><a href="https://trainyao.github.io/post/mosn/reconfig/">mosn 的reconfig 机制</a></h1>
+            <span class="post-date">Nov 24, 2019 </span>
             <div class="post-content">
                 
 
-<p>本文简单概括了 kubernetes 里有什么组件，以及它们是如何工作的。</p>
+<p>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。</p>
 
-<h1 id="一-kubernetes-的组件和架构">一、kubernetes 的组件和架构</h1>
+<p>本文的内容基于 mosn v0.8.1。</p>
 
-<p>一个  kubernetes 集群包含两部分：master 节点和 node 节点。master 节点负责接收管理员对于 kubernetes 资源对象的修改，并根据这些修改，对 node 节点进行配置和调度。node 节点是 kubernetes 集群内的计算节点，负责给部署在上面的业务应用提供计算以及储存能力。</p>
+<p>我们先将被重启的 mosn 进程称为 <code>旧 mosn</code>，将重启并接管流量的进程成为 <code>新 mosn</code>。</p>
 
-<p>kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Scheduler、kubelet 和 kube-proxy。</p>
+<h2 id="1-机制">1. 机制</h2>
 
-<p>其中，Kubernetes API Server、Controll Manager、Scheduler 运行在 master节点上。而 kubelet 和 kube-proxy 运行在 node 节点上。</p>
+<p>mosn 没有使用重新读取 config 文件的方法来实现 reconfig，而是通过 <code>unix socket</code> 作为进程间通信，并将旧进程的监听 fd 通过 socket 传过去，新 mosn 接管 fd 并且重新读取 config，旧 mosn 进行 gracefully shutdown，以达到 reconfig 和平滑重启的功能。</p>
 
-<p>这些组件分别负责 kubernetes 运行的不同职责：</p>
+<h2 id="2-旧mosn">2. 旧mosn</h2>
+
+<p>我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。</p>
+
+<p>mosn 的 reconfig 逻辑在 <code>server</code> 包的 <code>reconfigure.go</code> 内。</p>
+
+<p>mosn 进程启动后，会创建一个叫 <code>reconfig.sock</code> 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 <code>reconfig 逻辑</code>。</p>
+
+<h4 id="reconfig-逻辑">reconfig 逻辑:</h4>
 
 <ul>
-<li><p>Kubernetes API Server：kubernetes 集群的管理入口，它提供 HTTP REST 接口给 kubernetes 用户进行集群的配置，这些配置将会保存在 master 节点运行的 etcd 里面，供其他组件查阅。</p></li>
+<li>当写阻塞结束，协程会尝试链接另一个 unix socket ：<code>listen.sock</code></li>
 
-<li><p>Controll Manager：负责监听 etcd 变化并作出对应的动作。Controll Manager 是一系列 manager 的统称，其中有以下这些manager：</p>
+<li><p>一旦链接上，负责 reconfig 的协程会将已经存在的 fd 从 <code>listen.sock</code> 发送，发送是通过 <code>out-of-band</code> 数据进行的。 很显然，这个 <code>listen.sock</code> 是新的 mosn 进程创建的，用来接收正在服务的 fd，接管并用以继续服务。</p>
+
+<p>这里的 <code>已经存在的 fd</code> 包括两种:</p>
 
 <ul>
-<li>Replication Manager：负责 node 节点的 pod 管理。</li>
-<li>Node Controller：负责 node 节点管理。</li>
-<li>Namespace Controller：负责管理集群内的命名空间。</li>
-<li>ResourceQuota Controller：负责针对 namespace、pod、容器这三个维度的资源限制管理。</li>
-<li>ServiceAccount Controller：负责管理集群内访问的账号。</li>
-<li>Token Controller：负责允许访问 kubernetes 集群的 token。</li>
-<li>Service Controller：负责管理集群内的 Service。</li>
-<li>Endpoint Controller：负责管理集群内的 Endpoint。</li>
+<li><code>server listener fd</code>， 负责监听业务的 tcp 连接，对应 <code>config.json</code> 里的 <code>servers</code> 数组里的 <code>listeners</code> 数组里的 ip +端口</li>
+<li><code>service listener fd</code>，控制相关的端口，比如 pprof、prometheus metrics export、admin 端口</li>
 </ul></li>
 
-<li><p>Scheduler：负责接收 Replication Controller 的指挥，对要部署在 node 上的 pod 进行调度。Scheduler 会根据调度算法以及调度策略，调度 pod 在哪个 node 上部署。</p></li>
+<li><p>发送完fd之后，旧 mosn 会接收 listen.sock 的数据（由新 mosn 写入的数据，代表 fd 已接管完毕），并进入 gracefully shutdown 状态，不再接收新的链接，等已有请求处理完再关闭</p></li>
 
-<li><p>kubelet：node 节点上运行与 master 节点进行交互的进程。负责监控集群 etcd 内配置的变动，对本 node 上的 pod 进行管理。</p></li>
+<li><p>旧 mosn 有30秒时间处理完现存请求</p></li>
 
-<li><p>kube-proxy：node 上的网络 sidecar，负责 node 上的容器的网络请求以及外部网络请求的代理。    kubernetes 的 service 概念以及负责均衡就是依靠 kube-proxy 实现的。</p></li>
+<li><p>30秒后，旧 mosn 关闭，链接由新 mosn 接管</p></li>
 </ul>
 
-<h1 id="二-场景分析">二、场景分析</h1>
+<h2 id="3-新mosn">3. 新mosn</h2>
 
-<p>根据一些 kubernetes 的使用场景，来说明各个组件的协作过程。</p>
+<p>接下来是新 mosn 的启动。有两个问题:</p>
+
+<ol>
+<li><p>新 mosn 是如何将旧mosn的fd据为己有，并且接受数据的呢？</p>
 
 <ul>
-<li>创建 namespace</li>
-<li>创建 deploymentA</li>
-<li>创建 serviceA</li>
-<li>将 创建 serviceA 的 nodeport 配置，并从外部访问service</li>
-<li>创建 serviceB 以及 deploymentB</li>
-<li>deploymentA 通过 service 名访问 deploymentB
-(未完待续)</li>
+<li>新 mosn 通过 <code>net.FileListener</code> 方法对接受到的 fd 进行处理，该函数会返回 fd 的一个 network listener 副本，改副本可以用来接收数据，新 mosn 就是通过这个操作来从旧 mosn 做 fd 的接管</li>
+<li>新 mosn 会重新解析一遍 config.json 进行解析，而在上一部处理过的 network listener 副本也能查找到对应的地址和端口。通过比对两者相同之处，就能在创建新的 server listener 和 service listener 时，接管旧 mosn 的 fd，用来初始化新的 listener。</li>
+</ul></li>
+
+<li><p>新 mosn接收到 fd 信息后，会做些什么呢？</p>
+
+<ul>
+<li>接管 server listener fd</li>
+<li>接管 service listener fd</li>
+<li>给 listen.sock 发送一个字节数据，通知旧 mosn：可以关闭了</li>
+<li>至此，mosn reconfig 结束</li>
+</ul></li>
+</ol>
+
+<h2 id="5-后续疑问">5. 后续疑问</h2>
+
+<ol>
+<li>新 mosn 通过 <code>net.FileListener</code> 方法处理完 fd 并初始化了 listener，由于处理后的 fd 是一个副本，如果这个时候来了一个连接，那这个连接是会被旧 mosn 处理到，还是新 mosn，还是两者都会通知到呢? 关于这方面，可以做一个实验验证一下。</li>
+</ol>
+
+<p>参考资料:</p>
+
+<ul>
+<li><a href="https://github.com/mosn/mosn">mosn 源码</a></li>
 </ul>
 
             </div>
