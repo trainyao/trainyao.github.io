@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> MOSN 源码分析 - 共享内存模型 &middot; trainyao.github.io </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.59.1" />
+
+
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://trainyao.github.io/>trainyao@home ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://trainyao.github.io/">/home/trainyao</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">日志 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/kubernetes">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/istio">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/gloo">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/mosn">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/skynet">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/translate">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/bookread/kubernetes_the_definitive_guide">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/post/bookread/computer_system">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+            		<a href="/post/thoughts">~/脑洞</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/post/other/repid_develop">~/快速开发</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="container wrapper">
+            <h1><a href="https://trainyao.github.io/post/mosn/source_shm/">MOSN 源码分析 - 共享内存模型</a></h1>
+            <span class="post-date">Feb 23, 2020 </span>
+            <div class="post-content">
+                
+
+<p>本文记录了对 MOSN 的源码研究 - MOSN 的共享内存模型。</p>
+
+<p>本文的内容基于 MOSN v0.9.0，commit id <a href="https://github.com/mosn/mosn/tree/b2a239f5">b2a239f5</a>。</p>
+
+<h2 id="机制">机制</h2>
+
+<p>MOSN 用共享内存来存储 metrics 信息。MOSN 用 mmap 将文件映射到内存，在内存数组之上封装了一层关于 metrics 的存取逻辑，实现了 <a href="https://github.com/rcrowley/go-metrics">go-metrics</a>
+包的关于 metrics 的接口，通过这种方式组装出了一种基于共享内存的 metrics 实现供 MOSN 使用。</p>
+
+<h2 id="创建共享内存-mmap">创建共享内存：Mmap</h2>
+
+<p>操作共享内存的方法主要在 <code>pkg/shm/shm.go</code> 文件下：</p>
+
+<pre><code class="language-go">func Alloc(name string, size int) (*ShmSpan, error) {
+	...
+	return NewShmSpan(name, data), nil
+}
+
+func Free(span *ShmSpan) error {
+	Clear(span.name)
+	return syscall.Munmap(span.origin)
+}
+
+func Clear(name string) error {
+	return os.Remove(path(name))
+}
+</code></pre>
+
+<p>都是围绕着 <code>ShmSpan</code> 结构体的几个操作方法。再来看 <code>ShmSpan</code> 结构体：</p>
+
+<pre><code class="language-go">type ShmSpan struct {
+	origin []byte // mmap 返回的数组
+	name   string // span 名, 创建时指定
+
+	data   uintptr // 保存 mmap 内存段的首指针
+	offset int // span 已经使用的字节长度
+	size   int // span 大小
+}
+</code></pre>
+
+<p><code>Alloc</code> 方法按照给定的 <code>name</code> 参数，在配置文件的目录下创建文件，并执行 <code>sync.Mmap</code>，其文件尺寸即 <code>size</code> 参数大小。Mmap 过后，将信息保存在 ShmSpan结构内返回。</p>
+
+<p>代码逻辑比较简单，大家可以自行阅读：<a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/shm/shm.go#L28">https://github.com/mosn/mosn/blob/b2a239f5/pkg/shm/shm.go#L28</a></p>
+
+<p>由此看出，一个 ShmSpan 可以看做是一个共享内存块。</p>
+
+<p>下面我们将会分析共享内存块在 MOSN 里的使用场景：metrics。</p>
+
+<h2 id="操作共享内存-配置">操作共享内存：配置</h2>
+
+<p>在分析如何通过共享内存存取 metrics 之前，首先看这相关的功能是如何配置的。</p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318">https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318</a></p>
+
+<pre><code class="language-go">func initializeMetrics(config v2.MetricsConfig) {
+	// init shm zone
+	if config.ShmZone != &quot;&quot; &amp;&amp; config.ShmSize &gt; 0 {
+		shm.InitDefaultMetricsZone(config.ShmZone, int(config.ShmSize), store.GetMosnState() != store.Active_Reconfiguring)
+        ...
+
+</code></pre>
+
+<p>从这里看出，通过读取配置文件的 <code>ShmZone</code> 和 <code>ShmSize</code> 来初始化共享内存，即配置文件的以下两个字段是控制着共享内存的文件名和大小的：</p>
+
+<pre><code class="language-json">{
+  ...
+  &quot;metrics&quot;: {
+    ...
+    &quot;shm_zone&quot;: &quot;文件名&quot;,
+    &quot;shm_size&quot;: &quot;共享内存文件大小&quot;
+  },
+  ...
+}
+</code></pre>
+
+<h2 id="操作共享内存-metrics">操作共享内存：metrics</h2>
+
+<p>metrics 相关的逻辑在 <code>pkg/metrics</code> 包下。</p>
+
+<p>上文说的 ShmSpan 是保存共享内存信息的结构体，而要理解 MOSN metrics 对共享内存的使用，还要先理解 MOSN 封装的几个结构体：<code>zone</code>、<code>hashSet</code> 和 <code>hashEntry</code>。</p>
+
+<p>这几个结构体与 <code>ShmSpan</code> 的关系大致是这样的：</p>
+
+<p><img src="./shm.png" alt="" /></p>
+
+<p><code>ShmSpan</code> 是共享内存块，而 <code>zone</code>、<code>hashSet</code> 和 <code>hashEntry</code> 对 <code>ShmSpan</code> 进行了划分：</p>
+
+<ul>
+<li><code>hashSet</code> 封装出了 metrics name 映射到 metrics value 的哈希表</li>
+<li><code>hashEntry</code> 是哈希表的值，也是 metrics 值的保存的共享内存空间</li>
+<li><code>zone</code> 对 <code>ShmSpan</code> 进行了划分，划分出了一个 <code>int32</code> 值作为互斥锁；一个 <code>int32</code> 值作为 <code>zone</code> 的引用计数；也划分出了一片空间保存 <code>hashSet</code></li>
+</ul>
+
+<p>以上步骤做好后，创建一个 metrics 就可以通过创建对应的哈希 key value，拿到对应的共享内存地址，存取 metrics 信息。</p>
+
+<p>下面是源码步骤，大家可以自行跟踪调试：</p>
+
+<p><strong><em>1) 创建 zone：</em></strong></p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L81">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L81</a></p>
+
+<pre><code class="language-go">func newSharedMetrics(name string, size int) (*zone, error) {
+	alignedSize := align(size, pageSize)
+
+    // 申请 ShmSpan
+	span, err := shm.Alloc(name, alignedSize)
+	if err != nil {
+		return nil, err
+	}
+	// 1. mutex and ref
+	// 从 span 里取 4 个字节做互斥锁
+	mutex, err := span.Alloc(4)
+	if err != nil {
+		return nil, err
+	}
+
+    // 从 span 里取 4 个字节做引用计数
+	ref, err := span.Alloc(4)
+	if err != nil {
+		return nil, err
+	}
+
+	zone := &amp;zone{
+		span:  span,
+		mutex: (*uint32)(unsafe.Pointer(mutex)),
+		ref:   (*uint32)(unsafe.Pointer(ref)),
+	}
+
+	// 2. hashSet
+	// 划分哈希表过程
+
+	// assuming that 100 entries with 50 slots, so the ratio of occupied memory is
+	// entries:slots  = 100 x 128 : 50 x 4 = 64 : 1
+	// so assuming slots memory size is N, total allocated memory size is M, then we have:
+	// M - 1024 &lt; 65N + 28 &lt;= M
+
+    // 计算 slot 的数量和内存占用大小
+	slotsNum := (alignedSize - 28) / (65 * 4)
+	slotsSize := slotsNum * 4
+	// 计算 entry 数量和内存占用大小
+	entryNum := slotsNum * 2
+	entrySize := slotsSize * 64
+	
+	// 哈希表内存大小 = entry 内存占用 + 20 字节 + slot 内存占用大小
+	hashSegSize := entrySize + 20 + slotsSize
+	hashSegment, err := span.Alloc(hashSegSize)
+	if err != nil {
+		return nil, err
+	}
+
+	// if zones's ref &gt; 0, no need to initialize hashset's value
+	// 初始化哈希表结构
+	set, err := newHashSet(hashSegment, hashSegSize, entryNum, slotsNum, atomic.LoadUint32(zone.ref) == 0)
+	if err != nil {
+		return nil, err
+	}
+	zone.set = set
+
+	// add ref
+	atomic.AddUint32(zone.ref, 1)
+
+	return zone, nil
+}
+</code></pre>
+
+<p>这里可以大致说一下哈希表初始化的算法：首先 <code>alignedSize</code> 表示 4k 对齐后的 <code>ShmSpan</code> 大小，前 8 个字节被分配为互斥锁和引用计数，
+另外 20 个字节被分配为哈希表的 <code>meta</code> 结构体，</p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L54">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L54</a></p>
+
+<pre><code class="language-go">type hashSet struct {
+	entry []hashEntry
+	meta  *meta
+	slots []uint32
+}
+
+...
+
+
+type meta struct {
+	cap       uint32
+	size      uint32
+	freeIndex uint32
+
+	slotsNum uint32
+	bytesNum uint32
+}
+
+</code></pre>
+
+<p>所以真正能被分配为哈希表信息储存的空间 = 总空间 - 8 字节 - 20 字节。那能分配多少个哈希表信息呢？要看看 MOSN 的哈希表组织形式：<code>entry</code> 最开始首尾相连，后面会被组织成一个一个的 slot 链表供哈希碰撞时遍历查询。
+所以 slot 和 entry 的比例控制着哈希表查找的性能：entry 比 slot 作为比例的话，比例<strong>越高</strong>意味着更容易碰撞，链表越长，查找性能下降；相反比例<strong>越低</strong>链表越短，查找性能越高，但是有越多 slot 闲置，空间会浪费。</p>
+
+<p>从注释看，MOSN 将比例写死为 <code>2：1</code>。假设 <code>100 个 entry + 50 个 slot</code>，其内存比等于 <code>100 * 128（entry 内存占用）：50 * 4</code> = <code>64：1</code>，即一份 <code>2：1</code> 的 entry+slot 需要用到<code>（64 + 1）* 4</code> 个字节。</p>
+
+<p>所以，如果按照 2：1 来分配的话，一共可以分配的份数 = <code>哈希表信息储存空间 / 每一份空间占用 = (总空间 - 8 - 20) / (64 + 1) * 4</code> 份。由此就可以算出 entry 和 slot 可以分配多少份了。</p>
+
+<p><strong><em>2) 创建指标：</em></strong></p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56</a></p>
+
+<pre><code class="language-go">func NewShmCounterFunc(name string) func() gometrics.Counter {
+	return func() gometrics.Counter {
+		if defaultZone != nil {
+			if entry, err := defaultZone.alloc(name); err == nil {
+			...
+</code></pre>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L166">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L166</a></p>
+
+<pre><code class="language-go">func (z *zone) alloc(name string) (*hashEntry, error) {
+	z.lock()
+	defer z.unlock()
+
+	entry, create := z.set.Alloc(name)
+	...
+</code></pre>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L135">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L135</a></p>
+
+<pre><code class="language-go">func (s *hashSet) Alloc(name string) (*hashEntry, bool) {
+	// 1. search existed slots and entries
+	// 计算 hash 值作为 slot index
+	h := hash(name)
+	slot := h % s.meta.slotsNum
+
+	// name convert if length exceeded
+	if len(name) &gt; maxNameLength {
+		// if name is longer than max length, use hash_string as leading character
+		// and the remaining maxNameLength - len(hash_string) bytes follows
+		hStr := strconv.Itoa(int(h))
+		name = hStr + name[len(hStr)+len(name)-maxNameLength:]
+	}
+
+	nameBytes := []byte(name)
+
+    // 查找链表找到对应的 entry
+	var entry *hashEntry
+	for index := s.slots[slot]; index != sentinel; {
+		entry = &amp;s.entry[index]
+
+		if entry.equalName(nameBytes) {
+			return entry, false
+		}
+
+		index = entry.next
+	}
+
+	// 2. create new entry
+	// 如果找不到, 创建新的 entry
+	if s.meta.size &gt;= s.meta.cap {
+		return nil, false
+	}
+
+    // 创建新的 entry 从 hashset 的 meta 信息里拿 next free index
+	newIndex := s.meta.freeIndex
+	newEntry := &amp;s.entry[newIndex]
+	newEntry.assignName(nameBytes)
+	newEntry.ref = 1
+
+	if entry == nil {
+		// 所以是链表头,保存 index 到 slot
+		s.slots[slot] = newIndex
+	} else {
+		// 否则保存在上一个 entry 的 next 字段内
+		entry.next = newIndex
+	}
+
+	s.meta.size++
+	// 设置 next free index
+	s.meta.freeIndex = newEntry.next
+	// 设置队尾
+	newEntry.next = sentinel
+
+	return newEntry, true
+}
+</code></pre>
+
+<p><strong><em>3) 用 Entry 保存 metrics 值</em></strong></p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56</a></p>
+
+<pre><code class="language-go">func NewShmCounterFunc(name string) func() gometrics.Counter {
+	return func() gometrics.Counter {
+		if defaultZone != nil {
+			if entry, err := defaultZone.alloc(name); err == nil {
+			    return ShmCounter(unsafe.Pointer(&amp;entry.value))
+			}
+			...
+</code></pre>
+
+<p>可以看出，entry 的 <code>value</code> 是真正被用作记录 metrics 值的地方，它是一个 64 位的空间。</p>
+
+<h2 id="为什么使用共享内存保存-metrics">为什么使用共享内存保存 metrics</h2>
+
+<p>看到这里你可能会问，为什么要这么辛苦封装共享内存来保存 metrics 值？为什么不直接使用堆空间来做呢？</p>
+
+<p>其实在源码里也有答案：</p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318">https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318</a></p>
+
+<pre><code class="language-go">func initializeMetrics(config v2.MetricsConfig) {
+	// init shm zone
+	if config.ShmZone != &quot;&quot; &amp;&amp; config.ShmSize &gt; 0 {
+		shm.InitDefaultMetricsZone(config.ShmZone, int(config.ShmSize), store.GetMosnState() != store.Active_Reconfiguring)
+        ...
+</code></pre>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L58">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L58</a></p>
+
+<pre><code class="language-go">func createMetricsZone(name string, size int, clear bool) *zone {
+	if clear {
+		shm.Clear(name)
+	}
+    ...
+</code></pre>
+
+<p>如果 <code>clear</code> 为真，共享内存就会被清除，那么什么时候为假呢？当 <code>store.GetMosnState()</code> 方法返回 <code>store.Active_Reconfigureing</code> 的时候。即，当 MOSN reconfig 重启的时候，
+已经保存的 metrics 是会被保留的。</p>
+
+<p>而且从这里可以看出：</p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L124">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L124</a></p>
+
+<pre><code class="language-go">func newSharedMetrics(name string, size int) (*zone, error) {
+    ...
+	set, err := newHashSet(hashSegment, hashSegSize, entryNum, slotsNum, atomic.LoadUint32(zone.ref) == 0)
+	...
+</code></pre>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L78">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L78</a></p>
+
+<pre><code class="language-go">func newHashSet(segment uintptr, bytesNum, cap, slotsNum int, init bool) (*hashSet, error) {
+	set := &amp;hashSet{}
+	...
+</code></pre>
+
+<p>当 <code>zone.ref</code> 引用计数不为 0 的时候，哈希表里面的信息也是会被保留的。</p>
+
+<p>再来看 <code>zone.mutex</code> 互斥锁的使用：</p>
+
+<p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L136">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L136</a></p>
+
+<pre><code class="language-go">func (z *zone) lock() {
+	times := 0
+
+	// 5ms spin interval, 5 times burst
+	for {
+		if atomic.CompareAndSwapUint32(z.mutex, 0, pid) {
+			return
+		}
+	...
+</code></pre>
+
+<p>是通过设置进程 ID 来获取锁的，由此能看出 MOSN 的用意：<strong>这个以文件作为 mmap 的共享内存是可以被多个 MOSN 进程共用的</strong>。</p>
+
+<p>例如像同一台机器多个 MOSN 作为 sidecar 的场景，我们完全可以挂载宿主机同一个文件作为不同 sidecar 的共享内存文件映射，
+除了能达到 metrics 信息共享的效果外，也避免了 metrics 重复的内存占用，这里应该是有优化考虑在的。而且这个文件可以看作是一种文件格式，
+在任何时候都可以被持久化保存和提取分析使用的。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>本文通过分析 MOSN 源码，简述了 MOSN 的共享内存模型，分析了 MOSN 创建共享内存、配置 metrics 和 metrics 对共享内存块的使用。</p>
+
+<hr />
+
+<p>参考资料:</p>
+
+<ul>
+<li><a href="https://github.com/mosn/mosn">MOSN 源码</a></li>
+</ul>
+
+            </div>
+            
+            <div class="post-comments">
+                
+            </div>
+            
+            <div class="push"></div>
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2020 Hello, I&#39;m trainyao. -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+    </body>
