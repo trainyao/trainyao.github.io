@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+	<head>
+		<title> skynet &middot; trainyao.github.io </title>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.59.1" />
+
+
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+	</head>
+
+	<body>
+		<header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://trainyao.github.io/>trainyao@home ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://trainyao.github.io/">/home/trainyao</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/post/">~/all</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/categories/kubernetes/">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/istio/">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/gloo/">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/mosn/">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/skynet/">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+		<div class="container wrapper">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h1 id=>skynet</h1>
+				</div>
+			</div>
+			<ul id="post-list">
+                	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/skynet/timer/">skynet里的定时器</a></h4>
+							<h4 class="post-date">Jun 10, 2018</h4>
+						</div>
+						<div class="post-summary"><p>这周花了点时间看了 skynet 关于定时器功能的源码,以及扩展的了解了一下定时器实现的其他方案,写一遍博客总结一下.内容会分为下面几部分:
+ skynet的定时器结构图 skynet定时器执行过程 关于skynet定时器的一些思考 其他定时器方案 linux定时器方案 总结  1. skynet 的定时器结构图 2. skynet 定时器执行过程 首先确定定时器里面的几个概念:
+ tick: 指 skynet timer 线程每一次处理事件的循环.由于这个循环每隔 0.00025 秒会执行一次,很像时钟滴答滴答的走,很多书籍都称为 tick skynet 启动时间戳: 顾名思义,比如 1528613417 时间戳(北京时间 2018/6/10 14:50:17)代表 skynet 是这个时间点启动的,而且这个时间是不会变的.这个比较容易理解 系统启动时间数: 单位 0.01 秒. 顾名思义,但是为什么说是时间数呢?因为这是一个时间的量,比如300,表示系统启动了3秒. skynet timer 线程在每一次 tick 都会去同步这个时间量 skynet 启动时间数: 单位 0.01 秒. 与系统启动时间数类似,如 300,表示 skynet 启动了 3 秒,每次 tick skynet timer 线程也会去更新这个时间量  首先需要说明的是, skynet 定时器的时间刻度是百分秒(0.01秒).意味着 skynet 最小可以定义事件 0.01 秒后执行.这个精度对于游戏领域可以说是够用了.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/skynet/timer/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/skynet/overview/">skynet 概览</a></h4>
+							<h4 class="post-date">Jun 4, 2018</h4>
+						</div>
+						<div class="post-summary"><p>这个星期以来，由于工作需要使用skynet，于是看了5天skynet的源码。收获很多，于是周末写篇博文总结一下这周以来的学习。
+这5天的学习过程可以概括为5句话：（因为5天嘛）
+ 代码结构，从main函数开始 skynet启动过程，worker线程工作过程 skynet启动过程，skynet数据结构熟悉， worker回调函数注册，worker的c层回调lua逻辑原理， lua层逻辑协程的使用熟悉，服务之间通过消息交互的过程  看了5天后回过头来发现，其实了解的还停留在skynet的核心部分，还没有走出核心。因为skynet还包含很多其他内容，比如他的消息机制的各种api、socket支持、loginserver gateserver、datacenter、harbor等等。。。
+不过问题也不大，毕竟核心比较重要，后续还要继续学习。
+那下面就来总结一下这5天都看到来什么内容。有可能因为我了解尚浅，写出来的和实际的skynet有出入。不过没关系，后续会回过头来再看看。
+下面的总结会按照这个结构：
+ 源码目录结构 skynet的结构图以及工作过程  那么，开始吧。
+1. 源码目录结构 可以用一个段落来说明
+$ ll drwxr-xr-x 26 root staff 884 6 1 06:30 . drwxr-xr-x 5 root staff 170 6 2 07:07 .. drwxr-xr-x 12 root staff 408 6 1 07:10 .git -rw-r--r-- 1 root staff 94 6 1 05:36 .gitignore -rw-r--r-- 1 root staff 96 6 1 05:36 .gitmodules drwxr-xr-x 8 root staff 272 6 1 22:25 .</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/skynet/overview/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+			</ul>
+            
+
+
+
+			<div class="push"></div>
+		</div>
+		<footer class="footer text-center">
+<p>Copyright &copy; 2020 Hello, I&#39;m trainyao. -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+	</body>
+</html>

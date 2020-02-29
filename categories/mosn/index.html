@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+	<head>
+		<title> mosn &middot; trainyao.github.io </title>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.59.1" />
+
+
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+	</head>
+
+	<body>
+		<header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="green-terminal" href=https://trainyao.github.io/>trainyao@home ~ $</a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="https://trainyao.github.io/">/home/trainyao</a>
+				</li>
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="/post/">~/all</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="/categories/kubernetes/">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/istio/">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/gloo/">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/mosn/">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/skynet/">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+		<div class="container wrapper">
+			<div class="row">
+				<div class="col-xs-12 text-center">
+					<h1 id=>mosn</h1>
+				</div>
+			</div>
+			<ul id="post-list">
+                	
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_shm/">MOSN 源码分析 - 共享内存模型</a></h4>
+							<h4 class="post-date">Feb 23, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的共享内存模型。
+本文的内容基于 MOSN v0.9.0，commit id b2a239f5。
+机制 MOSN 用共享内存来存储 metrics 信息。MOSN 用 mmap 将文件映射到内存，在内存数组之上封装了一层关于 metrics 的存取逻辑，实现了 go-metrics 包的关于 metrics 的接口，通过这种方式组装出了一种基于共享内存的 metrics 实现供 MOSN 使用。
+创建共享内存：Mmap 操作共享内存的方法主要在 pkg/shm/shm.go 文件下：
+func Alloc(name string, size int) (*ShmSpan, error) { ... return NewShmSpan(name, data), nil } func Free(span *ShmSpan) error { Clear(span.name) return syscall.Munmap(span.origin) } func Clear(name string) error { return os.Remove(path(name)) }  都是围绕着 ShmSpan 结构体的几个操作方法。再来看 ShmSpan 结构体：</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/source_shm/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_buffer/">MOSN 源码分析 - 内存复用机制</a></h4>
+							<h4 class="post-date">Feb 15, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的内存复用机制。
+本文的内容基于 MOSN v0.9.0，commit id 1609ae14。
+MOSN 在内存管理复用方面有 内存对象注册/管理 和 byte/io buffer 复用 两部分内容。MOSN 最新的 master 分支用了 mod 管理依赖， 发现后一部分也迁移到了 vendor 目录下，可单独使用。下面就分这两部分来讲述 MOSN 的内存复用机制。
+机制 简述一下两部分内容的机制，具体实现原理会在后面带上源码解析。
+1. 内存对象注册/管理 MOSN 在 go sync 包外，对 sync.Pool 对象进行了进一步封装，增加了管理和易用性。
+MOSN 的 buffer 包提供了注册函数和统一的接口。将实现了接口的不同类型的 buffer 对象注册到 buffer 包， 在用到的使用通过 buffer 包导出的方法进行初始化和管理，增强了内存对象的管理。
+而易用性方面，MOSN 封装了 bufferValue 对象，管理上面初始化出来的对象，并且将 bufferValue 对象也进行了池化管理。在这之上，封装出方法 NewBufferPoolContext 和 PoolContext，使内部根据 context 传值的场景更加易用。MOSN 里面在不同协程协作（比如连接被协程1 accept 后， 交由 worker 协程2 进行 IO）的过程，会将必要参数使用内部实现的 context with value 机制进行传递， 其中 buffer 传递的方法就是通过上述封装的方法进行传递的。</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/source_buffer/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_filter/">MOSN 源码分析 - 插件机制</a></h4>
+							<h4 class="post-date">Feb 9, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的插件机制, 以及如何创建自己的插件来扩展 MOSN。
+本文的内容基于 MOSN v0.9.0。
+机制 使用过滤器模式来实现扩展是常见的设计模式，MOSN 也是使用了这种方式来构建可扩展性。
+MOSN 把过滤器相关的代码放在了 pkg/filter 目录下：
+➜ mosn git:(2c6f58c5) ✗ ll pkg/filter total 24 drwxr-xr-x 8 mac staff 256 Feb 5 08:52 . drwxr-xr-x 30 mac staff 960 Feb 5 08:52 .. drwxr-xr-x 3 mac staff 96 Aug 28 22:37 accept -rw-r--r-- 1 mac staff 2556 Feb 5 08:52 factory.go -rw-r--r-- 1 mac staff 2813 Feb 5 08:52 factory_test.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/source_filter/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/reconfig/">mosn 的reconfig 机制</a></h4>
+							<h4 class="post-date">Nov 24, 2019</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。
+本文的内容基于 mosn v0.8.1。
+我们先将被重启的 mosn 进程称为 旧 mosn，将重启并接管流量的进程成为 新 mosn。
+1. 机制 mosn 没有使用重新读取 config 文件的方法来实现 reconfig，而是通过 unix socket 作为进程间通信，并将旧进程的监听 fd 通过 socket 传过去，新 mosn 接管 fd 并且重新读取 config，旧 mosn 进行 gracefully shutdown，以达到 reconfig 和平滑重启的功能。
+2. 旧mosn 我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。
+mosn 的 reconfig 逻辑在 server 包的 reconfigure.go 内。
+mosn 进程启动后，会创建一个叫 reconfig.sock 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 reconfig 逻辑。
+reconfig 逻辑:  当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/reconfig/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+			</ul>
+            
+
+
+
+			<div class="push"></div>
+		</div>
+		<footer class="footer text-center">
+<p>Copyright &copy; 2020 Hello, I&#39;m trainyao. -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+	</body>
+</html>

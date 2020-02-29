@@ -146,6 +146,23 @@ kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Sched
     </item>
     
     <item>
+      <title>php 扩展</title>
+      <link>https://trainyao.github.io/post/php/php_extension/overview/</link>
+      <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/php/php_extension/overview/</guid>
+      <description>@(PHP) ###PHP扩展分享 ###什么时候需要写php扩展 * 有需要使用php调用C/C++函数库 * 实现php没有的功能 * 优化php性能
+###php扩展简介 php提供一个工具用来生成php扩展的代码,类似代码生成器,工具目录source/to/php_source_code/ext/ext_skel,这个是供类unix平台调用的脚本,php源码也提供了一个供windows平台调用的脚本,用来生成php扩展代码.该脚本是个php脚本,在source/to/php_source_code/ext/ext_skel_win32.php
+php将扩展代码统一放到source/to/php_source_code/ext/下,这样当开发者按照工具生成对应格式的php扩展源码,并统一放到这个目录下,php源码就会自动识别,并可以选在在编译时加上开发者的扩展. ###先找个题目 总所周知php在连接字符串会进行多次初始化临时变量,和内存复制.假设有一个变态的需求需要重复一个字符串&amp;rsquo;a&amp;rsquo; n次,并且在系统中多次出现,由于n已知,为了提高性能,可以考虑用扩展实现 ###动手 ####1. 编写扩展原型文件,使用工具生成扩展代码
+php没有规定原型文件的文件后缀,但有规定原型文件的格式. 如果你的扩展需要暴露出接口函数供php代码调用,原型文件只需包含接口函数的原型.接口函数原型包括函数输入参数的类型和名字,还有函数返回的类型.其中类型支持php的变量类型.如bool,int,string,float等等.. 根据上面的需求,创建一个名为repeatString的函数,返回类型为string,接受一个string类型的$inputString字符串,和一个int类型的$repeatCount,表示输出$inputString被重复$repeatCount次的字符串. 首先进入ext目录
+cd path/to/php_source_code/ext &amp;amp;&amp;amp; \ vim repeatString.proto  编写内容
+string repeatString(string inputString, int repeatCount)  保存,使用ext_skel工具生成扩展框架,可以指定扩展名和扩展的原型文件
+./ext_skel --extname=repeatString --proto=repeatString.proto  你会看到ext目录下会多了一个repeatString的文件夹,里面放的就是你扩展的所有所需文件 需要留意的有几个文件:
+ config.m4 &amp;ndash; *unix平台下配置文件,这里是官方解释:   扩展的 config.m4 文件告诉 UNIX 构建系统哪些扩展 configure 选项是支持的，你需要哪些扩展库，以及哪些源文件要编译成它的一部分。对所有经常使用的 autoconf 宏，包括 PHP 特定的及 autoconf 内建的，请查看 Zend Engine 2 API 参考 章节。
+  config.</description>
+    </item>
+    
+    <item>
       <title>Lock mesh</title>
       <link>https://trainyao.github.io/post/thoughts/lockmash/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
@@ -265,23 +282,6 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       
       <guid>https://trainyao.github.io/post/other/repid_develop/linux_alias/</guid>
       <description># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39; alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &amp;quot; &amp;quot; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&amp;quot;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&amp;quot; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39;  </description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://trainyao.github.io/post/php/php_extension/overview/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/php/php_extension/overview/</guid>
-      <description>@(PHP) ###PHP扩展分享 ###什么时候需要写php扩展 * 有需要使用php调用C/C++函数库 * 实现php没有的功能 * 优化php性能
-###php扩展简介 php提供一个工具用来生成php扩展的代码,类似代码生成器,工具目录source/to/php_source_code/ext/ext_skel,这个是供类unix平台调用的脚本,php源码也提供了一个供windows平台调用的脚本,用来生成php扩展代码.该脚本是个php脚本,在source/to/php_source_code/ext/ext_skel_win32.php
-php将扩展代码统一放到source/to/php_source_code/ext/下,这样当开发者按照工具生成对应格式的php扩展源码,并统一放到这个目录下,php源码就会自动识别,并可以选在在编译时加上开发者的扩展. ###先找个题目 总所周知php在连接字符串会进行多次初始化临时变量,和内存复制.假设有一个变态的需求需要重复一个字符串&amp;rsquo;a&amp;rsquo; n次,并且在系统中多次出现,由于n已知,为了提高性能,可以考虑用扩展实现 ###动手 ####1. 编写扩展原型文件,使用工具生成扩展代码
-php没有规定原型文件的文件后缀,但有规定原型文件的格式. 如果你的扩展需要暴露出接口函数供php代码调用,原型文件只需包含接口函数的原型.接口函数原型包括函数输入参数的类型和名字,还有函数返回的类型.其中类型支持php的变量类型.如bool,int,string,float等等.. 根据上面的需求,创建一个名为repeatString的函数,返回类型为string,接受一个string类型的$inputString字符串,和一个int类型的$repeatCount,表示输出$inputString被重复$repeatCount次的字符串. 首先进入ext目录
-cd path/to/php_source_code/ext &amp;amp;&amp;amp; \ vim repeatString.proto  编写内容
-string repeatString(string inputString, int repeatCount)  保存,使用ext_skel工具生成扩展框架,可以指定扩展名和扩展的原型文件
-./ext_skel --extname=repeatString --proto=repeatString.proto  你会看到ext目录下会多了一个repeatString的文件夹,里面放的就是你扩展的所有所需文件 需要留意的有几个文件:
- config.m4 &amp;ndash; *unix平台下配置文件,这里是官方解释:   扩展的 config.m4 文件告诉 UNIX 构建系统哪些扩展 configure 选项是支持的，你需要哪些扩展库，以及哪些源文件要编译成它的一部分。对所有经常使用的 autoconf 宏，包括 PHP 特定的及 autoconf 内建的，请查看 Zend Engine 2 API 参考 章节。
-  config.</description>
     </item>
     
   </channel>

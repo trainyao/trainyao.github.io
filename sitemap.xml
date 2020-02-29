@@ -53,6 +53,11 @@
   </url>
   
   <url>
+    <loc>https://trainyao.github.io/post/php/php_extension/overview/</loc>
+    <lastmod>2018-09-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://trainyao.github.io/post/thoughts/lockmash/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
   </url>
@@ -88,7 +93,17 @@
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/mosn/</loc>
+    <loc>https://trainyao.github.io/post/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/</loc>
+    <lastmod>2020-02-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/mosn/</loc>
     <lastmod>2020-02-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -98,63 +113,68 @@
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/gloo/</loc>
+    <loc>https://trainyao.github.io/categories/gloo/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/kubernetes/</loc>
+    <loc>https://trainyao.github.io/categories/kubernetes/</loc>
     <lastmod>2019-01-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/istio/</loc>
+    <loc>https://trainyao.github.io/categories/istio/</loc>
     <lastmod>2018-12-08T18:25:54+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/translate/</loc>
+    <loc>https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/</loc>
     <lastmod>2018-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/</loc>
+    <loc>https://trainyao.github.io/categories/bookread/</loc>
     <lastmod>2018-09-16T16:08:03+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/thoughts/</loc>
+    <loc>https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/</loc>
+    <lastmod>2018-09-16T16:08:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/kubernetes_the_definitive_guide/</loc>
+    <lastmod>2018-09-16T16:08:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/php/</loc>
+    <lastmod>2018-09-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/skynet/</loc>
+    <loc>https://trainyao.github.io/categories/skynet/</loc>
     <lastmod>2018-06-10T22:48:30+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/</loc>
-    <lastmod>2018-02-16T15:41:02+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://trainyao.github.io/post/bookread/computer_system/</loc>
+    <loc>https://trainyao.github.io/categories/computer_system/</loc>
     <lastmod>2018-02-16T15:41:02+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://trainyao.github.io/post/other/repid_develop/</loc>
+    <loc>https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2018-02-16T15:41:02+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/</loc>
     <lastmod>2018-02-09T09:44:45+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://trainyao.github.io/post/php/php_extension/overview/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://trainyao.github.io/categories/</loc>
   </url>
   
   <url>

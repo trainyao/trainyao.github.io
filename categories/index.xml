@@ -6,9 +6,136 @@
     <description>Recent content in Categories on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
+    <lastBuildDate>Sun, 23 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://trainyao.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mosn</title>
+      <link>https://trainyao.github.io/categories/mosn/</link>
+      <pubDate>Sun, 23 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/mosn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gloo</title>
+      <link>https://trainyao.github.io/categories/gloo/</link>
+      <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/gloo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://trainyao.github.io/categories/kubernetes/</link>
+      <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>istio</title>
+      <link>https://trainyao.github.io/categories/istio/</link>
+      <pubDate>Sat, 08 Dec 2018 18:25:54 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/istio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>翻译</title>
+      <link>https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Tue, 18 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bookread</title>
+      <link>https://trainyao.github.io/categories/bookread/</link>
+      <pubDate>Sun, 16 Sep 2018 16:08:03 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/bookread/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes 权威指南</title>
+      <link>https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Sun, 16 Sep 2018 16:08:03 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes_the_definitive_guide</title>
+      <link>https://trainyao.github.io/categories/kubernetes_the_definitive_guide/</link>
+      <pubDate>Sun, 16 Sep 2018 16:08:03 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/kubernetes_the_definitive_guide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>php</title>
+      <link>https://trainyao.github.io/categories/php/</link>
+      <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/php/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>脑洞</title>
+      <link>https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/</link>
+      <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>skynet</title>
+      <link>https://trainyao.github.io/categories/skynet/</link>
+      <pubDate>Sun, 10 Jun 2018 22:48:30 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/skynet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer_system</title>
+      <link>https://trainyao.github.io/categories/computer_system/</link>
+      <pubDate>Fri, 16 Feb 2018 15:41:02 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/computer_system/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深入理解计算机系统</title>
+      <link>https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Fri, 16 Feb 2018 15:41:02 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>其他</title>
+      <link>https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/</link>
+      <pubDate>Fri, 09 Feb 2018 09:44:45 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

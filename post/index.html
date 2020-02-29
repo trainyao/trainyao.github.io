@@ -2,7 +2,7 @@
 <html lang="zh-cn">
 
 	<head>
-		<title>  &middot; trainyao.github.io </title>
+		<title> all &middot; trainyao.github.io </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -54,60 +54,54 @@
 				
 				<li class="dropdown">
                     
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">日志 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        
-                    		<li>
-                    		<a href="/post/kubernetes">~/kubernetes</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/istio">~/service mesh/istio</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/gloo">~/service mesh/envoy/gloo</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/mosn">~/service mesh/mosn</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/skynet">~/skynet</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/translate">~/翻译</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/bookread/kubernetes_the_definitive_guide">~/读书笔记/kubernetes 权威指南</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/bookread/computer_system">~/读书笔记/深入理解计算机系统</a>
-				    		</li>
-                		
-            		</ul>
+            		<a href="/post/">~/all</a>
             		
         		</li>
         		
 				
 				<li class="dropdown">
                     
-            		<a href="/post/thoughts">~/脑洞</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         
                     		<li>
-                    		<a href="/post/other/repid_develop">~/快速开发</a>
+                    		<a href="/categories/kubernetes/">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/istio/">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/gloo/">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/mosn/">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/skynet/">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
 				    		</li>
                 		
             		</ul>
@@ -124,7 +118,7 @@
 		<div class="container wrapper">
 			<div class="row">
 				<div class="col-xs-12 text-center">
-					<h1 id=></h1>
+					<h1 id=>all</h1>
 				</div>
 			</div>
 			<ul id="post-list">
@@ -132,18 +126,16 @@
 				<li>
 					<div class="post-list-item">
 						<div class="post-header">
-							<h4 class="post-link"><a href="https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/">Spring与SpringBoot的IoC和DI</a></h4>
-							<h4 class="post-date">Feb 16, 2018</h4>
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_shm/">MOSN 源码分析 - 共享内存模型</a></h4>
+							<h4 class="post-date">Feb 23, 2020</h4>
 						</div>
-						<div class="post-summary"><p>Spring与SpringBoot的IoC和DI 前言 spring的内容有很多，而springBoot对于spring的优化的内容也有非常多方面可讲。这次主要分享的是spring和springBoot中的IoC和DI，以及我所看到的在我们java项目中的体现。
-Ioc(控制反转) 控制反转即反转控制类实例的方式。 从控制反转为被控制 从自己生成/销毁反转为别人生成/销毁 控制反转的好处在于： - 业务逻辑中不用考虑实例的生成/销毁，可以专注于业务逻辑(使用类实例) - 对测试更加友好(mock实例行为)
-DI(依赖注入) 依赖注入是控制反转的一种实现方法。&rdquo;别人&rdquo;管理类实例的生成/销毁，并将业务逻辑需要用到的类实例注入进来。
-Spring的IoC 一个Spring应用有一个应用上下文（ApplicationContext），充当类实例的容器，管理着类实例的生成和销毁，并在应用需要时返回/注入对应的类实例。 Spring按类实例的种类管理容器中的类实例（种类有唯一的种类id：beanId）。每一种类实例称为Bean。 与很多IoC框架类似，类实例的注入方式有很多种(单例/非单例)，Spring中类实例存在方式可以是： - 单例 (singleton) - 每次注入返回新的实例 (prototype) - 每次请求返回同一的实例 (request) - 每次回话返回同一实例 (session/global session)
-以下是spring注册Bean的其中某些特性： - 1. xml可以配置BeanId，默认以类名为beanId。 - 2. 注解为bean的时候默认以类名为beanId，也可以指定beanId - 3. 在获取bean时，如果无法查找到beanId，会查找对应的类是否有注册，如果不存在，会查找对应类的子类是否有注册
-另外，spring的IoC和DI利用了java的注解实现，也是面向切面编程的一个体现。在加载应用的时候，切换到应用bean管理切面，扫描类并注册Bean，在需要注入时，再次切换到bean管理切面，返回需要的bean。
-SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置文件扫描/注解方式注册类实例 springBoot默认通过注解方式注册类实例，并默认扫描application包以及子包的所有类实例。默认以注解方式标记类实例。 springBoot可以沿用spring注解配置Bean时的规则</p></div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的共享内存模型。
+本文的内容基于 MOSN v0.9.0，commit id b2a239f5。
+机制 MOSN 用共享内存来存储 metrics 信息。MOSN 用 mmap 将文件映射到内存，在内存数组之上封装了一层关于 metrics 的存取逻辑，实现了 go-metrics 包的关于 metrics 的接口，通过这种方式组装出了一种基于共享内存的 metrics 实现供 MOSN 使用。
+创建共享内存：Mmap 操作共享内存的方法主要在 pkg/shm/shm.go 文件下：
+func Alloc(name string, size int) (*ShmSpan, error) { ... return NewShmSpan(name, data), nil } func Free(span *ShmSpan) error { Clear(span.name) return syscall.Munmap(span.origin) } func Clear(name string) error { return os.Remove(path(name)) }  都是围绕着 ShmSpan 结构体的几个操作方法。再来看 ShmSpan 结构体：</p></div>
 						<div class="post-list-footer text-center">
-							<a href="https://trainyao.github.io/post/java/spring/spring_springboot_ioc_di/">Read More</a>
+							<a href="https://trainyao.github.io/post/mosn/source_shm/">Read More</a>
 						</div>
 					</div>
 				</li>
@@ -151,26 +143,192 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
 				<li>
 					<div class="post-list-item">
 						<div class="post-header">
-							<h4 class="post-link"><a href="https://trainyao.github.io/post/php/php_extension/overview/"></a></h4>
-							<h4 class="post-date">Jan 1, 0001</h4>
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_buffer/">MOSN 源码分析 - 内存复用机制</a></h4>
+							<h4 class="post-date">Feb 15, 2020</h4>
 						</div>
-						<div class="post-summary"><p>@(PHP) ###PHP扩展分享 ###什么时候需要写php扩展 * 有需要使用php调用C/C++函数库 * 实现php没有的功能 * 优化php性能
-###php扩展简介 php提供一个工具用来生成php扩展的代码,类似代码生成器,工具目录source/to/php_source_code/ext/ext_skel,这个是供类unix平台调用的脚本,php源码也提供了一个供windows平台调用的脚本,用来生成php扩展代码.该脚本是个php脚本,在source/to/php_source_code/ext/ext_skel_win32.php
-php将扩展代码统一放到source/to/php_source_code/ext/下,这样当开发者按照工具生成对应格式的php扩展源码,并统一放到这个目录下,php源码就会自动识别,并可以选在在编译时加上开发者的扩展. ###先找个题目 总所周知php在连接字符串会进行多次初始化临时变量,和内存复制.假设有一个变态的需求需要重复一个字符串&rsquo;a&rsquo; n次,并且在系统中多次出现,由于n已知,为了提高性能,可以考虑用扩展实现 ###动手 ####1. 编写扩展原型文件,使用工具生成扩展代码
-php没有规定原型文件的文件后缀,但有规定原型文件的格式. 如果你的扩展需要暴露出接口函数供php代码调用,原型文件只需包含接口函数的原型.接口函数原型包括函数输入参数的类型和名字,还有函数返回的类型.其中类型支持php的变量类型.如bool,int,string,float等等.. 根据上面的需求,创建一个名为repeatString的函数,返回类型为string,接受一个string类型的$inputString字符串,和一个int类型的$repeatCount,表示输出$inputString被重复$repeatCount次的字符串. 首先进入ext目录
-cd path/to/php_source_code/ext &amp;&amp; \ vim repeatString.proto  编写内容
-string repeatString(string inputString, int repeatCount)  保存,使用ext_skel工具生成扩展框架,可以指定扩展名和扩展的原型文件
-./ext_skel --extname=repeatString --proto=repeatString.proto  你会看到ext目录下会多了一个repeatString的文件夹,里面放的就是你扩展的所有所需文件 需要留意的有几个文件:
- config.m4 &ndash; *unix平台下配置文件,这里是官方解释:   扩展的 config.m4 文件告诉 UNIX 构建系统哪些扩展 configure 选项是支持的，你需要哪些扩展库，以及哪些源文件要编译成它的一部分。对所有经常使用的 autoconf 宏，包括 PHP 特定的及 autoconf 内建的，请查看 Zend Engine 2 API 参考 章节。
-  config.</p></div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的内存复用机制。
+本文的内容基于 MOSN v0.9.0，commit id 1609ae14。
+MOSN 在内存管理复用方面有 内存对象注册/管理 和 byte/io buffer 复用 两部分内容。MOSN 最新的 master 分支用了 mod 管理依赖， 发现后一部分也迁移到了 vendor 目录下，可单独使用。下面就分这两部分来讲述 MOSN 的内存复用机制。
+机制 简述一下两部分内容的机制，具体实现原理会在后面带上源码解析。
+1. 内存对象注册/管理 MOSN 在 go sync 包外，对 sync.Pool 对象进行了进一步封装，增加了管理和易用性。
+MOSN 的 buffer 包提供了注册函数和统一的接口。将实现了接口的不同类型的 buffer 对象注册到 buffer 包， 在用到的使用通过 buffer 包导出的方法进行初始化和管理，增强了内存对象的管理。
+而易用性方面，MOSN 封装了 bufferValue 对象，管理上面初始化出来的对象，并且将 bufferValue 对象也进行了池化管理。在这之上，封装出方法 NewBufferPoolContext 和 PoolContext，使内部根据 context 传值的场景更加易用。MOSN 里面在不同协程协作（比如连接被协程1 accept 后， 交由 worker 协程2 进行 IO）的过程，会将必要参数使用内部实现的 context with value 机制进行传递， 其中 buffer 传递的方法就是通过上述封装的方法进行传递的。</p></div>
 						<div class="post-list-footer text-center">
-							<a href="https://trainyao.github.io/post/php/php_extension/overview/">Read More</a>
+							<a href="https://trainyao.github.io/post/mosn/source_buffer/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/source_filter/">MOSN 源码分析 - 插件机制</a></h4>
+							<h4 class="post-date">Feb 9, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 MOSN 的源码研究 - MOSN 的插件机制, 以及如何创建自己的插件来扩展 MOSN。
+本文的内容基于 MOSN v0.9.0。
+机制 使用过滤器模式来实现扩展是常见的设计模式，MOSN 也是使用了这种方式来构建可扩展性。
+MOSN 把过滤器相关的代码放在了 pkg/filter 目录下：
+➜ mosn git:(2c6f58c5) ✗ ll pkg/filter total 24 drwxr-xr-x 8 mac staff 256 Feb 5 08:52 . drwxr-xr-x 30 mac staff 960 Feb 5 08:52 .. drwxr-xr-x 3 mac staff 96 Aug 28 22:37 accept -rw-r--r-- 1 mac staff 2556 Feb 5 08:52 factory.go -rw-r--r-- 1 mac staff 2813 Feb 5 08:52 factory_test.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/source_filter/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_02/">使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http</a></h4>
+							<h4 class="post-date">Jan 31, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本系列文章主要介绍了在非 kubernetes 环境，使用 gloo 搭建服务网关的过程，以及 gloo 的简单的使用指南。
+系列文章目录如下:
+ 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: grpc][3] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - envoy 高可用、错误注入、超时控制、熔断][4] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 指标监控、报警][5] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 链路跟踪][6] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 权限、流控][7]  上篇文章主要简单介绍了 gloo 以及在非 k8s 环境下运行了简单的 gloo demo。 接下来两篇文章我会简单讲述一下 gloo 的路由能力。</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_02/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/">使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo</a></h4>
+							<h4 class="post-date">Jan 30, 2020</h4>
+						</div>
+						<div class="post-summary"><p>本系列文章主要介绍了在非 kubernetes 环境，使用 gloo 搭建服务网关的过程，以及 gloo 的简单的使用指南。
+系列文章目录如下:
+ 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: grpc][3] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - envoy 高可用、错误注入、超时控制、熔断][4] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 指标监控、报警][5] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 链路跟踪][6] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 权限、流控][7]  首先: 使用非 kubernetes 环境意义何在?  调试快速</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/mosn/reconfig/">mosn 的reconfig 机制</a></h4>
+							<h4 class="post-date">Nov 24, 2019</h4>
+						</div>
+						<div class="post-summary"><p>本文记录了对 mosn 的源码研究，研究 mosn 是如何做到平滑重启的。
+本文的内容基于 mosn v0.8.1。
+我们先将被重启的 mosn 进程称为 旧 mosn，将重启并接管流量的进程成为 新 mosn。
+1. 机制 mosn 没有使用重新读取 config 文件的方法来实现 reconfig，而是通过 unix socket 作为进程间通信，并将旧进程的监听 fd 通过 socket 传过去，新 mosn 接管 fd 并且重新读取 config，旧 mosn 进行 gracefully shutdown，以达到 reconfig 和平滑重启的功能。
+2. 旧mosn 我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。
+mosn 的 reconfig 逻辑在 server 包的 reconfigure.go 内。
+mosn 进程启动后，会创建一个叫 reconfig.sock 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 reconfig 逻辑。
+reconfig 逻辑:  当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/mosn/reconfig/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">使用 kubernetes 的 CA 证书自签名服务端 &amp; 客户端证书</a></h4>
+							<h4 class="post-date">Jan 12, 2019</h4>
+						</div>
+						<div class="post-summary"><p>安装 cfssl
+wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 chmod +x cfssl_linux-amd64 mv cfssl_linux-amd64 /usr/local/bin/cfssl wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 chmod +x cfssljson_linux-amd64 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 chmod +x cfssl-certinfo_linux-amd64 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo export PATH=/usr/local/bin:$PATH  找到 kubernetes 的根证书 ca.pem, ca-key.pem, ca-config.json
+ 生成证书请求配置文件, 可以替换 usage 为其他名字, 替换 usage.common.name 为服务器域名
+cat &gt; usage.json &lt;&lt;EOF { &quot;CN&quot;: &quot;usage.common.name&quot;, &quot;key&quot;: { &quot;algo&quot;: &quot;rsa&quot;, &quot;size&quot;: 2048 }, &quot;names&quot;: [ { &quot;C&quot;: &quot;CN&quot;, &quot;ST&quot;: &quot;BeiJing&quot;, &quot;L&quot;: &quot;BeiJing&quot;, &quot;O&quot;: &quot;k8s&quot;, &quot;OU&quot;: &quot;System&quot; } ], &quot;ca&quot;: { &quot;expiry&quot;: &quot;87600h&quot; } } EOF  用 cfssl 工具签名服务端证书</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">istio 流量劫持实验</a></h4>
+							<h4 class="post-date">Dec 8, 2018</h4>
+						</div>
+						<div class="post-summary"><p>istio 是通过给每个生产 pod 注入一个 envoy sidecar 进行流量劫持的。注入后，流入 pod 的流量和 pod 请求的流量都会经过 sidecar 进行路由。
+这样的流量劫持是通过 sidecar pod 和生产 pod 共享一个网络命名空间，然后设置 iptable 规则实现的。
+PS1：下面的步骤前提是在一个 k8s 集群内操作，并且已经安装了 istio） PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大的两篇博文：用 vagrant 和 virtualbox 搭建一个 k8s 集群 理解 Istio Service Mesh 中 Envoy 代理 Sidecar 注入及流量劫持
+1.sidecar 是如何注入的呢？ 比如我们要部署一个服务，首先要编写一个关于 service 和 deployment 的 yaml 文件（拿 istio 官网的 bookinfo 为例子）：
+--- apiVersion: v1 kind: Service metadata: name: productpage labels: app: productpage spec: ports: - port: 9080 name: http selector: app: productpage --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: productpage-v1 spec: replicas: 1 template: metadata: labels: app: productpage version: v1 spec: containers: - name: productpage image: istio/examples-bookinfo-productpage-v1:1.</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Kubernetes 使用 IPVS/LVS 作为网络服务代理</a></h4>
+							<h4 class="post-date">Sep 18, 2018</h4>
+						</div>
+						<div class="post-summary"><p>本文翻译自：https://cloudnativelabs.github.io/post/2017-05-10-kube-network-service-proxy/
+服务是 Kubernetes 的一个抽象概念。服务将一组逻辑上的、提供相同功能的 pod 组合在一起。一个在 Kubernetes 内的服务可以是多种类型的，比如 ‘ClusterIP’ 和 ‘NodePort’ 类型实现服务发现和负载均衡。这些服务的类型的实现都需要一个运行在各个 Kubernetes 集群节点的服务代理。Kubernetes 有一种名为 ‘kube-proxy’ 的代理，是基于 iptable 实现的。虽然，kube-proxy 提供了一种开箱即用的代理解决方案，它并不是一种最优的方案。在这篇文章里，我们会深入研究另一种 Kubernetes 里网络服务代理的实现：kube-router，它是基于 Liunx IPVS 的。我们还会讨论基于 iptables 的 kube-proxy 的好处与不足，以及将它与基于 IPVS/LVS 实现的 Kubernetes 网络服务代理进行对比。
+请看下面的 demo，感受 IPVS 实现的 kube-router 作为 Kubernetes 服务代理的效果。
+（此处查看原文可以看到 asciinema demo，如果不能访问，asciinema 地址在这里）
+下面我们来深入研究一下细节。
+ClusterIP 和 NodeProt 类型的服务 在服务的生命周期里，每个 ‘ClusterIP’ 和 ‘NodePort’ 服务会被分配一个唯一的 IP 地址（称为 ClusterIP）。Kubernetes 会配置 Pods 通过 ClusterIP 与服务进行交互，而且 pods 发送至 service 的请求会被自动地负载均衡到 service 的成员 pods 上。另外，Kubernetes master 节点会为 ‘NodePort’ 类 service 分配一个标志配置范围（默认是 30000 至 23767）的端口，然后每个 node 节点会将该 service 的请求代理到这个端口上。</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Read More</a>
+						</div>
+					</div>
+				</li>
+			
+				<li>
+					<div class="post-list-item">
+						<div class="post-header">
+							<h4 class="post-link"><a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">kubernetes是怎么工作的以及其架构</a></h4>
+							<h4 class="post-date">Sep 16, 2018</h4>
+						</div>
+						<div class="post-summary"><p>本文简单概括了 kubernetes 里有什么组件，以及它们是如何工作的。
+一、kubernetes 的组件和架构 一个 kubernetes 集群包含两部分：master 节点和 node 节点。master 节点负责接收管理员对于 kubernetes 资源对象的修改，并根据这些修改，对 node 节点进行配置和调度。node 节点是 kubernetes 集群内的计算节点，负责给部署在上面的业务应用提供计算以及储存能力。
+kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Scheduler、kubelet 和 kube-proxy。
+其中，Kubernetes API Server、Controll Manager、Scheduler 运行在 master节点上。而 kubelet 和 kube-proxy 运行在 node 节点上。
+这些组件分别负责 kubernetes 运行的不同职责：
+ Kubernetes API Server：kubernetes 集群的管理入口，它提供 HTTP REST 接口给 kubernetes 用户进行集群的配置，这些配置将会保存在 master 节点运行的 etcd 里面，供其他组件查阅。
+ Controll Manager：负责监听 etcd 变化并作出对应的动作。Controll Manager 是一系列 manager 的统称，其中有以下这些manager：
+ Replication Manager：负责 node 节点的 pod 管理。 Node Controller：负责 node 节点管理。 Namespace Controller：负责管理集群内的命名空间。 ResourceQuota Controller：负责针对 namespace、pod、容器这三个维度的资源限制管理。 ServiceAccount Controller：负责管理集群内访问的账号。 Token Controller：负责允许访问 kubernetes 集群的 token。 Service Controller：负责管理集群内的 Service。 Endpoint Controller：负责管理集群内的 Endpoint。  Scheduler：负责接收 Replication Controller 的指挥，对要部署在 node 上的 pod 进行调度。Scheduler 会根据调度算法以及调度策略，调度 pod 在哪个 node 上部署。</p></div>
+						<div class="post-list-footer text-center">
+							<a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">Read More</a>
 						</div>
 					</div>
 				</li>
 			
 			</ul>
             
+
+<div class="pagination-wrapper text-center">
+  <ul class="pagination">
+      
+      <li>
+          <a href="/post/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      
+      <li
+      class="disabled">
+          <a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      
+      <li
+      class="active"><a href="/post/">1</a></li>
+      
+      <li
+      ><a href="/post/page/2/">2</a></li>
+      
+      <li
+      >
+          <a href="/post/page/2/" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      
+      <li>
+          <a href="/post/page/2/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+      
+    </ul>
+</div>
 
 
 

@@ -54,60 +54,54 @@
 				
 				<li class="dropdown">
                     
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">日志 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        
-                    		<li>
-                    		<a href="/post/kubernetes">~/kubernetes</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/istio">~/service mesh/istio</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/gloo">~/service mesh/envoy/gloo</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/mosn">~/service mesh/mosn</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/skynet">~/skynet</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/translate">~/翻译</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/bookread/kubernetes_the_definitive_guide">~/读书笔记/kubernetes 权威指南</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="/post/bookread/computer_system">~/读书笔记/深入理解计算机系统</a>
-				    		</li>
-                		
-            		</ul>
+            		<a href="/post/">~/all</a>
             		
         		</li>
         		
 				
 				<li class="dropdown">
                     
-            		<a href="/post/thoughts">~/脑洞</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">其他 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         
                     		<li>
-                    		<a href="/post/other/repid_develop">~/快速开发</a>
+                    		<a href="/categories/kubernetes/">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/istio/">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/gloo/">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/mosn/">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/skynet/">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
 				    		</li>
                 		
             		</ul>
@@ -483,13 +477,14 @@ type meta struct {
 
 <p>是通过设置进程 ID 来获取锁的，由此能看出 MOSN 的用意：<strong>这个以文件作为 mmap 的共享内存是可以被多个 MOSN 进程共用的</strong>。</p>
 
-<p>例如像同一台机器多个 MOSN 作为 sidecar 的场景，我们完全可以挂载宿主机同一个文件作为不同 sidecar 的共享内存文件映射，
-除了能达到 metrics 信息共享的效果外，也避免了 metrics 重复的内存占用，这里应该是有优化考虑在的。而且这个文件可以看作是一种文件格式，
-在任何时候都可以被持久化保存和提取分析使用的。</p>
+<p>例如 MOSN 支持跨容器热重启的场景，基于内存共享的 metrics 可以保证热重启过程中不出现指标抖动而造成监控异常。
+而且这个文件可以看作是一种文件格式，在任何时候都可以被持久化保存和提取分析使用的。</p>
 
 <h2 id="总结">总结</h2>
 
 <p>本文通过分析 MOSN 源码，简述了 MOSN 的共享内存模型，分析了 MOSN 创建共享内存、配置 metrics 和 metrics 对共享内存块的使用。</p>
+
+<p>最后，不鼓励在 Go 里面使用共享内存，除非你有明确的使用场景，例如 MOSN 热升级场景下的 metrics 共享。</p>
 
 <hr />
 

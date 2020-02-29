@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>istio on trainyao.github.io</title>
+    <link>https://trainyao.github.io/categories/istio/</link>
+    <description>Recent content in istio on trainyao.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 08 Dec 2018 18:25:54 +0000</lastBuildDate>
+    
+	<atom:link href="https://trainyao.github.io/categories/istio/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>istio 流量劫持实验</title>
+      <link>https://trainyao.github.io/post/istio/traffic_hijeack_practise/</link>
+      <pubDate>Sat, 08 Dec 2018 18:25:54 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/istio/traffic_hijeack_practise/</guid>
+      <description>istio 是通过给每个生产 pod 注入一个 envoy sidecar 进行流量劫持的。注入后，流入 pod 的流量和 pod 请求的流量都会经过 sidecar 进行路由。
+这样的流量劫持是通过 sidecar pod 和生产 pod 共享一个网络命名空间，然后设置 iptable 规则实现的。
+PS1：下面的步骤前提是在一个 k8s 集群内操作，并且已经安装了 istio） PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大的两篇博文：用 vagrant 和 virtualbox 搭建一个 k8s 集群 理解 Istio Service Mesh 中 Envoy 代理 Sidecar 注入及流量劫持
+1.sidecar 是如何注入的呢？ 比如我们要部署一个服务，首先要编写一个关于 service 和 deployment 的 yaml 文件（拿 istio 官网的 bookinfo 为例子）：
+--- apiVersion: v1 kind: Service metadata: name: productpage labels: app: productpage spec: ports: - port: 9080 name: http selector: app: productpage --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: productpage-v1 spec: replicas: 1 template: metadata: labels: app: productpage version: v1 spec: containers: - name: productpage image: istio/examples-bookinfo-productpage-v1:1.</description>
+    </item>
+    
+  </channel>
+</rss>

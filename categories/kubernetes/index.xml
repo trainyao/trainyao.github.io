@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on trainyao.github.io</title>
+    <link>https://trainyao.github.io/categories/kubernetes/</link>
+    <description>Recent content in kubernetes on trainyao.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 12 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://trainyao.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 kubernetes 的 CA 证书自签名服务端 &amp; 客户端证书</title>
+      <link>https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/</link>
+      <pubDate>Sat, 12 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/kubernetes/ca_for_admission_controller/</guid>
+      <description>安装 cfssl
+wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 chmod +x cfssl_linux-amd64 mv cfssl_linux-amd64 /usr/local/bin/cfssl wget https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 chmod +x cfssljson_linux-amd64 mv cfssljson_linux-amd64 /usr/local/bin/cfssljson wget https://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 chmod +x cfssl-certinfo_linux-amd64 mv cfssl-certinfo_linux-amd64 /usr/local/bin/cfssl-certinfo export PATH=/usr/local/bin:$PATH  找到 kubernetes 的根证书 ca.pem, ca-key.pem, ca-config.json
+ 生成证书请求配置文件, 可以替换 usage 为其他名字, 替换 usage.common.name 为服务器域名
+cat &amp;gt; usage.json &amp;lt;&amp;lt;EOF { &amp;quot;CN&amp;quot;: &amp;quot;usage.common.name&amp;quot;, &amp;quot;key&amp;quot;: { &amp;quot;algo&amp;quot;: &amp;quot;rsa&amp;quot;, &amp;quot;size&amp;quot;: 2048 }, &amp;quot;names&amp;quot;: [ { &amp;quot;C&amp;quot;: &amp;quot;CN&amp;quot;, &amp;quot;ST&amp;quot;: &amp;quot;BeiJing&amp;quot;, &amp;quot;L&amp;quot;: &amp;quot;BeiJing&amp;quot;, &amp;quot;O&amp;quot;: &amp;quot;k8s&amp;quot;, &amp;quot;OU&amp;quot;: &amp;quot;System&amp;quot; } ], &amp;quot;ca&amp;quot;: { &amp;quot;expiry&amp;quot;: &amp;quot;87600h&amp;quot; } } EOF  用 cfssl 工具签名服务端证书</description>
+    </item>
+    
+  </channel>
+</rss>
