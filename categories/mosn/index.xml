@@ -6,11 +6,7 @@
     <description>Recent content in mosn on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 23 Feb 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://trainyao.github.io/categories/mosn/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 23 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/categories/mosn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MOSN 源码分析 - 共享内存模型</title>
       <link>https://trainyao.github.io/post/mosn/source_shm/</link>
@@ -21,7 +17,8 @@
 本文的内容基于 MOSN v0.9.0，commit id b2a239f5。
 机制 MOSN 用共享内存来存储 metrics 信息。MOSN 用 mmap 将文件映射到内存，在内存数组之上封装了一层关于 metrics 的存取逻辑，实现了 go-metrics 包的关于 metrics 的接口，通过这种方式组装出了一种基于共享内存的 metrics 实现供 MOSN 使用。
 创建共享内存：Mmap 操作共享内存的方法主要在 pkg/shm/shm.go 文件下：
-func Alloc(name string, size int) (*ShmSpan, error) { ... return NewShmSpan(name, data), nil } func Free(span *ShmSpan) error { Clear(span.name) return syscall.Munmap(span.origin) } func Clear(name string) error { return os.Remove(path(name)) }  都是围绕着 ShmSpan 结构体的几个操作方法。再来看 ShmSpan 结构体：</description>
+func Alloc(name string, size int) (*ShmSpan, error) { ... return NewShmSpan(name, data), nil } func Free(span *ShmSpan) error { Clear(span.name) return syscall.Munmap(span.origin) } func Clear(name string) error { return os.Remove(path(name)) } 都是围绕着 ShmSpan 结构体的几个操作方法。再来看 ShmSpan 结构体：
+type ShmSpan struct { origin []byte // mmap 返回的数组 	name string // span 名, 创建时指定  data uintptr // 保存 mmap 内存段的首指针 	offset int // span 已经使用的字节长度 	size int // span 大小 } Alloc 方法按照给定的 name 参数，在配置文件的目录下创建文件，并执行 sync.</description>
     </item>
     
     <item>
@@ -65,7 +62,7 @@ MOSN 把过滤器相关的代码放在了 pkg/filter 目录下：
 2. 旧mosn 我们先从一个启动着的 mosn 进程看起，看看它是如何被重启的。
 mosn 的 reconfig 逻辑在 server 包的 reconfigure.go 内。
 mosn 进程启动后，会创建一个叫 reconfig.sock 的 unix socket，创建一个协程，开始监听并往里面写入一个字节的内容，这时会出现写阻塞。一旦有另一个进程从 reconfig.sock 读取到这一个字节，旧 mosn 便开始 reconfig 逻辑。
-reconfig 逻辑:  当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</description>
+reconfig 逻辑:   当写阻塞结束，协程会尝试链接另一个 unix socket ：listen.</description>
     </item>
     
   </channel>

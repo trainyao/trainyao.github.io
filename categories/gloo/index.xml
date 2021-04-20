@@ -6,11 +6,7 @@
     <description>Recent content in gloo on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://trainyao.github.io/categories/gloo/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/categories/gloo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http</title>
       <link>https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_02/</link>
@@ -30,7 +26,7 @@
       <guid>https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/</guid>
       <description>本系列文章主要介绍了在非 kubernetes 环境，使用 gloo 搭建服务网关的过程，以及 gloo 的简单的使用指南。
 系列文章目录如下:
- 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: grpc][3] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - envoy 高可用、错误注入、超时控制、熔断][4] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 指标监控、报警][5] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 链路跟踪][6] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 权限、流控][7]  首先: 使用非 kubernetes 环境意义何在?  调试快速</description>
+ 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: tcp / http [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 路由能力: grpc][3] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - envoy 高可用、错误注入、超时控制、熔断][4] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 指标监控、报警][5] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 链路跟踪][6] [使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 权限、流控][7]  首先: 使用非 kubernetes 环境意义何在?   调试快速</description>
     </item>
     
   </channel>

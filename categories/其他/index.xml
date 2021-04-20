@@ -6,10 +6,15 @@
     <description>Recent content in 其他 on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 09 Feb 2018 09:44:45 +0000</lastBuildDate>
-    
-	<atom:link href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kubectl custom tool snippet</title>
+      <link>https://trainyao.github.io/post/other/repid_develop/dopodlike/</link>
+      <pubDate>Wed, 25 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/other/repid_develop/dopodlike/</guid>
+      <description>#!/bin/bash  do=$1 pod=$2 t= if [[ $do == &amp;#34;e&amp;#34; ]]; then do=exec t=&amp;#34;-it bash&amp;#34; fi if [[ $do == &amp;#34;l&amp;#34; ]]; then do=logs fi if [[ $do == &amp;#34;d&amp;#34; ]]; then do=&amp;#34;delete pods&amp;#34; fi if [[ $do == &amp;#34;de&amp;#34; ]]; then do=&amp;#34;get pods&amp;#34; t=&amp;#34;-o yaml&amp;#34; fi echo $do podname=`kubectl get pods | grep ${pod} | grep Running | head -n 1 | awk &amp;#39;{print $1}&amp;#39;` echo $podname echo &amp;#34;kubectl ${do}${podname}${t}$3$4$5$6&amp;#34; kubectl ${do} ${podname} ${t} $3 $4 $5 $6 </description>
+    </item>
     
     <item>
       <title>类unix系统提示效率的alias</title>
@@ -17,7 +22,7 @@
       <pubDate>Fri, 09 Feb 2018 09:44:45 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/other/repid_develop/linux_alias/</guid>
-      <description># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39; alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &amp;quot; &amp;quot; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&amp;quot;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&amp;quot; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39;  </description>
+      <description># git alias gs=&amp;#39;git status &amp;#39; alias ga=&amp;#39;git add &amp;#39; # usage: gc &amp;#39;comment info&amp;#39;  alias gc=&amp;#39;git commit -m &amp;#39; alias gd=&amp;#39;git diff &amp;#39; alias gsh=&amp;#39;git show &amp;#39; alias grm=&amp;#39;git rm &amp;#39; alias gck=&amp;#39;git checkout &amp;#39; alias gps=&amp;#39;git push origin &amp;#39; alias gpl=&amp;#39;git pull origin &amp;#39; alias gpl=&amp;#39;git branch | grep \* | cut -d &amp;#34; &amp;#34; -f 2 | xargs git pull origin &amp;#39; alias grs=&amp;#39;git reset &amp;#39; alias gl=&amp;#39;git log &amp;#39; alias gb=&amp;#39;git branch &amp;#39; alias gmg=&amp;#39;git merge &amp;#39; alias gst=&amp;#39;git stash &amp;#39; alias gf=&amp;#39;git fetch&amp;#39; alias grollback=&amp;#34;gl | grep commit | head -n 1 | awk &amp;#39;{print \$2}&amp;#39; | xargs -I {} git reset --hard {}&amp;#34; alias u=&amp;#39;gck online gb -D develop gb -D master git fetch gck develop gck master &amp;#39; # other alias ll=&amp;#39;ls -al&amp;#39; alias ip=&amp;#39;ifconfig | grep 172&amp;#39; # docker alias de=&amp;#39;docker exec -it &amp;#39; alias dp=&amp;#39;docker ps&amp;#39; alias dpa=&amp;#39;docker ps -a&amp;#39; alias di=&amp;#39;docker images&amp;#39; alias drmi=&amp;#39;docker rmi &amp;#39; alias drm=&amp;#39;docker rm &amp;#39; alias dr=&amp;#39;docker run &amp;#39; alias dk=&amp;#39;docker kill &amp;#39; </description>
     </item>
     
   </channel>

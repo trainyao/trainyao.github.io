@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devops on trainyao.github.io</title>
+    <link>https://trainyao.github.io/categories/devops/</link>
+    <description>Recent content in devops on trainyao.github.io</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 20 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ssh 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/ssh/</link>
+      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/ssh/</guid>
+      <description> server 端 /var/log/auth.log 可以看日志 client 端 ssh user@host -pport -vvvv 可以看 client 和 server 端交互过程, 及来回的错误码 sshd_config 配置项不可覆盖, 详情可以用 -T 调试配置效果 sshd -T | grep [config] 可以实时看 ssh 配置效果, 有时候配置值没生效可以定位出来 root 免密登录需要配置 /root/.ssh/authorized_keys 公钥, 以及配置 sshd_config PermitRootLogin yes  PermitRootLogin 有 yes, prohibit-password, without-password, forced-commands-only, no 选项, 默认 prohibit-password   有博文说 /root 目录下的文件夹和文件的权限和拥有者, 会影响 root ssh 登录, 这个待验证  ref:
+ https://stackoverflow.com/questions/41684706/login-refused-for-root-via-ssh https://superuser.com/questions/1137438/ssh-key-authentication-fails  </description>
+    </item>
+    
+  </channel>
+</rss>
