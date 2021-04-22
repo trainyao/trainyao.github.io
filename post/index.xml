@@ -6,17 +6,7 @@
     <description>Recent content in all on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 20 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>ssh 使用方法 &amp; 备忘</title>
-      <link>https://trainyao.github.io/post/devops/ssh/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://trainyao.github.io/post/devops/ssh/</guid>
-      <description> server 端 /var/log/auth.log 可以看日志 client 端 ssh user@host -pport -vvvv 可以看 client 和 server 端交互过程, 及来回的错误码 sshd_config 配置项不可覆盖, 详情可以用 -T 调试配置效果 sshd -T | grep [config] 可以实时看 ssh 配置效果, 有时候配置值没生效可以定位出来 root 免密登录需要配置 /root/.ssh/authorized_keys 公钥, 以及配置 sshd_config PermitRootLogin yes  PermitRootLogin 有 yes, prohibit-password, without-password, forced-commands-only, no 选项, 默认 prohibit-password   有博文说 /root 目录下的文件夹和文件的权限和拥有者, 会影响 root ssh 登录, 这个待验证  ref:
- https://stackoverflow.com/questions/41684706/login-refused-for-root-via-ssh https://superuser.com/questions/1137438/ssh-key-authentication-fails  </description>
-    </item>
-    
+    <lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>kubectl custom tool snippet</title>
       <link>https://trainyao.github.io/post/other/repid_develop/dopodlike/</link>
@@ -296,6 +286,49 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       
       <guid>https://trainyao.github.io/post/other/repid_develop/linux_alias/</guid>
       <description># git alias gs=&amp;#39;git status &amp;#39; alias ga=&amp;#39;git add &amp;#39; # usage: gc &amp;#39;comment info&amp;#39;  alias gc=&amp;#39;git commit -m &amp;#39; alias gd=&amp;#39;git diff &amp;#39; alias gsh=&amp;#39;git show &amp;#39; alias grm=&amp;#39;git rm &amp;#39; alias gck=&amp;#39;git checkout &amp;#39; alias gps=&amp;#39;git push origin &amp;#39; alias gpl=&amp;#39;git pull origin &amp;#39; alias gpl=&amp;#39;git branch | grep \* | cut -d &amp;#34; &amp;#34; -f 2 | xargs git pull origin &amp;#39; alias grs=&amp;#39;git reset &amp;#39; alias gl=&amp;#39;git log &amp;#39; alias gb=&amp;#39;git branch &amp;#39; alias gmg=&amp;#39;git merge &amp;#39; alias gst=&amp;#39;git stash &amp;#39; alias gf=&amp;#39;git fetch&amp;#39; alias grollback=&amp;#34;gl | grep commit | head -n 1 | awk &amp;#39;{print \$2}&amp;#39; | xargs -I {} git reset --hard {}&amp;#34; alias u=&amp;#39;gck online gb -D develop gb -D master git fetch gck develop gck master &amp;#39; # other alias ll=&amp;#39;ls -al&amp;#39; alias ip=&amp;#39;ifconfig | grep 172&amp;#39; # docker alias de=&amp;#39;docker exec -it &amp;#39; alias dp=&amp;#39;docker ps&amp;#39; alias dpa=&amp;#39;docker ps -a&amp;#39; alias di=&amp;#39;docker images&amp;#39; alias drmi=&amp;#39;docker rmi &amp;#39; alias drm=&amp;#39;docker rm &amp;#39; alias dr=&amp;#39;docker run &amp;#39; alias dk=&amp;#39;docker kill &amp;#39; </description>
+    </item>
+    
+    <item>
+      <title>k8s 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/k8s/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/k8s/</guid>
+      <description>kubeadm init &amp;ndash;kubernetes-version=1.18.1 &amp;ndash;apiserver-advertise-address=192.168.128.130 &amp;ndash;image-repository registry.aliyuncs.com/google_containers &amp;ndash;service-cidr=10.1.0.0/16 &amp;ndash;pod-network-cidr=10.244.0.0/16
+ ref https://www.cnblogs.com/xiao987334176/p/12696740.html    安装 flannel: wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml &amp;amp;&amp;amp; grep 10.244 -n kube-flannel.yml &amp;amp;&amp;amp; sed -i &amp;rsquo;s/10.244.0.0/16/[pod network cidr]/&#39; &amp;amp;&amp;amp; kubectl apply -f kube-flannel.yml
+  cni
+ cni 插件工作原理  init config to /etc/cni/net.d/-.conflist kubelet 内的 CRI 实现, dockershim 加载配置文件 kubelet 根据配置文件, 依次调用 CNI 插件, 初始化 pause 容器, 配置容器网络   细节  hairpin mode, 配置 cni 网桥 veth 设备接收数据包的功能, 确保容器可以在容器网络里访问自己   plugins  plugins 都依照 containernetworking/cni/skel 做基本框架 bridge  source code containernetworking/plugins/bridge 依托 lib github.</description>
+    </item>
+    
+    <item>
+      <title>linux 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/linux/</guid>
+      <description>  lsb_release -cs 查看 linux 发行号
+  usermod -a -G [group] [username] / groupmems -g [group] -a [username]
+  修改大文件
+ tail -n +3 old &amp;gt; new, -n 参数支持+号    </description>
+    </item>
+    
+    <item>
+      <title>mysql 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/mysql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/mysql/</guid>
+      <description> set FOREIGN_KEY_CHECKS=0; 可以避免 discard table 外键错误 &amp;ldquo;cannot delete or update a parent row a foreign key constraint fails&amp;rdquo;  </description>
+    </item>
+    
+    <item>
+      <title>ssh 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/ssh/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/ssh/</guid>
+      <description> server 端 /var/log/auth.log 可以看日志 client 端 ssh user@host -pport -vvvv 可以看 client 和 server 端交互过程, 及来回的错误码 sshd_config 配置项不可覆盖, 详情可以用 -T 调试配置效果 sshd -T | grep [config] 可以实时看 ssh 配置效果, 有时候配置值没生效可以定位出来 root 免密登录需要配置 /root/.ssh/authorized_keys 公钥, 以及配置 sshd_config PermitRootLogin yes  PermitRootLogin 有 yes, prohibit-password, without-password, forced-commands-only, no 选项, 默认 prohibit-password   有博文说 /root 目录下的文件夹和文件的权限和拥有者, 会影响 root ssh 登录, 这个待验证  ref:
+ https://stackoverflow.com/questions/41684706/login-refused-for-root-via-ssh https://superuser.com/questions/1137438/ssh-key-authentication-fails  </description>
     </item>
     
     <item>
