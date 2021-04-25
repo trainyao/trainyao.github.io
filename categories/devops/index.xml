@@ -40,6 +40,15 @@
     </item>
     
     <item>
+      <title>rancher 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/rancher/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/rancher/</guid>
+      <description> 可以配置 cluster 的 catalogs, 配置 helm charts 作为集群可以使用的 app  </description>
+    </item>
+    
+    <item>
       <title>ssh 使用方法 &amp; 备忘</title>
       <link>https://trainyao.github.io/post/devops/ssh/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

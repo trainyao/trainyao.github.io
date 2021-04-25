@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title> k8s 使用方法 &amp; 备忘 &middot; trainyao.github.io </title>
+        <title> rancher 使用方法 &amp; 备忘 &middot; trainyao.github.io </title>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -131,108 +131,11 @@
 
         <div class="flex-wrapper">
             <div class="container wrapper">
-                <h1><a href="https://trainyao.github.io/post/devops/k8s/">k8s 使用方法 &amp; 备忘</a></h1>
+                <h1><a href="https://trainyao.github.io/post/devops/rancher/">rancher 使用方法 &amp; 备忘</a></h1>
                 <span class="post-date">0001-01-01 </span>
                 <div class="post-content">
                     <ul>
-<li>
-<p>kubeadm init &ndash;kubernetes-version=1.18.1 &ndash;apiserver-advertise-address=192.168.128.130 &ndash;image-repository registry.aliyuncs.com/google_containers  &ndash;service-cidr=10.1.0.0/16  &ndash;pod-network-cidr=10.244.0.0/16</p>
-<ul>
-<li>ref <a href="https://www.cnblogs.com/xiao987334176/p/12696740.html">https://www.cnblogs.com/xiao987334176/p/12696740.html</a></li>
-</ul>
-</li>
-<li>
-<p>安装 flannel: wget <a href="https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml">https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</a> &amp;&amp; grep 10.244 -n kube-flannel.yml &amp;&amp; sed -i &rsquo;s/10.244.0.0/16/[pod network cidr]/' &amp;&amp; kubectl apply -f kube-flannel.yml</p>
-</li>
-<li>
-<p>cni</p>
-<ul>
-<li>cni 插件工作原理
-<ul>
-<li>init config to /etc/cni/net.d/<em>-</em>.conflist</li>
-<li>kubelet 内的 CRI 实现, dockershim 加载配置文件</li>
-<li>kubelet 根据配置文件, 依次调用 CNI 插件, 初始化 pause 容器, 配置容器网络</li>
-</ul>
-</li>
-<li>细节
-<ul>
-<li>hairpin mode, 配置 cni 网桥 veth 设备接收数据包的功能, 确保容器可以在容器网络里访问自己</li>
-</ul>
-</li>
-<li>plugins
-<ul>
-<li>plugins 都依照 <a href="https://github.com/containernetworking/cni/tree/master/pkg/skel">containernetworking/cni/skel</a> 做基本框架</li>
-<li>bridge
-<ul>
-<li>source code <a href="https://github.com/containernetworking/plugins/blob/master/plugins/main/bridge/bridge.go">containernetworking/plugins/bridge</a></li>
-<li>依托 lib <a href="https://github.com/vishvananda/netlink">github.com/vishvananda/netlink</a> 做 ip link add/set 命令操作</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>kube-proxy (v1.17.17)</p>
-<ul>
-<li>主要通过 proxyServer 里的 proxier 来响应 k8s 资源变化, 实现了多种接口: <code>k8s.io/kubernetes/pkg/proxy/config</code> 里的 <code>config.EndpointHandler</code>, <code>config.EndpointSlaceHandler</code>, <code>config.ServiceHandler</code>, <code>config.NodeHandler</code>, 可以代码查找下列 interface, 主要关注不同 proxier 对上述接口的实现</li>
-<li>kube-proxy 实现了 3 种 proxier: <code>iptables</code>, <code>ipvs</code>, <code>userspace</code></li>
-<li>从代码来看, ipvs 还分 <code>ipvs proxier</code> 和 <code>ipvs dual stack proxier</code>, 好像是对 ipv6 的支持</li>
-<li>从 interface implement 来看, 还实现了一个 <code>win userspace proxier</code></li>
-<li>
-<h2 id="iptables-实现">iptables 实现:</h2>
-</li>
-</ul>
-</li>
-<li>
-<p>service</p>
-<ul>
-<li>clusterip
-<ul>
-<li>通过 kube-proxy 监听 service 和对应 pod 变化, 在宿主机上更改 iptables / ipvs 配置, 实现 service 负载均衡功能
-<ul>
-<li>kube-proxy 普通模式通过 iptables &ndash;probiility 控制 service ip 到 pod 的流量</li>
-<li>kube-proxy 还支持 &ndash;proxy-mode=ipvs (可以在 -n kube-system daemonSet kube-proxy 启动参数指定), 优化了 pod 数量对 iptables 管理的复杂性</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>headless service (clusterip = None)
-<ul>
-<li>通过 kube-dns / 其他 dns 实现, 控制 service dns 解析返回的结果, 直接在 dns 记录里返回 pod ip</li>
-</ul>
-</li>
-<li>nodeport
-<ul>
-<li>node 端口直接由 kube-proxy 进程监听</li>
-<li>iptables, proxy-mode=ipvs 都没有看到对应的规则</li>
-<li>疑似是用户态的代理?</li>
-<li>service spec.exernalTraficPolicy: local, 指定 pod 回包时不用 SNAT 改为源 node 的 IP (client 请求的 node), 而是直接返回给 client</li>
-</ul>
-</li>
-<li>loadbalancer
-<ul>
-<li>cloudprovider 转接层</li>
-</ul>
-</li>
-<li>externalname
-<ul>
-<li>kube-dns 中将 service 域名解析成一个外部 cname</li>
-</ul>
-</li>
-<li>其他
-<ul>
-<li>spec.externalIPs
-<ul>
-<li>访问配置的 ip 可以直接访问到 pod</li>
-<li>需要 client 能访问 ip 可以直接访问到至少一个 node</li>
-<li>实际上流量会先经过配置的 IP, 再代理到 node</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>可以配置 cluster 的 catalogs, 配置 helm charts 作为集群可以使用的 app</li>
 </ul>
 
                 </div>
