@@ -318,7 +318,7 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/devops/mysql/</guid>
-      <description> set FOREIGN_KEY_CHECKS=0; 可以避免 discard table 外键错误 &amp;ldquo;cannot delete or update a parent row a foreign key constraint fails&amp;rdquo;  </description>
+      <description> set FOREIGN_KEY_CHECKS=0; 可以避免 discard table 外键错误 &amp;ldquo;cannot delete or update a parent row a foreign key constraint fails&amp;rdquo; &amp;lsquo;Constant, random or timezone-dependent expressions in (sub)partitioning function are not allowed&amp;rsquo; 分区函数嵌套使用, 会出这个错误, 比如 to_days(mode()), 好像是因为 to_days 参数不能是 random 的  </description>
     </item>
     
     <item>

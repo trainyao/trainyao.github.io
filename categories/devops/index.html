@@ -176,7 +176,7 @@
 								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/mysql/">mysql 使用方法 &amp; 备忘</a></h4>
 								<h4 class="post-date">0001-01-01</h4>
 							</div>
-							<div class="post-summary"><p> set FOREIGN_KEY_CHECKS=0; 可以避免 discard table 外键错误 &ldquo;cannot delete or update a parent row a foreign key constraint fails&rdquo;  </p></div>
+							<div class="post-summary"><p> set FOREIGN_KEY_CHECKS=0; 可以避免 discard table 外键错误 &ldquo;cannot delete or update a parent row a foreign key constraint fails&rdquo; &lsquo;Constant, random or timezone-dependent expressions in (sub)partitioning function are not allowed&rsquo; 分区函数嵌套使用, 会出这个错误, 比如 to_days(mode()), 好像是因为 to_days 参数不能是 random 的  </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/devops/mysql/">Read More</a>
 							</div>
