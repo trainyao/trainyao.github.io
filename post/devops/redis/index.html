@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-	<head>
-		<title> all &middot; trainyao.github.io </title>
+    <head>
+        <title> redis 使用方法 &amp; 备忘 &middot; trainyao.github.io </title>
 
-		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 <meta name="generator" content="Hugo 0.82.0" />
 
@@ -35,10 +35,10 @@
 
 
 
-	</head>
+    </head>
 
-	<body>
-		<header>
+    <body>
+        <header>
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -129,110 +129,161 @@
 </nav>
 </header>
 
-		<div class="flex-wrapper">
-			<div class="container wrapper">
-				<div class="row">
-					<div class="col-xs-12 text-center">
-						<h1 id=>all</h1>
-					</div>
-				</div>
-				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/segment_tree/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/segment_tree/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/shortest_path/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/shortest_path/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/tree/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/tree/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/mysql/metrics/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p>IO 相关    指标 查看地方 前提 备注     IO等待 performace_schema.table_io_waits_summary_by_table setup_instruments.memory/performance_schema/table_io_waits_summary_by_index_usage.enabled=YES     锁相关    指标 查看地方 前提 备注     锁持有时间 performace_schema.table_handles setup_instruments.wait/lock/table/sql/handler.enabled=YES 行仅展示了是否持有   锁等待 performace_schema.table_lock_waits_summary_by_table setup_instruments.enabled=YES(count) timed=YES(timed)     主从    指标 查看地方 前提 备注     处理 relay log 文件数 show slave status.Relay_Log_File or Relay_Master_Log_File start slave     内存使用    指标 查看地方 前提 备注     记录 performance_schema 使用的内存 select * from memory_summary_global_by_event_name where event_name like &lsquo;memory/performance_schema%&rsquo; select enabled from setup_instruments where name like &lsquo;memory/performance_schema%&rsquo; = &lsquo;YES&rsquo;    记录 innodb 相关使用的内存 select * from memory_summary_global_by_event_name where event_name like &lsquo;memory/innodb%&rsquo; select enabled from setup_instruments where name like &lsquo;memory/innodb%&rsquo; = &lsquo;YES&rsquo; 看上去关系很大, 但是在db34上看不到?</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/mysql/metrics/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
-				
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://trainyao.github.io/post/devops/redis/">redis 使用方法 &amp; 备忘</a></h1>
+                <span class="post-date">0001-01-01 </span>
+                <div class="post-content">
+                    <ul>
+<li>config (base on v6.2.0)
+<ul>
+<li>general
+<ul>
+<li>client &amp; connections
+<ul>
+<li>bind 0.0.0.0</li>
+<li>port 6379</li>
+<li>protected-mode yes # protected mode 只允许 socket 和 17.0.0.1 连接</li>
+<li>maxclients 10000</li>
+<li>requirepass password # 配置密码</li>
+</ul>
+</li>
+<li>bgsave
+<ul>
+<li>save time changecount # 多级配置持久化, 配置多长时间内变更过 key 数大于 changecount, 则进行bgsave
+<ul>
+<li>save 900 1</li>
+<li>save 300 10</li>
+<li>save 60 10000</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>file &amp; dir
+<ul>
+<li>dbfilename dump.rdb</li>
+<li>dir /data</li>
+</ul>
+</li>
+<li>runtime
+<ul>
+<li>maxmemory <!-- raw HTML omitted --></li>
+<li>maxmemory-policy
+<ul>
+<li>noeviction</li>
+<li>volatile-lru|volatile-lfu|volatile-random|volatile-ttl</li>
+<li>allkeys-lru|allkeys-lfu|allkeys-random</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>middle
+<ul>
+<li>slowlog
+<ul>
+<li>slowlog-log-slower-than 1000000 # 超过微数, 记录slowlog, 1000000 = 1s</li>
+<li>slowlog-max-len 128 # slowlog 内存中保存的份数, redis 的 slowlog 是保存在内存的, 注意内存用量</li>
+</ul>
+</li>
+<li>client &amp; connections
+<ul>
+<li>tcp-backlog 511 # 繁忙时 server 入队的 backlog connections 数</li>
+<li>timeout 3600 # 3600 秒后关闭空闲的 client</li>
+<li>tcp-keepalive 300 # server 给 client 发送心跳检测, 超过配置时间断开连接</li>
+</ul>
+</li>
+<li>log
+<ul>
+<li>loglevel notice</li>
+<li>logfile ''</li>
+<li>syslog-enabled no # redis log 输出到 syslog</li>
+</ul>
+</li>
+<li>runtime
+<ul>
+<li>maxmemory-samples 5 # maxmemory 算法执行时在多少个 key 中计算 lru lfu 等算法, redis 不会在全量 key 中计算, 而是拿出配置数量 key 分组计算, 默认 5</li>
+<li>databases 16</li>
+</ul>
+</li>
+<li>bgsage
+<ul>
+<li>stop-writes-on-bgsave-error yes # bgsave 失败停止写入, 为了能让用户感知 bgsave 失败了, 或者减少数据损失?</li>
+<li>rdbcompression yes</li>
+<li>rdbchecksum yes # 是否计算 rdb 文件的 checksum, 如果配置为 no 则 rdb 文件 checksum 位 = 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>high
+<ul>
+<li>master &amp; slave
+<ul>
+<li>slave:
+<ul>
+<li>connections
+<ul>
+<li>replicaof <!-- raw HTML omitted --> <!-- raw HTML omitted --> # master 节点的 host port</li>
+<li>masterauth <!-- raw HTML omitted --> # 连接 master 密码</li>
+<li>masteruser <!-- raw HTML omitted --></li>
+</ul>
+</li>
+<li>healthy slave
+<ul>
+<li>replica-serve-stale-data yes # 在主从延迟的时候, 是否可以查询从库</li>
+<li>replica-read-only yes</li>
+<li>replica-ignore-maxmemory yes # redis replica 默认忽略内存限制</li>
+<li>repl-ping-replica-period 10 # replica pings master</li>
+<li>repl-timeout 60 # replica stop ping master after timeout</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>master:
+<ul>
+<li>diskless sync
+<ul>
+<li>repl-diskless-sync no # replica 默认使用 disk 同步(bgsave), redis 开启新进程 bgsave 后产生数据文件传递到 replica, 否则 diskless sync 会从内存传递数据过去 slave</li>
+<li>repl-diskless-sync-delay 5</li>
+<li>repl-diskless-load disabled</li>
+</ul>
+</li>
+<li>nodelay
+<ul>
+<li>repl-disable-tcp-nodelay no # 默认开启nodelay, 要实时不要带宽, 关闭后要带宽不要实时, 主从数据会 delay 批量传过去 slave</li>
+</ul>
+</li>
+<li>backlog
+<ul>
+<li>repl-backlog-size 1mb # 避免 replica 全量数据重传, 通过记录一个backlog buffer, replica重连后仅重传 backlog buffer</li>
+<li>repl-backlog-ttl 3600 # backlog buffer ttl time</li>
+</ul>
+</li>
+<li>healthy master
+<ul>
+<li>min-replicas-to-write 3 # 限制必须有 3 个 replica 存在, 然后 replica ping lag 必须 &lt;= 10, master 才能写</li>
+<li>min-replicas-max-lag 10</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-<div class="pagination-wrapper text-center">
-  <ul class="pagination">
-      
-      <li>
-          <a href="/post/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-      </li>
-      
-      <li
-      >
-          <a href="/post/page/3/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-      </li>
-      
-      <li
-      ><a href="/post/">1</a></li>
-      
-      <li
-      ><a href="/post/page/2/">2</a></li>
-      
-      <li
-      ><a href="/post/page/3/">3</a></li>
-      
-      <li
-      class="active"><a href="/post/page/4/">4</a></li>
-      
-      <li
-      class="disabled">
-          <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-      </li>
-      
-      <li>
-          <a href="/post/page/4/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-      </li>
-      
-    </ul>
-</div>
-
-
-
-			</div>
-			<footer class="footer text-center">
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
 <p>Copyright &copy; 2021 Hello, I&#39;m trainyao. -
 <span class="credit">
 	Powered by
@@ -243,6 +294,5 @@
 </p>
 </footer>
 
-		</div>
-	</body>
-</html>
+        </div>
+    </body>

@@ -331,6 +331,15 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
     </item>
     
     <item>
+      <title>redis 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/redis/</guid>
+      <description>config (base on v6.2.0)  general  client &amp;amp; connections  bind 0.0.0.0 port 6379 protected-mode yes # protected mode 只允许 socket 和 17.0.0.1 连接 maxclients 10000 requirepass password # 配置密码   bgsave  save time changecount # 多级配置持久化, 配置多长时间内变更过 key 数大于 changecount, 则进行bgsave  save 900 1 save 300 10 save 60 10000     file &amp;amp; dir  dbfilename dump.rdb dir /data   runtime  maxmemory  maxmemory-policy  noeviction volatile-lru|volatile-lfu|volatile-random|volatile-ttl allkeys-lru|allkeys-lfu|allkeys-random       middle  slowlog  slowlog-log-slower-than 1000000 # 超过微数, 记录slowlog, 1000000 = 1s slowlog-max-len 128 # slowlog 内存中保存的份数, redis 的 slowlog 是保存在内存的, 注意内存用量   client &amp;amp; connections  tcp-backlog 511 # 繁忙时 server 入队的 backlog connections 数 timeout 3600 # 3600 秒后关闭空闲的 client tcp-keepalive 300 # server 给 client 发送心跳检测, 超过配置时间断开连接   log  loglevel notice logfile &#39;&#39; syslog-enabled no # redis log 输出到 syslog   runtime  maxmemory-samples 5 # maxmemory 算法执行时在多少个 key 中计算 lru lfu 等算法, redis 不会在全量 key 中计算, 而是拿出配置数量 key 分组计算, 默认 5 databases 16   bgsage  stop-writes-on-bgsave-error yes # bgsave 失败停止写入, 为了能让用户感知 bgsave 失败了, 或者减少数据损失?</description>
+    </item>
+    
+    <item>
       <title>ssh 使用方法 &amp; 备忘</title>
       <link>https://trainyao.github.io/post/devops/ssh/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
