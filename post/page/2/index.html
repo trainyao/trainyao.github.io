@@ -331,15 +331,12 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/k8s/">k8s 使用方法 &amp; 备忘</a></h4>
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/git/">git 使用方法 &amp; 备忘</a></h4>
 								<h4 class="post-date">0001-01-01</h4>
 							</div>
-							<div class="post-summary"><p>kubeadm init &ndash;kubernetes-version=1.18.1 &ndash;apiserver-advertise-address=192.168.128.130 &ndash;image-repository registry.aliyuncs.com/google_containers &ndash;service-cidr=10.1.0.0/16 &ndash;pod-network-cidr=10.244.0.0/16
- ref https://www.cnblogs.com/xiao987334176/p/12696740.html    安装 flannel: wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml &amp;&amp; grep 10.244 -n kube-flannel.yml &amp;&amp; sed -i &rsquo;s/10.244.0.0/16/[pod network cidr]/' &amp;&amp; kubectl apply -f kube-flannel.yml
-  cni
- cni 插件工作原理  init config to /etc/cni/net.d/-.conflist kubelet 内的 CRI 实现, dockershim 加载配置文件 kubelet 根据配置文件, 依次调用 CNI 插件, 初始化 pause 容器, 配置容器网络   细节  hairpin mode, 配置 cni 网桥 veth 设备接收数据包的功能, 确保容器可以在容器网络里访问自己   plugins  plugins 都依照 containernetworking/cni/skel 做基本框架 bridge  source code containernetworking/plugins/bridge 依托 lib github.</p></div>
+							<div class="post-summary"><p> 删除远端 tag: git push origin :refs/tags/[tagname]  </p></div>
 							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/devops/k8s/">Read More</a>
+								<a href="https://trainyao.github.io/post/devops/git/">Read More</a>
 							</div>
 						</div>
 					</li>

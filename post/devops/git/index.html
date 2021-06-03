@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title> git 使用方法 &amp; 备忘 &middot; trainyao.github.io </title>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.82.0" />
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
+
+
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+
+
+
+
+
+
+    </head>
+
+    <body>
+        <header>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+      <a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
+        trainyao@home ~ $
+      </a>
+		</div>
+
+		
+		<div class="collapse navbar-collapse" id="navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href='https://trainyao.github.io/'>/home/trainyao</a>
+        </li>
+        
+				
+				
+				<li class="dropdown">
+                    
+            		<a href="https://trainyao.github.io/post/">~/all</a>
+            		
+        		</li>
+        		
+				
+				<li class="dropdown">
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/devops/">~/devops</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+				    		</li>
+                		
+                    		<li>
+                    		<a href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+				    		</li>
+                		
+            		</ul>
+            		
+        		</li>
+        		
+
+			</ul>
+		</div>
+	</div>
+</nav>
+</header>
+
+        <div class="flex-wrapper">
+            <div class="container wrapper">
+                <h1><a href="https://trainyao.github.io/post/devops/git/">git 使用方法 &amp; 备忘</a></h1>
+                <span class="post-date">0001-01-01 </span>
+                <div class="post-content">
+                    <ul>
+<li>删除远端 tag: git push origin :refs/tags/[tagname]</li>
+</ul>
+
+                </div>
+                
+                <div class="post-comments">
+                    
+                </div>
+                
+            </div>
+            <footer class="footer text-center">
+<p>Copyright &copy; 2021 Hello, I&#39;m trainyao. -
+<span class="credit">
+	Powered by
+	<a target="_blank" href="https://gohugo.io">Hugo</a>
+	and
+	<a target="_blank" href="https://github.com/LordMathis/hugo-theme-nix/">Nix</a> theme.
+</span>
+</p>
+</footer>
+
+        </div>
+    </body>

@@ -136,6 +136,31 @@
                 <div class="post-content">
                     <ul>
 <li>
+<p>curl -fsSL <a href="https://download.docker.com/linux/ubuntu/gpg">https://download.docker.com/linux/ubuntu/gpg</a> | sudo gpg &ndash;dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg</p>
+</li>
+<li>
+<p>echo<br>
+&ldquo;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] <a href="https://download.docker.com/linux/ubuntu">https://download.docker.com/linux/ubuntu</a><br>
+$(lsb_release -cs) stable&rdquo; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</p>
+</li>
+<li>
+<p>curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg <a href="https://packages.cloud.google.com/apt/doc/apt-key.gpg">https://packages.cloud.google.com/apt/doc/apt-key.gpg</a></p>
+</li>
+<li>
+<p>echo &ldquo;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] <a href="https://apt.kubernetes.io/">https://apt.kubernetes.io/</a> kubernetes-xenial main&rdquo; | sudo tee /etc/apt/sources.list.d/kubernetes.list</p>
+</li>
+<li>
+<p>apt-get install docker-ce docker-ce-cli containerd.io</p>
+</li>
+<li>
+<p>apt-get install<br>
+apt-transport-https<br>
+ca-certificates<br>
+curl<br>
+gnupg<br>
+lsb-release</p>
+</li>
+<li>
 <p>kubeadm init &ndash;kubernetes-version=1.18.1 &ndash;apiserver-advertise-address=192.168.128.130 &ndash;image-repository registry.aliyuncs.com/google_containers  &ndash;service-cidr=10.1.0.0/16  &ndash;pod-network-cidr=10.244.0.0/16</p>
 <ul>
 <li>ref <a href="https://www.cnblogs.com/xiao987334176/p/12696740.html">https://www.cnblogs.com/xiao987334176/p/12696740.html</a></li>
@@ -168,6 +193,69 @@
 <li>依托 lib <a href="https://github.com/vishvananda/netlink">github.com/vishvananda/netlink</a> 做 ip link add/set 命令操作</li>
 </ul>
 </li>
+<li>cilium (v1.9.8)
+<ul>
+<li>安装
+<ul>
+<li>安装过程颇容易, 官网有提供 operator 直接一键安装 <code>kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.9/install/kubernetes/quick-install.yaml -n kube-system</code> <a href="https://docs.cilium.io/en/v1.9/gettingstarted/k8s-install-default/">官方 install doc</a></li>
+<li>前置依赖
+<ul>
+<li>挂在 bpf 目录 <code>sudo mount bpffs /sys/fs/bpf -t bpf &amp;&amp; echo 'bpffs        /sys/fs/bpf      bpf     defaults 0 0' &gt;&gt; /etc/fstab</code></li>
+<li>打开内核 cilium 依赖的关于 bpf 的参数 via <code>/boot/config-$(uname -r)</code> 参考<a href="https://docs.cilium.io/en/v1.9/operations/system_requirements/#linux-kernel">官方文档描述</a>
+<pre><code>CONFIG_BPF=y
+CONFIG_BPF_SYSCALL=y
+CONFIG_NET_CLS_BPF=y
+CONFIG_BPF_JIT=y
+CONFIG_NET_CLS_ACT=y
+CONFIG_NET_SCH_INGRESS=y
+CONFIG_CRYPTO_SHA1=y
+CONFIG_CRYPTO_USER_API_HASH=y
+CONFIG_CGROUPS=y
+CONFIG_CGROUP_BPF=y
+</code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>调试
+<ul>
+<li><a href="https://docs.cilium.io/en/v1.9/gettingstarted/k8s-install-default/#deploy-the-connectivity-test">官方提供的连接测试用例</a> <code>kubectl create ns cilium-test &amp;&amp; kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/v1.9/examples/kubernetes/connectivity-check/connectivity-check.yaml -n cilium-test</code></li>
+<li>其他博主调整过的用例 <code>kubectl apply -n cilium-test -f https://github.com/nevermosby/K8S-CNI-Cilium-Tutorial/raw/master/cilium/connectivity-check.yaml</code> 参考<a href="https://cilium.io/blog/2020/05/04/guest-blog-kubernetes-cilium">博文</a></li>
+<li>可以使用不同主机上的 pod 互相访问 测试联通性, <code>docker run --rm trainyao/toolbox:ubuntu-18-40 -- ping [pod IP from other worker]</code></li>
+</ul>
+</li>
+<li>压测
+<ul>
+<li>压测数据 (千兆网卡)
+<ul>
+<li>iperf 测得 <code>907Mbyte/s</code></li>
+<li>siege -c 100 -t 2M
+<ul>
+<li>测得 service 访问 pod 4k qps 左右, 1.79M/s 吞吐量</li>
+<li>测得 headless service 访问 pod 4k qps 左右, 2M/s 吞吐量</li>
+<li>测得不同节点 pod ip qps 4k qps 左右, 3M/s 吞吐量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>和 flannel 对比
+<ul>
+<li>cilium 换 flannel 过程中还发现 flannel daemonest 会报 <code>address already used</code>, 重启节点之后就好了, 怀疑是因为 cilium 配置过宿主机的网卡之类的, 重启之后配置重置过了</li>
+<li>iperf 测得 <code>910Mbyte/s</code></li>
+<li>siege -c 100 -t 2M
+<ul>
+<li>测得 service 访问 pod 4k qps 左右, 4M/s 吞吐量</li>
+<li>测得 headless service 访问 pod 4k qps 左右, 4M/s 吞吐量</li>
+<li>测得不同节点 pod ip qps 5k qps 左右, 3M/s 吞吐量</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>怀疑可能是节点规模没上去, iptable / eBPF 差距应该没这么大? 待验证</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -181,7 +269,13 @@
 <li>从 interface implement 来看, 还实现了一个 <code>win userspace proxier</code></li>
 <li>iptables 实现:
 <ul>
-<li>TODO</li>
+<li>通过 <code>pkg/proxy/iptables/proxier.go</code>.<code>syncProxyRules()</code> 执行 node 变化后 iptables 的同步</li>
+<li>操作 iptables 通过 <code>pkg/util/iptables</code>.<code>runner</code> 实现了 <code>pkg/util/iptables</code>.<code>Interface</code></li>
+<li><code>pkg/util/iptables</code>.<code>runner</code> 实际上是执行 <code>iptables</code> <code>ip6tables</code> 命令, runner 里还有一个实现了 <code>k8s.io/utils/exec</code>.<code>Interface</code> 的 <code>k8s.io/util/exec</code>.<code>executor</code>
+<ul>
+<li>其中还包括一个 <code>k8s.io/utils/exec</code>.<code>Cmd</code> 的接口抽象 <code>k8s.io/utils/exec</code>.<code>cmdWrapper</code>, 它包装了 <code>os/exec</code>.<code>Cmd</code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
