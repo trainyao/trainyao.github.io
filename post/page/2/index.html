@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -138,6 +138,41 @@
 				</div>
 				<ul id="post-list">
 						
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">istio 流量劫持实验</a></h4>
+								<h4 class="post-date">2018-12-08</h4>
+							</div>
+							<div class="post-summary"><p>istio 是通过给每个生产 pod 注入一个 envoy sidecar 进行流量劫持的。注入后，流入 pod 的流量和 pod 请求的流量都会经过 sidecar 进行路由。
+这样的流量劫持是通过 sidecar pod 和生产 pod 共享一个网络命名空间，然后设置 iptable 规则实现的。
+PS1：下面的步骤前提是在一个 k8s 集群内操作，并且已经安装了 istio） PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大的两篇博文：用 vagrant 和 virtualbox 搭建一个 k8s 集群 理解 Istio Service Mesh 中 Envoy 代理 Sidecar 注入及流量劫持
+1.sidecar 是如何注入的呢？ 比如我们要部署一个服务，首先要编写一个关于 service 和 deployment 的 yaml 文件（拿 istio 官网的 bookinfo 为例子）：
+--- apiVersion: v1 kind: Service metadata: name: productpage labels: app: productpage spec: ports: - port: 9080 name: http selector: app: productpage --- apiVersion: extensions/v1beta1 kind: Deployment metadata: name: productpage-v1 spec: replicas: 1 template: metadata: labels: app: productpage version: v1 spec: containers: - name: productpage image: istio/examples-bookinfo-productpage-v1:1.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/istio/traffic_hijeack_practise/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Kubernetes 使用 IPVS/LVS 作为网络服务代理</a></h4>
+								<h4 class="post-date">2018-09-18</h4>
+							</div>
+							<div class="post-summary"><p>本文翻译自：https://cloudnativelabs.github.io/post/2017-05-10-kube-network-service-proxy/
+服务是 Kubernetes 的一个抽象概念。服务将一组逻辑上的、提供相同功能的 pod 组合在一起。一个在 Kubernetes 内的服务可以是多种类型的，比如 ‘ClusterIP’ 和 ‘NodePort’ 类型实现服务发现和负载均衡。这些服务的类型的实现都需要一个运行在各个 Kubernetes 集群节点的服务代理。Kubernetes 有一种名为 ‘kube-proxy’ 的代理，是基于 iptable 实现的。虽然，kube-proxy 提供了一种开箱即用的代理解决方案，它并不是一种最优的方案。在这篇文章里，我们会深入研究另一种 Kubernetes 里网络服务代理的实现：kube-router，它是基于 Liunx IPVS 的。我们还会讨论基于 iptables 的 kube-proxy 的好处与不足，以及将它与基于 IPVS/LVS 实现的 Kubernetes 网络服务代理进行对比。
+请看下面的 demo，感受 IPVS 实现的 kube-router 作为 Kubernetes 服务代理的效果。
+（此处查看原文可以看到 asciinema demo，如果不能访问，asciinema 地址在这里）
+下面我们来深入研究一下细节。
+ClusterIP 和 NodeProt 类型的服务 在服务的生命周期里，每个 ‘ClusterIP’ 和 ‘NodePort’ 服务会被分配一个唯一的 IP 地址（称为 ClusterIP）。Kubernetes 会配置 Pods 通过 ClusterIP 与服务进行交互，而且 pods 发送至 service 的请求会被自动地负载均衡到 service 的成员 pods 上。另外，Kubernetes master 节点会为 ‘NodePort’ 类 service 分配一个标志配置范围（默认是 30000 至 23767）的端口，然后每个 node 节点会将该 service 的请求代理到这个端口上。</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/translate/kubernetes_and_ipvs/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
@@ -311,32 +346,6 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
    浮点型  书中介绍了一种浮点型表示的标准: IEEE浮点表示.</p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/bookread/computer_system/overview/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">类unix系统提示效率的alias</a></h4>
-								<h4 class="post-date">2018-02-09</h4>
-							</div>
-							<div class="post-summary"><p># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39;  alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &#34; &#34; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&#34;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&#34; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39; </p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/git/">git 使用方法 &amp; 备忘</a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p> 删除远端 tag: git push origin :refs/tags/[tagname]  </p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/devops/git/">Read More</a>
 							</div>
 						</div>
 					</li>

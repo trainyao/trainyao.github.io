@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -178,7 +178,7 @@
 </ul>
 <p>可以回想一下笔算乘法的过程,需要将乘数的各个位与被乘数相乘,再作相加.其中还涉及进位操作.如果计算机计算单元使用乘法的定义来进行乘法运算,可以想象需要很多步骤,而乘法作为基础的运算,太过复杂的运算显然是不能接受的.</p>
 <p>于是人们利用了在计算机中,加法和位移是计算速度较快的特性(一次计算只需一个时钟周期),将乘法优化为被乘数乘以2的n次幂,再加上一个数,如:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">25</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">25</span>
 <span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>)
 <span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">4</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>
 </code></pre></div><p>如此, 7 * 25 被优化至5个时钟周期(位移<em>2 + 加法</em>3)即可完成</p>

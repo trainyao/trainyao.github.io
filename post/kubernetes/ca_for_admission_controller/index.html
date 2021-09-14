@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -137,7 +137,7 @@
                     <ol>
 <li>安装 <code>cfssl</code></li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://pkg.cfssl.org/R1.2/cfssl_linux-amd64
 chmod +x cfssl_linux-amd64
 mv cfssl_linux-amd64 /usr/local/bin/cfssl
 
@@ -158,7 +158,7 @@ export PATH<span style="color:#f92672">=</span>/usr/local/bin:$PATH
 <p>生成证书请求配置文件, 可以替换 <code>usage</code> 为其他名字, 替换 <code>usage.common.name</code> 为服务器域名</p>
 </li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; usage.json <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; usage.json <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">{
 </span><span style="color:#e6db74">  &#34;CN&#34;: &#34;usage.common.name&#34;,
 </span><span style="color:#e6db74">  &#34;key&#34;: {
@@ -182,13 +182,13 @@ export PATH<span style="color:#f92672">=</span>/usr/local/bin:$PATH
 </code></pre></div><ol start="4">
 <li>用 <code>cfssl</code> 工具签名服务端证书</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>kubernetes usage.json | cfssljson -bare usage
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>kubernetes usage.json | cfssljson -bare usage
 $ ls usage*
 usage.csr  usage.json  usage-key.pem  usage.pem
 </code></pre></div><ol start="5">
 <li>使用 <code>openssl</code> 签名客户端证书</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">openssl -in usage.pem -out usage.client.pem
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">openssl -in usage.pem -out usage.client.pem
 </code></pre></div><ol start="6">
 <li>使用 <code>usage.pem</code> <code>usage-key.pem</code> <code>usage.client.pem</code> 愉快的玩耍</li>
 </ol>

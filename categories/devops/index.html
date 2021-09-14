@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -154,6 +154,23 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/go/">golang 使用方法 &amp; 备忘</a></h4>
+								<h4 class="post-date">0001-01-01</h4>
+							</div>
+							<div class="post-summary"><p>tool chain go vet go vet 是 golang 官方自带的代码静态检查工具, 可以帮助程序员检查出编译不会出错但有 bug 的代码
+用法 go vet [./path/to/package 相对路径 | path/to/gopath 能访问到的 package | path/to/package 的绝对路径]
+分析器 go vet 自带多个分析器, 遍历入参的目录/文件, 执行每个分析器, 找出代码的问题
+分析器有(可以通过 go tool vet help 看到):
+ 语义错误  bools, ex: if a == 1 &amp;&amp; a == 0 if a == 1 &amp;&amp; a == 1 ifaceassert, ex: var itf interface{ Read() } newPtr := itf.(io.Reader)     golangci-lint unsafe 包 unsafe.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/devops/go/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/k8s/">k8s 使用方法 &amp; 备忘</a></h4>
 								<h4 class="post-date">0001-01-01</h4>
 							</div>
@@ -174,7 +191,11 @@
 							<div class="post-summary"><p>  lsb_release -cs 查看 linux 发行号
   usermod -a -G [group] [username] / groupmems -g [group] -a [username]
   修改大文件
- tail -n +3 old &gt; new, -n 参数支持+号    </p></div>
+ tail -n +3 old &gt; new, -n 参数支持+号    nat
+  dnat
+ 入 lb 对请求包进行目标 IP 转换    snat
+ 出 lb 对目标的回包, 进行来源 IP 转换, 改为 lb 的 IP, 返回给请求方  fsfsdfadfa
+    </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/devops/linux/">Read More</a>
 							</div>

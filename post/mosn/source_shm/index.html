@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -141,7 +141,7 @@
 包的关于 metrics 的接口，通过这种方式组装出了一种基于共享内存的 metrics 实现供 MOSN 使用。</p>
 <h2 id="创建共享内存mmap">创建共享内存：Mmap</h2>
 <p>操作共享内存的方法主要在 <code>pkg/shm/shm.go</code> 文件下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">ShmSpan</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">ShmSpan</span>, <span style="color:#66d9ef">error</span>) {
 	<span style="color:#f92672">...</span>
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">NewShmSpan</span>(<span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">data</span>), <span style="color:#66d9ef">nil</span>
 }
@@ -155,7 +155,7 @@
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Remove</span>(<span style="color:#a6e22e">path</span>(<span style="color:#a6e22e">name</span>))
 }
 </code></pre></div><p>都是围绕着 <code>ShmSpan</code> 结构体的几个操作方法。再来看 <code>ShmSpan</code> 结构体：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ShmSpan</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ShmSpan</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">origin</span> []<span style="color:#66d9ef">byte</span> <span style="color:#75715e">// mmap 返回的数组
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">name</span>   <span style="color:#66d9ef">string</span> <span style="color:#75715e">// span 名, 创建时指定
 </span><span style="color:#75715e"></span>
@@ -170,14 +170,14 @@
 <h2 id="操作共享内存配置">操作共享内存：配置</h2>
 <p>在分析如何通过共享内存存取 metrics 之前，首先看这相关的功能是如何配置的。</p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318">https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">initializeMetrics</span>(<span style="color:#a6e22e">config</span> <span style="color:#a6e22e">v2</span>.<span style="color:#a6e22e">MetricsConfig</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">initializeMetrics</span>(<span style="color:#a6e22e">config</span> <span style="color:#a6e22e">v2</span>.<span style="color:#a6e22e">MetricsConfig</span>) {
 	<span style="color:#75715e">// init shm zone
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmZone</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmSize</span> &gt; <span style="color:#ae81ff">0</span> {
 		<span style="color:#a6e22e">shm</span>.<span style="color:#a6e22e">InitDefaultMetricsZone</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmZone</span>, int(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmSize</span>), <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">GetMosnState</span>() <span style="color:#f92672">!=</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Active_Reconfiguring</span>)
         <span style="color:#f92672">...</span>
 
 </code></pre></div><p>从这里看出，通过读取配置文件的 <code>ShmZone</code> 和 <code>ShmSize</code> 来初始化共享内存，即配置文件的以下两个字段是控制着共享内存的文件名和大小的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
   <span style="color:#960050;background-color:#1e0010">...</span>
   <span style="color:#f92672">&#34;metrics&#34;</span>: {
     <span style="color:#960050;background-color:#1e0010">...</span>
@@ -201,7 +201,7 @@
 <p>下面是源码步骤，大家可以自行跟踪调试：</p>
 <p><em><strong>1) 创建 zone：</strong></em></p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L81">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L81</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSharedMetrics</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSharedMetrics</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>, <span style="color:#66d9ef">error</span>) {
 	<span style="color:#a6e22e">alignedSize</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">align</span>(<span style="color:#a6e22e">size</span>, <span style="color:#a6e22e">pageSize</span>)
 
     <span style="color:#75715e">// 申请 ShmSpan
@@ -266,7 +266,7 @@
 </code></pre></div><p>这里可以大致说一下哈希表初始化的算法：首先 <code>alignedSize</code> 表示 4k 对齐后的 <code>ShmSpan</code> 大小，前 8 个字节被分配为互斥锁和引用计数，
 另外 20 个字节被分配为哈希表的 <code>meta</code> 结构体，</p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L54">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L54</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">hashSet</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">hashSet</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">entry</span> []<span style="color:#a6e22e">hashEntry</span>
 	<span style="color:#a6e22e">meta</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">meta</span>
 	<span style="color:#a6e22e">slots</span> []<span style="color:#66d9ef">uint32</span>
@@ -290,20 +290,20 @@
 <p>所以，如果按照 2：1 来分配的话，一共可以分配的份数 = <code>哈希表信息储存空间 / 每一份空间占用 = (总空间 - 8 - 20) / (64 + 1) * 4</code> 份。由此就可以算出 entry 和 slot 可以分配多少份了。</p>
 <p><em><strong>2) 创建指标：</strong></em></p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewShmCounterFunc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewShmCounterFunc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
 		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">defaultZone</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">entry</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">defaultZone</span>.<span style="color:#a6e22e">alloc</span>(<span style="color:#a6e22e">name</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
 			<span style="color:#f92672">...</span>
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L166">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L166</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">z</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>) <span style="color:#a6e22e">alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashEntry</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">z</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>) <span style="color:#a6e22e">alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashEntry</span>, <span style="color:#66d9ef">error</span>) {
 	<span style="color:#a6e22e">z</span>.<span style="color:#a6e22e">lock</span>()
 	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">z</span>.<span style="color:#a6e22e">unlock</span>()
 
 	<span style="color:#a6e22e">entry</span>, <span style="color:#a6e22e">create</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">z</span>.<span style="color:#a6e22e">set</span>.<span style="color:#a6e22e">Alloc</span>(<span style="color:#a6e22e">name</span>)
 	<span style="color:#f92672">...</span>
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L135">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L135</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">hashSet</span>) <span style="color:#a6e22e">Alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashEntry</span>, <span style="color:#66d9ef">bool</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">hashSet</span>) <span style="color:#a6e22e">Alloc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashEntry</span>, <span style="color:#66d9ef">bool</span>) {
 	<span style="color:#75715e">// 1. search existed slots and entries
 </span><span style="color:#75715e"></span>	<span style="color:#75715e">// 计算 hash 值作为 slot index
 </span><span style="color:#75715e"></span>	<span style="color:#a6e22e">h</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">hash</span>(<span style="color:#a6e22e">name</span>)
@@ -361,7 +361,7 @@
 }
 </code></pre></div><p><em><strong>3) 用 Entry 保存 metrics 值</strong></em></p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/counter.go#L56</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewShmCounterFunc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewShmCounterFunc</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>() <span style="color:#a6e22e">gometrics</span>.<span style="color:#a6e22e">Counter</span> {
 		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">defaultZone</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">entry</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">defaultZone</span>.<span style="color:#a6e22e">alloc</span>(<span style="color:#a6e22e">name</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
@@ -373,13 +373,13 @@
 <p>看到这里你可能会问，为什么要这么辛苦封装共享内存来保存 metrics 值？为什么不直接使用堆空间来做呢？</p>
 <p>其实在源码里也有答案：</p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318">https://github.com/mosn/mosn/blob/b2a239f5/pkg/mosn/starter.go#L318</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">initializeMetrics</span>(<span style="color:#a6e22e">config</span> <span style="color:#a6e22e">v2</span>.<span style="color:#a6e22e">MetricsConfig</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">initializeMetrics</span>(<span style="color:#a6e22e">config</span> <span style="color:#a6e22e">v2</span>.<span style="color:#a6e22e">MetricsConfig</span>) {
 	<span style="color:#75715e">// init shm zone
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmZone</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmSize</span> &gt; <span style="color:#ae81ff">0</span> {
 		<span style="color:#a6e22e">shm</span>.<span style="color:#a6e22e">InitDefaultMetricsZone</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmZone</span>, int(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ShmSize</span>), <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">GetMosnState</span>() <span style="color:#f92672">!=</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Active_Reconfiguring</span>)
         <span style="color:#f92672">...</span>
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L58">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L58</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createMetricsZone</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">clear</span> <span style="color:#66d9ef">bool</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createMetricsZone</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">clear</span> <span style="color:#66d9ef">bool</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span> {
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">clear</span> {
 		<span style="color:#a6e22e">shm</span>.<span style="color:#a6e22e">Clear</span>(<span style="color:#a6e22e">name</span>)
 	}
@@ -388,18 +388,18 @@
 已经保存的 metrics 是会被保留的。</p>
 <p>而且从这里可以看出：</p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L124">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L124</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSharedMetrics</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newSharedMetrics</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>, <span style="color:#66d9ef">error</span>) {
     <span style="color:#f92672">...</span>
 	<span style="color:#a6e22e">set</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newHashSet</span>(<span style="color:#a6e22e">hashSegment</span>, <span style="color:#a6e22e">hashSegSize</span>, <span style="color:#a6e22e">entryNum</span>, <span style="color:#a6e22e">slotsNum</span>, <span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">LoadUint32</span>(<span style="color:#a6e22e">zone</span>.<span style="color:#a6e22e">ref</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
 	<span style="color:#f92672">...</span>
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L78">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/hashset.go#L78</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newHashSet</span>(<span style="color:#a6e22e">segment</span> <span style="color:#66d9ef">uintptr</span>, <span style="color:#a6e22e">bytesNum</span>, <span style="color:#a6e22e">cap</span>, <span style="color:#a6e22e">slotsNum</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">init</span> <span style="color:#66d9ef">bool</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashSet</span>, <span style="color:#66d9ef">error</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newHashSet</span>(<span style="color:#a6e22e">segment</span> <span style="color:#66d9ef">uintptr</span>, <span style="color:#a6e22e">bytesNum</span>, <span style="color:#a6e22e">cap</span>, <span style="color:#a6e22e">slotsNum</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">init</span> <span style="color:#66d9ef">bool</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">hashSet</span>, <span style="color:#66d9ef">error</span>) {
 	<span style="color:#a6e22e">set</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">hashSet</span>{}
 	<span style="color:#f92672">...</span>
 </code></pre></div><p>当 <code>zone.ref</code> 引用计数不为 0 的时候，哈希表里面的信息也是会被保留的。</p>
 <p>再来看 <code>zone.mutex</code> 互斥锁的使用：</p>
 <p><a href="https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L136">https://github.com/mosn/mosn/blob/b2a239f5/pkg/metrics/shm/zone.go#L136</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">z</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>) <span style="color:#a6e22e">lock</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">z</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zone</span>) <span style="color:#a6e22e">lock</span>() {
 	<span style="color:#a6e22e">times</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
 
 	<span style="color:#75715e">// 5ms spin interval, 5 times burst

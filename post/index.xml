@@ -6,7 +6,26 @@
     <description>Recent content in all on trainyao.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Mar 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://trainyao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tmux 配置</title>
+      <link>https://trainyao.github.io/post/other/repid_develop/tmux/</link>
+      <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/other/repid_develop/tmux/</guid>
+      <description>bind -r k select-pane -U # 绑定k为↑ bind -r j select-pane -D # 绑定j为↓ bind -r h select-pane -L # 绑定h为← bind -r l select-pane -R # 绑定l为→ bind -r ^k resizep -U 5 # 绑定Ctrl+k为往↑调整面板边缘10个单元格 bind -r ^j resizep -D 5 # 绑定Ctrl+j为往↓调整面板边缘10个单元格 bind -r ^h resizep -L 5 # 绑定Ctrl+h为往←调整面板边缘10个单元格 bind -r ^l resizep -R 5 # 绑定Ctrl+l为往→调整面板边缘10个单元格 run-shell ~/.tmux/tmux-resurrect/resurrect.tmux bind -r V copy-mode # 绑定Ctrl+l为往→调整面板边缘10个单元格 bind-key -T copy-mode v send -X begin-selection # default is &amp;lt;space&amp;gt; bind-key -T copy-mode V send -X select-line bind-key -T copy-mode C-v send -X rectangle-toggle # default is C-v, or R in copy-mode (non-vi) bind-key -T copy-mode y send -X copy-pipe-and-cancel &amp;#39;xclip -selection clipboard -in&amp;#39; bind p paste-buffer # default ] </description>
+    </item>
+    
+    <item>
+      <title>k8s v1.17.0 v1.18.0 版本变更</title>
+      <link>https://trainyao.github.io/post/kubernetes/changelog/v1.17.0-v1.18.0/</link>
+      <pubDate>Sun, 18 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/kubernetes/changelog/v1.17.0-v1.18.0/</guid>
+      <description>kube-apiserver  PodPriority TaintNodeByCondiction ResourceQuataScopeSelectors ScheduleDaemonSetPods feature gate 默认打开 --encryption-provider-config cacheSize: 0 配置值会解析错误, 如果目的是关掉配置, 要设置一个负值   kubectl  kubectl 以及 k8s.io/client-go 默认 apiserver endpoint 取消默认值为 http://localhost:8080 kubectl run 命令改为启动 pod (之前是启动 deployment), 如果需要启动 deployment 或者其他资源, 使用 kubectl create 删除 kubectl rolling-update 这个弃用的命令  ref:
+ k8s 官网changelog   </description>
+    </item>
+    
     <item>
       <title>kubectl custom tool snippet</title>
       <link>https://trainyao.github.io/post/other/repid_develop/dopodlike/</link>
@@ -285,7 +304,7 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       <pubDate>Fri, 09 Feb 2018 09:44:45 +0000</pubDate>
       
       <guid>https://trainyao.github.io/post/other/repid_develop/linux_alias/</guid>
-      <description># git alias gs=&amp;#39;git status &amp;#39; alias ga=&amp;#39;git add &amp;#39; # usage: gc &amp;#39;comment info&amp;#39;  alias gc=&amp;#39;git commit -m &amp;#39; alias gd=&amp;#39;git diff &amp;#39; alias gsh=&amp;#39;git show &amp;#39; alias grm=&amp;#39;git rm &amp;#39; alias gck=&amp;#39;git checkout &amp;#39; alias gps=&amp;#39;git push origin &amp;#39; alias gpl=&amp;#39;git pull origin &amp;#39; alias gpl=&amp;#39;git branch | grep \* | cut -d &amp;#34; &amp;#34; -f 2 | xargs git pull origin &amp;#39; alias grs=&amp;#39;git reset &amp;#39; alias gl=&amp;#39;git log &amp;#39; alias gb=&amp;#39;git branch &amp;#39; alias gmg=&amp;#39;git merge &amp;#39; alias gst=&amp;#39;git stash &amp;#39; alias gf=&amp;#39;git fetch&amp;#39; alias grollback=&amp;#34;gl | grep commit | head -n 1 | awk &amp;#39;{print \$2}&amp;#39; | xargs -I {} git reset --hard {}&amp;#34; alias u=&amp;#39;gck online gb -D develop gb -D master git fetch gck develop gck master &amp;#39; # other alias ll=&amp;#39;ls -al&amp;#39; alias ip=&amp;#39;ifconfig | grep 172&amp;#39; # docker alias de=&amp;#39;docker exec -it &amp;#39; alias dp=&amp;#39;docker ps&amp;#39; alias dpa=&amp;#39;docker ps -a&amp;#39; alias di=&amp;#39;docker images&amp;#39; alias drmi=&amp;#39;docker rmi &amp;#39; alias drm=&amp;#39;docker rm &amp;#39; alias dr=&amp;#39;docker run &amp;#39; alias dk=&amp;#39;docker kill &amp;#39; </description>
+      <description># git alias gs=&amp;#39;git status &amp;#39; alias ga=&amp;#39;git add &amp;#39; # usage: gc &amp;#39;comment info&amp;#39;  alias gc=&amp;#39;git commit -m &amp;#39; alias gd=&amp;#39;git diff &amp;#39; alias gsh=&amp;#39;git show &amp;#39; alias grm=&amp;#39;git rm &amp;#39; alias gck=&amp;#39;git checkout &amp;#39; alias gps=&amp;#39;git push origin &amp;#39; alias gpl=&amp;#39;git pull origin &amp;#39; alias gpl=&amp;#39;git branch | grep \* | cut -d &amp;#34; &amp;#34; -f 2 | xargs git pull origin &amp;#39; alias grs=&amp;#39;git reset &amp;#39; alias gl=&amp;#39;git log &amp;#39; alias gb=&amp;#39;git branch &amp;#39; alias gmg=&amp;#39;git merge &amp;#39; alias gst=&amp;#39;git stash &amp;#39; alias gf=&amp;#39;git fetch&amp;#39; alias grollback=&amp;#34;gl | grep commit | head -n 1 | awk &amp;#39;{print \$2}&amp;#39; | xargs -I {} git reset --hard {}&amp;#34; alias u=&amp;#39;gck online gb -D develop gb -D master git fetch gck develop gck master &amp;#39; # other alias ll=&amp;#39;ls -al&amp;#39; alias ip=&amp;#39;ifconfig | grep 172&amp;#39; # docker alias de=&amp;#39;docker exec -it &amp;#39; alias dp=&amp;#39;docker ps&amp;#39; alias dpa=&amp;#39;docker ps -a&amp;#39; alias di=&amp;#39;docker images&amp;#39; alias drmi=&amp;#39;docker rmi &amp;#39; alias drm=&amp;#39;docker rm &amp;#39; alias dr=&amp;#39;docker run &amp;#39; alias dk=&amp;#39;docker kill &amp;#39; # k8s alias k=kubectl; alias kgpw=&amp;#34;kubectl get pods -o wide &amp;#34;; alias kgpa=&amp;#34;kubectl get pods -A &amp;#34;; unset HISTSIZE; alias di=&amp;#34;docker images&amp;#34;; alias dp=&amp;#34;docker ps&amp;#34;; alias dpa=&amp;#34;docker ps -a&amp;#34;; alias drm=&amp;#34;docker rm&amp;#34;; alias drmi=&amp;#34;docker rmi&amp;#34; </description>
     </item>
     
     <item>
@@ -295,6 +314,19 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       
       <guid>https://trainyao.github.io/post/devops/git/</guid>
       <description> 删除远端 tag: git push origin :refs/tags/[tagname]  </description>
+    </item>
+    
+    <item>
+      <title>golang 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/go/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/go/</guid>
+      <description>tool chain go vet go vet 是 golang 官方自带的代码静态检查工具, 可以帮助程序员检查出编译不会出错但有 bug 的代码
+用法 go vet [./path/to/package 相对路径 | path/to/gopath 能访问到的 package | path/to/package 的绝对路径]
+分析器 go vet 自带多个分析器, 遍历入参的目录/文件, 执行每个分析器, 找出代码的问题
+分析器有(可以通过 go tool vet help 看到):
+ 语义错误  bools, ex: if a == 1 &amp;amp;&amp;amp; a == 0 if a == 1 &amp;amp;&amp;amp; a == 1 ifaceassert, ex: var itf interface{ Read() } newPtr := itf.(io.Reader)     golangci-lint unsafe 包 unsafe.</description>
     </item>
     
     <item>
@@ -316,7 +348,11 @@ SpringBoot的IoC springBoot简化了spring的配置部分 spring通过xml配置�
       <description>  lsb_release -cs 查看 linux 发行号
   usermod -a -G [group] [username] / groupmems -g [group] -a [username]
   修改大文件
- tail -n +3 old &amp;gt; new, -n 参数支持+号    </description>
+ tail -n +3 old &amp;gt; new, -n 参数支持+号    nat
+  dnat
+ 入 lb 对请求包进行目标 IP 转换    snat
+ 出 lb 对目标的回包, 进行来源 IP 转换, 改为 lb 的 IP, 返回给请求方  fsfsdfadfa
+    </description>
     </item>
     
     <item>

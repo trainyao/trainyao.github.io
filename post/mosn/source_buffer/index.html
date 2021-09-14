@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -160,7 +160,7 @@
 <p>MOSN 定义了 <code>bufferPoolCtx</code> 接口，使用 buffer 包需要将实现了这个接口的对象，比如图中的 ABufferCtx、BBufferCtx，通过 <code>RegisterBuffer</code> 方法注册到 buffer 包。</p>
 <p>其中 <code>Index()</code> 方法返回注册时写入的 index 值；<code>New()</code> 方法是用来初始化待缓存对象的；而 <code>Reest()</code> 方法是将内存对象放回 pool 前的重置逻辑。</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L70">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L70</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">RegisterBuffer</span>(<span style="color:#a6e22e">poolCtx</span> <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">BufferPoolCtx</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">RegisterBuffer</span>(<span style="color:#a6e22e">poolCtx</span> <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">BufferPoolCtx</span>) {
 	<span style="color:#f92672">...</span>
 	<span style="color:#a6e22e">bPool</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">ctx</span> = <span style="color:#a6e22e">poolCtx</span>
 	<span style="color:#a6e22e">setIndex</span>(<span style="color:#a6e22e">poolCtx</span>, int(<span style="color:#a6e22e">i</span>))
@@ -171,7 +171,7 @@
 <p>bPool 全局变量保存着已注册的 index 值 到 bufferPool 对象的索引, 在需要获取对象时根据 index 值找到对应的 pool，调用 ctx.New()，或 sync.Pool.Get()；
 在需要 give 对象时，先调用 ctx.Reset() 方法对复用对象进行重置，然后调用 sync.Pool.Put()，至此实现了对 sync.Pool 的封装管理和扩展。</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L91">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L91</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Take returns a buffer from buffer pool
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Take returns a buffer from buffer pool
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferPool</span>) <span style="color:#a6e22e">take</span>() (<span style="color:#a6e22e">value</span> <span style="color:#66d9ef">interface</span>{}) {
 	<span style="color:#a6e22e">value</span> = <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Get</span>()
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
@@ -188,7 +188,7 @@
 </code></pre></div><h4 id="易用性">易用性：</h4>
 <p>然后是结构图右边的 valuePool 部分。<code>valuePool</code> 是 <code>bufferValue</code> 对象的 sync.Pool。我们先来看 valuePool 的结构：</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L105">http://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L105</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// bufferValue is buffer pool&#39;s Value
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// bufferValue is buffer pool&#39;s Value
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">bufferValue</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">value</span>    [<span style="color:#a6e22e">maxBufferPool</span>]<span style="color:#66d9ef">interface</span>{}
 	<span style="color:#a6e22e">transmit</span> [<span style="color:#a6e22e">maxBufferPool</span>]<span style="color:#66d9ef">interface</span>{}
@@ -196,7 +196,7 @@
 </code></pre></div><p>其中 <code>value/transmit</code> 域用来保存从注册表初始化出来的内存对象（transmit 域保存着从其他 context 复制过来的内存对象），数组的索引与上文说的 index 值对应，而数组值即待复用对象的指针。全局变量 <code>vPool</code> 保存了 bufferValue 的 sync.Pool，即 bufferValue 本身也是可以复用的。</p>
 <p>使用时，通过 <code>NewBufferPoolContext</code> 方法新建一个 bufferValue：</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L112">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L112</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// NewBufferPoolContext returns a context with bufferValue
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// NewBufferPoolContext returns a context with bufferValue
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewBufferPoolContext</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span> {
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mosnctx</span>.<span style="color:#a6e22e">WithValue</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">ContextKeyBufferPoolCtx</span>, <span style="color:#a6e22e">newBufferValue</span>())
 }
@@ -215,7 +215,7 @@
 }
 </code></pre></div><p>获取内存对象时，调用 <code>PoolContext</code> 方法获取 bufferValue 对象，传入注册表对象调用其 <code>Find</code> 方法，Find 方法会根据注册表对象获取 index，并且初始化一个内存对象放在 value 域里。</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L182">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L182</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">PoolContext</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">PoolContext</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span> {
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">val</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">mosnctx</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">ContextKeyBufferPoolCtx</span>); <span style="color:#a6e22e">val</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">val</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span>)
@@ -224,7 +224,7 @@
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newBufferValue</span>()
 }
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L138">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L138</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">(<span style="color:#a6e22e">bv</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">poolCtx</span> <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">BufferPoolCtx</span>, <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">interface</span>{} {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">(<span style="color:#a6e22e">bv</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span>) <span style="color:#a6e22e">Find</span>(<span style="color:#a6e22e">poolCtx</span> <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">BufferPoolCtx</span>, <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">interface</span>{} {
 	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">poolCtx</span>.<span style="color:#a6e22e">Index</span>()
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">i</span> &gt; int(<span style="color:#a6e22e">index</span>) {
 		panic(<span style="color:#e6db74">&#34;buffer should call buffer.RegisterBuffer()&#34;</span>)
@@ -244,7 +244,7 @@
 }
 </code></pre></div><p>使用完毕，只需调用 bufferValue 的 <code>Give</code> 方法，该方法会将其下管理的内存对象都归还到对应的 Pool 去，并且将自己归还到 vPool。</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L158">https://github.com/mosn/mosn/blob/master/pkg/buffer/buffer.go#L158</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Give returns buffer to buffer pools
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Give returns buffer to buffer pools
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">bv</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bufferValue</span>) <span style="color:#a6e22e">Give</span>() {
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">index</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
 		<span style="color:#66d9ef">return</span>
@@ -272,7 +272,7 @@
 <h3 id="2-byteio-buffer-复用-1">2. byte/io buffer 复用</h3>
 <h4 id="byte-buffer">byte buffer</h4>
 <p>先来看相关的结构体：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// byteBufferPool is []byte pools
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// byteBufferPool is []byte pools
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">byteBufferPool</span> <span style="color:#66d9ef">struct</span> {
 	<span style="color:#a6e22e">minShift</span> <span style="color:#66d9ef">int</span>
 	<span style="color:#a6e22e">minSize</span>  <span style="color:#66d9ef">int</span>
@@ -289,7 +289,7 @@
 <p>为了提高复用率，当申请一个非 64 字节对齐尺寸的 byte buffer 时（如 200），MOSN 实际上会从 slot 2，即 defaultSize = 256 的 slot 返回对象，并返回切片 len = 200 的 byte 切片。</p>
 <p>初始化时，将 64、128、256&hellip; 以此类推的尺寸的 byte slot 初始化到 byteBufferPool 的 pool 域内：</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L49">https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L49</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// newByteBufferPool returns byteBufferPool
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// newByteBufferPool returns byteBufferPool
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newByteBufferPool</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">byteBufferPool</span> {
 	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">byteBufferPool</span>{
 		<span style="color:#a6e22e">minShift</span>: <span style="color:#a6e22e">minShift</span>,
@@ -309,7 +309,7 @@
 }
 </code></pre></div><p>使用时，根据尺寸算出对应的 slot，从对应的 slot 返回该尺寸的 byte 数组：</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L65">https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L65</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">byteBufferPool</span>) <span style="color:#a6e22e">slot</span>(<span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">byteBufferPool</span>) <span style="color:#a6e22e">slot</span>(<span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
 	<span style="color:#75715e">// 比如要获取 200 size 的 buffer
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">size</span> &gt; <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">maxSize</span> {
 		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errSlot</span>
@@ -331,7 +331,7 @@
 	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">slot</span>
 }
 </code></pre></div><p><a href="https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L87">https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/bytebuffer_pool.go#L87</a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// take returns *[]byte from byteBufferPool
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// take returns *[]byte from byteBufferPool
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">byteBufferPool</span>) <span style="color:#a6e22e">take</span>(<span style="color:#a6e22e">size</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">byte</span> {
 	<span style="color:#a6e22e">slot</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">slot</span>(<span style="color:#a6e22e">size</span>)
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">slot</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">errSlot</span> {
@@ -358,7 +358,7 @@
 有了上文的基础，这里大家可以根据源码去看具体的实现，并不难。</p>
 <p><a href="https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/types.go#L34">https://github.com/mosn/mosn/blob/master/vendor/mosn.io/pkg/buffer/types.go#L34</a></p>
 <p>IO 相关的接口：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IoBuffer</span> <span style="color:#66d9ef">interface</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">IoBuffer</span> <span style="color:#66d9ef">interface</span> {
 	<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">p</span> []<span style="color:#66d9ef">byte</span>) (<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>)
 
 	<span style="color:#a6e22e">ReadOnce</span>(<span style="color:#a6e22e">r</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">Reader</span>) (<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int64</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>)

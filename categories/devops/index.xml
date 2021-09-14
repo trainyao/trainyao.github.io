@@ -16,6 +16,19 @@
     </item>
     
     <item>
+      <title>golang 使用方法 &amp; 备忘</title>
+      <link>https://trainyao.github.io/post/devops/go/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://trainyao.github.io/post/devops/go/</guid>
+      <description>tool chain go vet go vet 是 golang 官方自带的代码静态检查工具, 可以帮助程序员检查出编译不会出错但有 bug 的代码
+用法 go vet [./path/to/package 相对路径 | path/to/gopath 能访问到的 package | path/to/package 的绝对路径]
+分析器 go vet 自带多个分析器, 遍历入参的目录/文件, 执行每个分析器, 找出代码的问题
+分析器有(可以通过 go tool vet help 看到):
+ 语义错误  bools, ex: if a == 1 &amp;amp;&amp;amp; a == 0 if a == 1 &amp;amp;&amp;amp; a == 1 ifaceassert, ex: var itf interface{ Read() } newPtr := itf.(io.Reader)     golangci-lint unsafe 包 unsafe.</description>
+    </item>
+    
+    <item>
       <title>k8s 使用方法 &amp; 备忘</title>
       <link>https://trainyao.github.io/post/devops/k8s/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -34,7 +47,11 @@
       <description>  lsb_release -cs 查看 linux 发行号
   usermod -a -G [group] [username] / groupmems -g [group] -a [username]
   修改大文件
- tail -n +3 old &amp;gt; new, -n 参数支持+号    </description>
+ tail -n +3 old &amp;gt; new, -n 参数支持+号    nat
+  dnat
+ 入 lb 对请求包进行目标 IP 转换    snat
+ 出 lb 对目标的回包, 进行来源 IP 转换, 改为 lb 的 IP, 返回给请求方  fsfsdfadfa
+    </description>
     </item>
     
     <item>

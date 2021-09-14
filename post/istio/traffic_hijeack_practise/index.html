@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -140,7 +140,7 @@
 PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大的两篇博文：<a href="https://github.com/rootsongjc/kubernetes-vagrant-centos-cluster">用 vagrant 和 virtualbox 搭建一个 k8s 集群</a> <a href="https://jimmysong.io/posts/envoy-sidecar-injection-in-istio-service-mesh-deep-dive/">理解 Istio Service Mesh 中 Envoy 代理 Sidecar 注入及流量劫持</a></p>
 <h1 id="1sidecar-是如何注入的呢">1.sidecar 是如何注入的呢？</h1>
 <p>比如我们要部署一个服务，首先要编写一个关于 service 和 deployment 的 yaml 文件（拿 istio 官网的 bookinfo 为例子）：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
 <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
 <span style="color:#f92672">metadata</span>:
@@ -173,7 +173,7 @@ PS2：实验步骤是基于宋大的博文上实验的，可以先看看宋大�
         <span style="color:#f92672">ports</span>:
         - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">9080</span>
 </code></pre></div><p>这个是 productpage 服务的 yaml 的内容。那么调用 <code>istioctl kube-inject -f productpage.yaml</code> 后会发生什么呢？</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ istioctl kube-inject -f productpage.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ istioctl kube-inject -f productpage.yaml
 ---
 <span style="color:#75715e">##################################################################################################</span>
 <span style="color:#75715e"># Productpage services</span>
@@ -318,7 +318,7 @@ status: <span style="color:#f92672">{}</span>
 <p>至此，sidecar 注入完成。</p>
 <h1 id="2-iptable-规则和-istio-proxy-是如何劫持流量的">2. iptable 规则和 istio-proxy 是如何劫持流量的？</h1>
 <p>先进入 istio-proxy 容器，查看一下 iptable 规则。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl exec -it productpage-v1-6cbd9dff5d-vv8dk bash -c istio-proxy
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl exec -it productpage-v1-6cbd9dff5d-vv8dk bash -c istio-proxy
 istio-proxy@productpage-v1-6cbd9dff5d-vv8dk:/$
 istio-proxy@productpage-v1-6cbd9dff5d-vv8dk:/$ iptables -nL -t nat -v
 iptables v1.6.0: can<span style="color:#e6db74">&#39;t initialize iptables table `nat&#39;</span>: Permission denied <span style="color:#f92672">(</span>you must be root<span style="color:#f92672">)</span>
@@ -331,7 +331,7 @@ Perhaps iptables or your kernel needs to be upgraded.
 
 </code></pre></div><p>看不到啊，网上搜索了后发现是 istio-proxy 权限不足。回到上文 <code>istioctl kube-inject</code> 生成的 yaml 文件看到，&ldquo;privileged=false&rdquo; 限制了 istio-proxy 容器的权限。可以用 <code>kubectl edit</code> 命令编辑为 true，然后保存重新部署 productpage 服务。</p>
 <p>再次执行:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">trainyaodeMacBook-Pro:kubernetes trainyao$ kubectl exec -it productpage-v1-5ddc866b9-6567x bash -c istio-proxy
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">trainyaodeMacBook-Pro:kubernetes trainyao$ kubectl exec -it productpage-v1-5ddc866b9-6567x bash -c istio-proxy
 istio-proxy@productpage-v1-5ddc866b9-6567x:/$
 istio-proxy@productpage-v1-5ddc866b9-6567x:/$ sudo -i
 mesg: ttyname failed: Success
@@ -387,7 +387,7 @@ root@productpage-v1-5ddc866b9-6567x:~#
 <p>实验里面用了 istio 的官网提供的 bookinfo 例子，流量从 productpage 服务进来，productpage 服务会去请求 detail 服务和 reviews 服务，其中 reviews 服务里有3个不同版本的服务会被负载均衡。</p>
 <h2 id="1-从-istio-定义的-ingressgateway-进入例子里表现为-k8s-里的-nodeport">1) 从 istio 定义的 IngressGateway 进入（例子里表现为 k8s 里的 nodeport）</h2>
 <p>首先记录 iptbale 的处理包数。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
 Chain PREROUTING <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">0</span> packets, <span style="color:#ae81ff">0</span> bytes<span style="color:#f92672">)</span>
  pkts bytes target     prot opt in     out     source               destination
     <span style="color:#ae81ff">1</span>    <span style="color:#ae81ff">60</span> ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -417,7 +417,7 @@ Chain ISTIO_OUTPUT <span style="color:#f92672">(</span><span style="color:#ae81f
 Chain ISTIO_REDIRECT <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> references<span style="color:#f92672">)</span>
  pkts bytes target     prot opt in     out     source               destination
    <span style="color:#ae81ff">14</span>   <span style="color:#ae81ff">840</span> REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports <span style="color:#ae81ff">15001</span>
-</code></pre></div><pre><code>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
+</code></pre></div><pre tabindex="0"><code>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 0 packets, 0 bytes)
  pkts bytes target     prot opt in     out     source               destination
     1    60 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -449,7 +449,7 @@ Chain ISTIO_REDIRECT (3 references)
    16   960 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
 </code></pre><p>从处理包数看出，有3个包进入了 output 链，有一个包来自于 uid 1337 命名空间，直接，有2个包被重定向到了 envoy。</p>
 <p>下面用 tcpdump 命令检查一下 tcp 包处理的过程。</p>
-<pre><code>
+<pre tabindex="0"><code>
 root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump 'tcp and port 9080'
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -467,7 +467,7 @@ listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 23:54:19.400416 IP 172-33-22-5.istio-ingressgateway.istio-system.svc.cluster.local.56990 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 5893, win 1409, options [nop,nop,TS val 4592674 ecr 4592674], length 0
 </code></pre><p>可以看出，包从 ip = 172.33.22.5 的 pod 的 56990 端口进入，然后请求到了 productpage pod 的 9080 端口，下一个包，productpage pod 的 43144 端口开始与 detail pod 的 9080 端口开始通信，并且之后在 51770 端口开始与 reviews pod 的 9080 端口进行通信。通讯完了后，与 ip = 172.33.22.5 的 pod 的 56990 端口的通讯返回，并断开连接。</p>
 <p>使用 <code>lsof -i</code> 命令查看一下端口占用，可以看到，envoy 给每个端口占用都加了名字描述。看到 56990 是envoy 与 <code>istio-ingressgateway</code> 这个 pod 通信的一个端口。同理， 43144 端口是 productapage 服务和 details 服务通信的端口，51770 是 productpage 服务与其中一个 reviews pod 通信的端口。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# lsof -i
 COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 pilot-age   <span style="color:#ae81ff">1</span> istio-proxy    5u  IPv4 <span style="color:#ae81ff">123790</span>      0t0  TCP productpage-v1-5ddc866b9-9pz9f:45522-&gt;istio-pilot.istio-system.svc.cluster.local:15007 <span style="color:#f92672">(</span>ESTABLISHED<span style="color:#f92672">)</span>
 envoy      <span style="color:#ae81ff">11</span> istio-proxy    9u  IPv4 <span style="color:#ae81ff">123811</span>      0t0  TCP localhost:15000 <span style="color:#f92672">(</span>LISTEN<span style="color:#f92672">)</span>
@@ -486,11 +486,11 @@ envoy      <span style="color:#ae81ff">11</span> istio-proxy   59u  IPv4 <span s
 </code></pre></div><h2 id="2-从-其他-pod-容器-curl-service-的名字的流量">2) 从 其他 pod 容器 curl service 的名字的流量</h2>
 <p>因为 k8s 会帮 pod 做服务名的 dns 解析，我们要请求 productpage，就要进入其他的服务的 pod 里进行 curl。这里用 <code>ratings</code> pod。</p>
 <p>执行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods | grep ratings | awk <span style="color:#e6db74">&#39;{print($1)};&#39;</span> | xargs -I <span style="color:#f92672">{}</span> kubectl exec -i <span style="color:#f92672">{}</span> curl productpage:9080/productpage
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods | grep ratings | awk <span style="color:#e6db74">&#39;{print($1)};&#39;</span> | xargs -I <span style="color:#f92672">{}</span> kubectl exec -i <span style="color:#f92672">{}</span> curl productpage:9080/productpage
 
 ... <span style="color:#f92672">(</span>curl 的结果<span style="color:#f92672">)</span>
 </code></pre></div><p>查看一下 iptables 处理的包和 tcpdump 的结果：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">0</span> packets, <span style="color:#ae81ff">0</span> bytes<span style="color:#f92672">)</span>
  pkts bytes target     prot opt in     out     source               destination
     <span style="color:#ae81ff">2</span>   <span style="color:#ae81ff">120</span> ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -521,7 +521,7 @@ Chain ISTIO_REDIRECT <span style="color:#f92672">(</span><span style="color:#ae8
  pkts bytes target     prot opt in     out     source               destination
    <span style="color:#ae81ff">68</span>  <span style="color:#ae81ff">4080</span> REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports <span style="color:#ae81ff">15001</span>
 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">0</span> packets, <span style="color:#ae81ff">0</span> bytes<span style="color:#f92672">)</span>
  pkts bytes target     prot opt in     out     source               destination
     <span style="color:#ae81ff">2</span>   <span style="color:#ae81ff">120</span> ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -552,7 +552,7 @@ Chain ISTIO_REDIRECT <span style="color:#f92672">(</span><span style="color:#ae8
  pkts bytes target     prot opt in     out     source               destination
    <span style="color:#ae81ff">70</span>  <span style="color:#ae81ff">4200</span> REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports <span style="color:#ae81ff">15001</span>
 
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  <span style="color:#e6db74">&#39;tcp and (port 9080)&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  <span style="color:#e6db74">&#39;tcp and (port 9080)&#39;</span>
 tcpdump: verbose output suppressed, use -v or -vv <span style="color:#66d9ef">for</span> full protocol decode
 listening on eth0, link-type EN10MB <span style="color:#f92672">(</span>Ethernet<span style="color:#f92672">)</span>, capture size <span style="color:#ae81ff">262144</span> bytes
 
@@ -593,11 +593,11 @@ envoy      <span style="color:#ae81ff">11</span> istio-proxy   59u  IPv4 <span s
 
 </code></pre></div><p>iptables 处理的结果与 1 一致，从 lsof -i 看出，ratings pod 的 40248 端口与 productpage pod 的 15001 端口通信。</p>
 <h2 id="3-从其他-pod-容器-curl-service-的-ip-进入的流量">3) 从其他 pod 容器 curl service 的 IP 进入的流量</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ productpage<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>kubectl get svc | grep product | awk <span style="color:#e6db74">&#39;{print($1);}&#39;</span><span style="color:#e6db74">`</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ productpage<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>kubectl get svc | grep product | awk <span style="color:#e6db74">&#39;{print($1);}&#39;</span><span style="color:#e6db74">`</span>
 $ ip<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>kubectl get svc productpage -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.spec.clusterIP}&#39;</span><span style="color:#e6db74">`</span>
 $ ratings<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>kubectl get pods | grep ratings | awk <span style="color:#e6db74">&#39;{print($1);}&#39;</span><span style="color:#e6db74">`</span>
 $ kubectl exec -it <span style="color:#e6db74">${</span>ratings<span style="color:#e6db74">}</span> curl http://<span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span>:9080/productpage
-</code></pre></div><pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+</code></pre></div><pre tabindex="0"><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
     3   180 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -660,7 +660,7 @@ Chain ISTIO_REDIRECT (3 references)
 
 </code></pre><p>iptables 包处理还是一样的结果。</p>
 <p>来看 tcpdump 和 lsof -i</p>
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
+<pre tabindex="0"><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
@@ -694,10 +694,10 @@ envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc86
 
 </code></pre><p>结果跟用 service 名访问是一致的。</p>
 <h2 id="4-从其他-pod-容器的-sidecar-容器-curl-service-的名字的流量">4) 从其他 pod 容器的 sidecar 容器 curl service 的名字的流量</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl exec -it ratings-v1-7b9fb5464b-pfq7r bash -c istio-proxy
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl exec -it ratings-v1-7b9fb5464b-pfq7r bash -c istio-proxy
 $ curl http://productpage:9080/productpage
 
-</code></pre></div><pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
+</code></pre></div><pre tabindex="0"><code>root@productpage-v1-5ddc866b9-9pz9f:~# iptables -nL -t nat -v
 Chain PREROUTING (policy ACCEPT 1 packets, 84 bytes)
  pkts bytes target     prot opt in     out     source               destination
     4   240 ISTIO_INBOUND  tcp  --  *      *       0.0.0.0/0            0.0.0.0/0
@@ -760,7 +760,7 @@ Chain ISTIO_REDIRECT (3 references)
   112  6720 REDIRECT   tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            redir ports 15001
 </code></pre><p>这里看到有变化，开始有流量经过 PREROUTING 链了。有一个包从 PREROUTING 进入，并且被路由到 ISTIO_REDIRECT 链，然后从 OUTPUT 链出来。</p>
 <p>发现有不一样，赶紧跟踪一下 tcp 包处理过程。</p>
-<pre><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
+<pre tabindex="0"><code>root@productpage-v1-5ddc866b9-9pz9f:~# tcpdump  'tcp and (port 9080)'
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on eth0, link-type EN10MB (Ethernet), capture size 262144 bytes
 
@@ -807,7 +807,7 @@ envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc86
 <p>登录 productpage 所在的 node 执行 <code>ifonnfig</code> 发现果然如此。</p>
 <p>所以，在 istio-proxy sidecar 容器 curl 请求 productpage，流量是从 productpage 所在的 node 的 docker 网桥进来的。</p>
 <p>而流量从 docker0 网桥进来的原因是，我刚好选了一个与 productpage pod 同一个 node 的 pod 来实验，换一个不同 node 的 pod 情况如下：</p>
-<pre><code>03:48:53.486108 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 2104800333, win 29200, options [mss 1460,sackOK,TS val 18313233 ecr 0,nop,wscale 7], length 0
+<pre tabindex="0"><code>03:48:53.486108 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [S], seq 2104800333, win 29200, options [mss 1460,sackOK,TS val 18313233 ecr 0,nop,wscale 7], length 0
 03:48:53.486259 IP productpage-v1-5ddc866b9-9pz9f.9080 &gt; 172.17.8.102.44264: Flags [S.], seq 2430551524, ack 2104800334, win 28960, options [mss 1460,sackOK,TS val 18666760 ecr 18313233,nop,wscale 7], length 0
 03:48:53.486658 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [.], ack 1, win 229, options [nop,nop,TS val 18313234 ecr 18666760], length 0
 03:48:53.487271 IP 172.17.8.102.44264 &gt; productpage-v1-5ddc866b9-9pz9f.9080: Flags [P.], seq 1:92, ack 1, win 229, options [nop,nop,TS val 18313234 ecr 18666760], length 91
@@ -828,19 +828,19 @@ envoy      11 istio-proxy   60u  IPv4 341526      0t0  TCP productpage-v1-5ddc86
 </code></pre><p>流量从 node 的 ip 和某个端口与 productpage 的 9080 端口通信，而且这个 node 端口也是请求完即销毁的，可见，当同 node 的 pod 流量进入时，请求直接经过 docker0 网桥转发即可，而不同 node 请求时，productpage pod 会看到请求是以 node 为请求源发起请求，这个请求是由 flannel 转发的。</p>
 <p>那么还有一个问题，为什么由 istio-proxy curl 的流量会经过 docker0 网桥，并经过 iptables PREROUTING 链，而在 details，或者 ratings pod curl 的请求不会经过呢？</p>
 <p>通过 <code>/proc/net/nf_conntrack</code> 文件可以看到包被处理的过程：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep <span style="color:#ae81ff">9080</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep <span style="color:#ae81ff">9080</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">61</span> TIME_WAIT src<span style="color:#f92672">=</span>172.33.102.10 dst<span style="color:#f92672">=</span>10.254.224.87 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">54598</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>172.33.102.10 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">15001</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">54598</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">61</span> TIME_WAIT src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>127.0.0.1 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">35156</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>127.0.0.1 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">35156</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">60</span> TIME_WAIT src<span style="color:#f92672">=</span>172.33.102.10 dst<span style="color:#f92672">=</span>10.254.96.234 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">45460</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>172.33.102.10 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">15001</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">45460</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">61</span> TIME_WAIT src<span style="color:#f92672">=</span>172.17.8.102 dst<span style="color:#f92672">=</span>172.33.102.10 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">49770</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>172.33.102.10 dst<span style="color:#f92672">=</span>172.17.8.102 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">15001</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">49770</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 </code></pre></div><p>这个是在 istio-proxy sidecar 容器请求的包处理结果，而下面是在 ratings 容器里请求的包处理结果。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep <span style="color:#ae81ff">9080</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">root@productpage-v1-b48b94974-hp9x4:~# cat /proc/net/nf_conntrack | grep <span style="color:#ae81ff">9080</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">116</span> TIME_WAIT src<span style="color:#f92672">=</span>172.33.102.10 dst<span style="color:#f92672">=</span>10.254.96.234 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">45632</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>172.33.102.10 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">15001</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">45632</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">116</span> TIME_WAIT src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>127.0.0.1 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">35328</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>127.0.0.1 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">35328</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 ipv4     <span style="color:#ae81ff">2</span> tcp      <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">116</span> TIME_WAIT src<span style="color:#f92672">=</span>172.33.102.10 dst<span style="color:#f92672">=</span>10.254.224.87 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">54770</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">9080</span> src<span style="color:#f92672">=</span>127.0.0.1 dst<span style="color:#f92672">=</span>172.33.102.10 sport<span style="color:#f92672">=</span><span style="color:#ae81ff">15001</span> dport<span style="color:#f92672">=</span><span style="color:#ae81ff">54770</span> <span style="color:#f92672">[</span>ASSURED<span style="color:#f92672">]</span> mark<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> secctx<span style="color:#f92672">=</span>system_u:object_r:unlabeled_t:s0 zone<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> use<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 </code></pre></div><p>在 istio-proxy 容器（ratings 的 istio-proxy sidecar 容器）里请求的，被请求的服务（productpage 服务的pod）多了一个从 istio-proxy 容器来自的 node 的包（ratings pod 部署在 node2，ip为172.17.8.102）</p>
 <p>这种差异可以在 ratings istio-proxy sidecar 里的请求处理情况推断出来。</p>
-<pre><code># 在 ratings 生产容器里的请求
+<pre tabindex="0"><code># 在 ratings 生产容器里的请求
 root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131.126
 ipv4     2 tcp      6 117 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49912 dport=9080 src=127.0.0.1 dst=172.33.36.2 sport=15001 dport=49912 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 root@ratings-v1-6bdbc7b978-s5dmx:~#
@@ -849,7 +849,7 @@ root@ratings-v1-6bdbc7b978-s5dmx:~# cat /proc/net/nf_conntrack | grep 10.254.131
 ipv4     2 tcp      6 113 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49920 dport=9080 src=10.254.131.126 dst=172.33.36.2 sport=9080 dport=49920 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 ipv4     2 tcp      6 76 TIME_WAIT src=172.33.36.2 dst=10.254.131.126 sport=49912 dport=9080 src=127.0.0.1 dst=172.33.36.2 sport=15001 dport=49912 [ASSURED] mark=0 secctx=system_u:object_r:unlabeled_t:s0 zone=0 use=2
 </code></pre><p>可以看到，生产容器里的请求其实是由重写到 envoy 并与端口通信的，而 sidecar 容器里的请求是真真实实与 <code>10.254.131.126</code> 通信的，这其实也验证了 istio 对 pod 的两条 iptables 规则：</p>
-<pre><code>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
+<pre tabindex="0"><code>root@productpage-v1-5ddc866b9-6567x:~# iptables -nL -t nat -v
 ...
 Chain ISTIO_OUTPUT (1 references)
 ... 
@@ -867,9 +867,9 @@ Chain ISTIO_OUTPUT (1 references)
 <p>可以推断出，请求会经过 lo 口，不会经过 PREROUTING 链，然后在请求时，会有3个请求（ratings reviews details）经过 OUTPUT 链，请求 productpage 服务的会被直接返回，而其他2个会被重定向到 ISTIO_REDIRET 链处理。实验后，数据也符合推断。</p>
 <h2 id="7-从-productpage-istio-proxy-sidecar-容器-curl-localhost-进入的流量">7) 从 productpage istio-proxy sidecar 容器 curl localhost 进入的流量</h2>
 <p>与 6）是差不多的，唯一不一样的地方是，请求在经过 ISTIO_OUTBOUND 链时，6）经过的是这条规则：</p>
-<pre><code>    3   180 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
+<pre tabindex="0"><code>    3   180 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0            owner UID match 1337
 </code></pre><p>而 7）经过的是这条：</p>
-<pre><code>    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
+<pre tabindex="0"><code>    0     0 RETURN     all  --  *      *       0.0.0.0/0            127.0.0.1
 </code></pre><h1 id="4-总结">4. 总结</h1>
 <p>这篇文章在宋大的文章基础上做了一些本地环境的实践，通过 <code>iptables</code>、<code>tcpdump</code> 命令和查看 <code>/proc/net/nf_conntrack</code> 文件的方式，跟踪了 istio 对 pod 流量的劫持以及劫持过程请求和数据包的处理，验证了 istio 的设计。在实验过后，对流量劫持的过程更加熟悉了。</p>
 <p>参考资料:</p>

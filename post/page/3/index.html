@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -141,6 +141,49 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">类unix系统提示效率的alias</a></h4>
+								<h4 class="post-date">2018-02-09</h4>
+							</div>
+							<div class="post-summary"><p># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39;  alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &#34; &#34; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&#34;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&#34; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39; # k8s alias k=kubectl; alias kgpw=&#34;kubectl get pods -o wide &#34;; alias kgpa=&#34;kubectl get pods -A &#34;; unset HISTSIZE; alias di=&#34;docker images&#34;; alias dp=&#34;docker ps&#34;; alias dpa=&#34;docker ps -a&#34;; alias drm=&#34;docker rm&#34;; alias drmi=&#34;docker rmi&#34; </p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/git/">git 使用方法 &amp; 备忘</a></h4>
+								<h4 class="post-date">0001-01-01</h4>
+							</div>
+							<div class="post-summary"><p> 删除远端 tag: git push origin :refs/tags/[tagname]  </p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/devops/git/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/go/">golang 使用方法 &amp; 备忘</a></h4>
+								<h4 class="post-date">0001-01-01</h4>
+							</div>
+							<div class="post-summary"><p>tool chain go vet go vet 是 golang 官方自带的代码静态检查工具, 可以帮助程序员检查出编译不会出错但有 bug 的代码
+用法 go vet [./path/to/package 相对路径 | path/to/gopath 能访问到的 package | path/to/package 的绝对路径]
+分析器 go vet 自带多个分析器, 遍历入参的目录/文件, 执行每个分析器, 找出代码的问题
+分析器有(可以通过 go tool vet help 看到):
+ 语义错误  bools, ex: if a == 1 &amp;&amp; a == 0 if a == 1 &amp;&amp; a == 1 ifaceassert, ex: var itf interface{ Read() } newPtr := itf.(io.Reader)     golangci-lint unsafe 包 unsafe.</p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/devops/go/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://trainyao.github.io/post/devops/k8s/">k8s 使用方法 &amp; 备忘</a></h4>
 								<h4 class="post-date">0001-01-01</h4>
 							</div>
@@ -161,7 +204,11 @@
 							<div class="post-summary"><p>  lsb_release -cs 查看 linux 发行号
   usermod -a -G [group] [username] / groupmems -g [group] -a [username]
   修改大文件
- tail -n +3 old &gt; new, -n 参数支持+号    </p></div>
+ tail -n +3 old &gt; new, -n 参数支持+号    nat
+  dnat
+ 入 lb 对请求包进行目标 IP 转换    snat
+ 出 lb 对目标的回包, 进行来源 IP 转换, 改为 lb 的 IP, 返回给请求方  fsfsdfadfa
+    </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/devops/linux/">Read More</a>
 							</div>
@@ -230,45 +277,6 @@
 							<div class="post-summary"><p></p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/algorithm/djset/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/kmp/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/kmp/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/maglev/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/maglev/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/algorithm/minimum_binary_heap/"></a></h4>
-								<h4 class="post-date">0001-01-01</h4>
-							</div>
-							<div class="post-summary"><p></p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/algorithm/minimum_binary_heap/">Read More</a>
 							</div>
 						</div>
 					</li>

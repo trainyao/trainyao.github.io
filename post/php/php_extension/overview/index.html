@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -153,12 +153,12 @@ php提供一个工具用来生成php扩展的代码,类似代码生成器,工具
 如果你的扩展需要暴露出接口函数供php代码调用,原型文件只需包含接口函数的原型.接口函数原型包括函数输入参数的类型和名字,还有函数返回的类型.其中类型支持php的变量类型.如bool,int,string,float等等..
 根据上面的需求,创建一个名为<code>repeatString</code>的函数,返回类型为<code>string</code>,接受一个<code>string</code>类型的<code>$inputString</code>字符串,和一个<code>int</code>类型的<code>$repeatCount</code>,表示输出<code>$inputString</code>被重复<code>$repeatCount</code>次的字符串.
 首先进入ext目录</p>
-<pre><code>cd path/to/php_source_code/ext &amp;&amp; \
+<pre tabindex="0"><code>cd path/to/php_source_code/ext &amp;&amp; \
 vim repeatString.proto
 </code></pre><p>编写内容</p>
-<pre><code>string repeatString(string inputString, int repeatCount)
+<pre tabindex="0"><code>string repeatString(string inputString, int repeatCount)
 </code></pre><p>保存,使用ext_skel工具生成扩展框架,可以指定扩展名和扩展的原型文件</p>
-<pre><code>./ext_skel --extname=repeatString --proto=repeatString.proto
+<pre tabindex="0"><code>./ext_skel --extname=repeatString --proto=repeatString.proto
 </code></pre><p>你会看到ext目录下会多了一个<code>repeatString</code>的文件夹,里面放的就是你扩展的所有所需文件
 需要留意的有几个文件:</p>
 <ul>
@@ -184,7 +184,7 @@ vim repeatString.proto
 <li>定义扩展方法入口 和 扩展初始化方法入口
 可以看到我们需要实现的方法<code>PHP_FUNCTION(repeatString)</code>, 它是一个宏,是php提供的一个接口,用来定义php接口函数.我们在里面实现我们需要的逻辑:</li>
 </ul>
-<pre><code>PHP_FUNCTION(repeatString)
+<pre tabindex="0"><code>PHP_FUNCTION(repeatString)
 {
         char *inputString = NULL;
         int argc = ZEND_NUM_ARGS();
@@ -208,27 +208,27 @@ vim repeatString.proto
 <li>在编译php期间加入
 我们先用第二种方式实现,首先要让<code>./configure</code>文件找到我们的模块,进入<code>config.m4</code>文件,可以看到这两行代码控制着<code>./configure</code>命令是否能传参<code>--enable-repeatString</code>,从而将我们的扩展编译进php,把注释去掉实现我们的目的</li>
 </ul>
-<pre><code>dnl &quot;dnl&quot;表示注释,去掉第一第三行的`&quot;dnl&quot;
+<pre tabindex="0"><code>dnl &quot;dnl&quot;表示注释,去掉第一第三行的`&quot;dnl&quot;
 dnl PHP_ARG_ENABLE(repeatString, whether to enable repeatString support,
 dnl Make sure that the comment is aligned:
 dnl [  --enable-repeatString           Enable repeatString support])
 </code></pre><p>退回到php源码根目录,重新生成配置文件(<code>./buildconf</code>需要安装autoconf)</p>
-<pre><code>cd ../../ &amp;&amp; ./buildconf
+<pre tabindex="0"><code>cd ../../ &amp;&amp; ./buildconf
 </code></pre><p>由于我用的是git pull下来的仓库,这里会提示git仓库不应该执行<code>./buildconf</code>命令,应该在release包执行,我们加上<code>--force</code>就好</p>
-<pre><code>./buildconf --force w
+<pre tabindex="0"><code>./buildconf --force w
 </code></pre><p>这个命令将会重新生成<code>./configure</code>命令,输入</p>
-<pre><code>./configure --help | grep repeat
+<pre tabindex="0"><code>./configure --help | grep repeat
 </code></pre><p>可以看到,我们的扩展已经能被<code>./configure</code>认出来,运行</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">./configure --disable-all --enable-repeatString &amp;&amp; make
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">./configure --disable-all --enable-repeatString &amp;&amp; make
 </code></pre></div><p>重新编译php,接下来就可以测试一下我们的扩展了</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
 $input <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;input&#39;</span>;
 $count <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;
 <span style="color:#a6e22e">var_dump</span>(<span style="color:#a6e22e">repeatString</span>($input, $count));
 </code></pre></div><p>###说一些细节
 ####1. php接口函数解析参数
 php提供方法<code>zend_parse_parameters</code>对php接口函数期待的参数进行获取,判断类型和初始化.例如在:</p>
-<pre><code>if (zend_parse_parameters(argc, &quot;sl&quot;, &amp;inputString, &amp;inputString_len, &amp;count) == FAILURE)
+<pre tabindex="0"><code>if (zend_parse_parameters(argc, &quot;sl&quot;, &amp;inputString, &amp;inputString_len, &amp;count) == FAILURE)
 		return;
 </code></pre><p>中,该方法接受一个<code>argc</code>参数,表示接口函数有几个期待参数;</p>
 <p>第二个参数<code>&quot;sl&quot;</code>表示接口函数第一个参数期待<code>string</code>类型,第二个参数期待<code>long int</code>类型,在使用<code>ext_skel</code>生成扩展源码时,我们的原型文件指定了参数的类型,所以这里的<code>&quot;sl&quot;</code>是对应生成的</p>
@@ -242,11 +242,11 @@ php提供方法<code>zend_parse_parameters</code>对php接口函数期待的参�
 可以看到我们在接口函数结尾返回的时候用了<code>RETURN_STRINGL</code>宏,这也是php提供的一个接口,可以将c变量封装回zend_value返回到php脚本,或者说php执行环境中.</p>
 <p>####4. 扩展全局变量
 刚才说到repeatString.c做了一个动作: &ldquo;保证<code>php_repeatString.h</code>头文件内定义的全局变量线程安全&rdquo;,具体实现的方法只有一句:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* If you declare any globals in php_repeatString.h uncomment this:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* If you declare any globals in php_repeatString.h uncomment this:
 </span><span style="color:#75715e">ZEND_DECLARE_MODULE_GLOBALS(repeatString)
 </span><span style="color:#75715e">*/</span>
 </code></pre></div><p>这里有句注释说,如果在<code>php_repeatString.h</code>定义了全局变量,取消这一句注释,看一下这个宏做了些什么:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// zend_API.h
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// zend_API.h
 </span><span style="color:#75715e"></span><span style="color:#75715e">#ifdef ZTS
 </span><span style="color:#75715e"></span><span style="color:#75715e">// 这里
 </span><span style="color:#75715e"></span><span style="color:#75715e">#define ZEND_DECLARE_MODULE_GLOBALS(module_name)							\

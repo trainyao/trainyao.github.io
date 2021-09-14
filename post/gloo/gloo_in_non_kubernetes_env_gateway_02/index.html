@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -168,7 +168,7 @@
 </li>
 <li>
 <p>docker-compose.yml: 经过增加的 docker-compose 文件，原版 docker-compose.yml 放在了 docker-compose.yml.origin 里，我们可以 diff 一下看看有什么区别</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> diff docker-compose.yaml docker-compose.yaml.origin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> diff docker-compose.yaml docker-compose.yaml.origin
 87,97d86
 &lt;   gateway-proxy-2:
 &lt;     image: <span style="color:#e6db74">${</span>GLOO_REPO<span style="color:#66d9ef">:-</span>quay.io/solo-io<span style="color:#e6db74">}</span>/gloo-envoy-wrapper:<span style="color:#e6db74">${</span>GLOO_VERSION<span style="color:#66d9ef">:-</span>1.2.4<span style="color:#e6db74">}</span>
@@ -229,14 +229,14 @@
 如有，gloo 会分析该 swagger 文件并得到该 upstream 有什么函数可以提供服务，以及参数如何。</p>
 <p>这个功能的开启需要配置 gloo 翻译组件的 fds 功能，官网文档的操作在<a href="https://docs.solo.io/gloo/latest/advanced_configuration/fds_mode/#configuring-the-fdsmode-setting">这里</a>，
 这个是 k8s 环境下的操作，而 consul 环境下只需修改 <code>data/gloo-system/default.yaml</code> 文件的内容即可，diff 一下可以看出需要修改哪些内容：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ diff  data/gloo-system/default.yaml path/to/gloo/source_code/install/docker-compose-consul/data/gloo-system/default.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ diff  data/gloo-system/default.yaml path/to/gloo/source_code/install/docker-compose-consul/data/gloo-system/default.yaml
 10,11d9
 &lt; discovery:
 &lt;   fdsMode: BLACKLIST
 ➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
 </code></pre></div><p>修改内容和官网文档是对应的。</p>
 <p>开启后，我们正常将服务注册到 consul 再查看 upstream 信息就可以看到，gloo 已经感知到 petstore 内有什么函数了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
 ➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ PETSTORE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> gloo_in_none_kubernetes_env_petstore_1<span style="color:#66d9ef">)</span>
 cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">{
@@ -286,7 +286,7 @@ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
 |          |        |          |                    |
 +----------+--------+----------+--------------------+
 </code></pre></div><p>接下来，我们就可以按照官网的教程，配置函数级路由了。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">glooctl add route <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">glooctl add route <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --path-exact /petstore/findPet <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --dest-name default-petstore-8080 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --rest-function-name findPetById --use-consul
@@ -301,7 +301,7 @@ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
 </code></pre></div><p>可以看到，我们上述操作在 consul 里创建了一个 virtaul service 对象：</p>
 <p><!-- raw HTML omitted --></p>
 <p>我们来验证一下效果：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl g vs --use-consul
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl g vs --use-consul
 +-----------------+--------------+---------+------+----------+-----------------+--------------------------------+
 | VIRTUAL SERVICE | DISPLAY NAME | DOMAINS | SSL  |  STATUS  | LISTENERPLUGINS |             ROUTES             |
 +-----------------+--------------+---------+------+----------+-----------------+--------------------------------+
@@ -315,7 +315,7 @@ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
 </code></pre></div><h3 id="tcp-路由">tcp 路由</h3>
 <p>tcp 路由能力比较简单，根据<a href="https://docs.solo.io/gloo/latest/gloo_routing/tcp_proxy/">官网文档</a>配置 gateway 对象就可以了。</p>
 <p>首先将 mysql 服务注册到 consul</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MYSQL_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> gloo_in_none_kubernetes_env_mysql_1<span style="color:#66d9ef">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MYSQL_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> gloo_in_none_kubernetes_env_mysql_1<span style="color:#66d9ef">)</span>
 cat &gt; mysql.json <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">{
 </span><span style="color:#e6db74">  &#34;ID&#34;: &#34;mysql1&#34;,
@@ -362,7 +362,7 @@ cat &gt; mysql.json <span style="color:#e6db74">&lt;&lt;EOF
 8085 端口是我们在 docker-compose.yml 里为 envoy 容器开启的，用来路由本次实验的 tcp 流量。</p>
 <p><!-- raw HTML omitted --></p>
 <p>会发现 gateway 组件会增加 accepted 状态。这时，envoy 已经可以路由 tcp 流量了</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ telnet localhost <span style="color:#ae81ff">8085</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo_in_none_kubernetes_env git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ telnet localhost <span style="color:#ae81ff">8085</span>
 Trying ::1...
 Connected to localhost.
 Escape character is <span style="color:#e6db74">&#39;^]&#39;</span>.

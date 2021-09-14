@@ -6,7 +6,7 @@
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -141,6 +141,19 @@
 					<li>
 						<div class="post-list-item">
 							<div class="post-header">
+								<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/tmux/">tmux 配置</a></h4>
+								<h4 class="post-date">2021-09-14</h4>
+							</div>
+							<div class="post-summary"><p>bind -r k select-pane -U # 绑定k为↑ bind -r j select-pane -D # 绑定j为↓ bind -r h select-pane -L # 绑定h为← bind -r l select-pane -R # 绑定l为→ bind -r ^k resizep -U 5 # 绑定Ctrl+k为往↑调整面板边缘10个单元格 bind -r ^j resizep -D 5 # 绑定Ctrl+j为往↓调整面板边缘10个单元格 bind -r ^h resizep -L 5 # 绑定Ctrl+h为往←调整面板边缘10个单元格 bind -r ^l resizep -R 5 # 绑定Ctrl+l为往→调整面板边缘10个单元格 run-shell ~/.tmux/tmux-resurrect/resurrect.tmux bind -r V copy-mode # 绑定Ctrl+l为往→调整面板边缘10个单元格 bind-key -T copy-mode v send -X begin-selection # default is &lt;space&gt; bind-key -T copy-mode V send -X select-line bind-key -T copy-mode C-v send -X rectangle-toggle # default is C-v, or R in copy-mode (non-vi) bind-key -T copy-mode y send -X copy-pipe-and-cancel &#39;xclip -selection clipboard -in&#39; bind p paste-buffer # default ] </p></div>
+							<div class="post-list-footer text-center">
+								<a href="https://trainyao.github.io/post/other/repid_develop/tmux/">Read More</a>
+							</div>
+						</div>
+					</li>
+				
+					<li>
+						<div class="post-list-item">
+							<div class="post-header">
 								<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/dopodlike/">kubectl custom tool snippet</a></h4>
 								<h4 class="post-date">2020-03-25</h4>
 							</div>
@@ -157,7 +170,7 @@
 								<h4 class="post-link"><a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">类unix系统提示效率的alias</a></h4>
 								<h4 class="post-date">2018-02-09</h4>
 							</div>
-							<div class="post-summary"><p># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39;  alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &#34; &#34; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&#34;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&#34; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39; </p></div>
+							<div class="post-summary"><p># git alias gs=&#39;git status &#39; alias ga=&#39;git add &#39; # usage: gc &#39;comment info&#39;  alias gc=&#39;git commit -m &#39; alias gd=&#39;git diff &#39; alias gsh=&#39;git show &#39; alias grm=&#39;git rm &#39; alias gck=&#39;git checkout &#39; alias gps=&#39;git push origin &#39; alias gpl=&#39;git pull origin &#39; alias gpl=&#39;git branch | grep \* | cut -d &#34; &#34; -f 2 | xargs git pull origin &#39; alias grs=&#39;git reset &#39; alias gl=&#39;git log &#39; alias gb=&#39;git branch &#39; alias gmg=&#39;git merge &#39; alias gst=&#39;git stash &#39; alias gf=&#39;git fetch&#39; alias grollback=&#34;gl | grep commit | head -n 1 | awk &#39;{print \$2}&#39; | xargs -I {} git reset --hard {}&#34; alias u=&#39;gck online gb -D develop gb -D master git fetch gck develop gck master &#39; # other alias ll=&#39;ls -al&#39; alias ip=&#39;ifconfig | grep 172&#39; # docker alias de=&#39;docker exec -it &#39; alias dp=&#39;docker ps&#39; alias dpa=&#39;docker ps -a&#39; alias di=&#39;docker images&#39; alias drmi=&#39;docker rmi &#39; alias drm=&#39;docker rm &#39; alias dr=&#39;docker run &#39; alias dk=&#39;docker kill &#39; # k8s alias k=kubectl; alias kgpw=&#34;kubectl get pods -o wide &#34;; alias kgpa=&#34;kubectl get pods -A &#34;; unset HISTSIZE; alias di=&#34;docker images&#34;; alias dp=&#34;docker ps&#34;; alias dpa=&#34;docker ps -a&#34;; alias drm=&#34;docker rm&#34;; alias drmi=&#34;docker rmi&#34; </p></div>
 							<div class="post-list-footer text-center">
 								<a href="https://trainyao.github.io/post/other/repid_develop/linux_alias/">Read More</a>
 							</div>

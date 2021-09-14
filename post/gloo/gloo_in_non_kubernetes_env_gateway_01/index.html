@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -233,7 +233,7 @@ gloo 的服务发现组件会监听 consul 的服务注册，并生成对应的 
 <ol>
 <li>
 <p>运行初始化脚本</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ cd path/to/gloo/source/install/docker-compose-consul
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ cd path/to/gloo/source/install/docker-compose-consul
 ➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat prepare-directories.sh
 <span style="color:#75715e">#!/usr/bin/env bash</span>
 
@@ -244,7 +244,7 @@ mkdir -p ./data/artifacts/gloo-system
 <li>
 <p>docker-compose 启动</p>
 <p>可以先看看 docker-compose.yml 里面有什么：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
 
 <span style="color:#f92672">services</span>:
 
@@ -282,7 +282,7 @@ mkdir -p ./data/artifacts/gloo-system
 <p>其他的 <code>gloo</code>、<code>discovery</code>、<code>gateway</code> 都是 gloo 的组件，
 其中 <code>gloo</code> 是 gloo 实现的 xds 服务，<code>gateway</code> 是上文说的&quot;翻译组件&quot;，<code>discovery</code> 是上文说的&quot;服务发现组件&quot;。</p>
 <p>运行 <code>docker-compose up &amp;</code> 启动：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
 ➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ Creating network <span style="color:#e6db74">&#34;docker-compose-consul_default&#34;</span> with the default driver
 Creating docker-compose-consul_gloo_1          ... <span style="color:#66d9ef">done</span>
 Creating docker-compose-consul_vault_1         ... <span style="color:#66d9ef">done</span>
@@ -305,8 +305,8 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 <li>
 <p>服务注册到 consul</p>
 <p>首先我们要获取 petstore 的内网 ip 地址</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ PETSTORE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> docker-compose-consul_petstore_1<span style="color:#66d9ef">)</span>
-   
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ PETSTORE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> docker-compose-consul_petstore_1<span style="color:#66d9ef">)</span>
+
 ➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ echo <span style="color:#e6db74">${</span>PETSTORE_IP<span style="color:#e6db74">}</span>
 172.24.0.5
 ➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
@@ -356,7 +356,7 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 ➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
 </code></pre></div><p>看到 consul 返回 200，服务注册成功。</p>
 <p>通过 <code>glooctl</code> 可以看到 upstream 已被 gateway 捕捉到，consul kv 也看到 upstream 对象已经创建了。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl get upstream --use-consul
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl get upstream --use-consul
 +----------+--------+----------+--------------------+
 | UPSTREAM |  TYPE  |  STATUS  |      DETAILS       |
 +----------+--------+----------+--------------------+
@@ -374,7 +374,7 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 <li>
 <p>增加路由</p>
 <p>使用 glooctl 增加到 petstore 的服务的路由</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl add route <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl add route <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --path-exact /all-pets <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --dest-name petstore <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --prefix-rewrite /api/pets <span style="color:#ae81ff">\
@@ -388,7 +388,7 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 |                 |              |         |      |         |                 | <span style="color:#f92672">(</span>upstream<span style="color:#f92672">)</span>                     |
 +-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
 </code></pre></div><p>用 curl 验证请求正常</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8090/api/pets -v
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8090/api/pets -v
 *   Trying ::1...
 * TCP_NODELAY set
 * Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8090</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
@@ -404,8 +404,8 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 &lt;
 <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Dog&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;available&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:2,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Cat&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;pending&#34;</span><span style="color:#f92672">}]</span>
 * Connection <span style="color:#75715e">#0 to host localhost left intact</span>
-   
-   
+
+
 ➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8080/all-pets -v
 *   Trying ::1...
 * TCP_NODELAY set
@@ -428,7 +428,7 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 <p><!-- raw HTML omitted --></p>
 <p>这时候查看 consul kv 查看 virtual service 有一个对应的对象被创建了，其中 <code>matchers</code> 属性里和我们填写的路由信息很相似，而 gloo 组件也对此附加了 accepted status。</p>
 <p>我们还能查看到 proxy 对象的内容和通过 envoy 的 debug 端口查看到翻译过来的配置。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:19000/config_dump
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:19000/config_dump
 <span style="color:#f92672">{</span>
  <span style="color:#e6db74">&#34;configs&#34;</span>: <span style="color:#f92672">[</span>
   <span style="color:#f92672">{</span>
@@ -442,7 +442,7 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
      <span style="color:#f92672">}</span>,
      <span style="color:#e6db74">&#34;build_version&#34;</span>: <span style="color:#e6db74">&#34;3bf7d19b3405ebf85dbc6aac3fc15214a190b970/1.12.0-dev/Distribution/RELEASE/BoringSSL&#34;</span>
     <span style="color:#f92672">}</span>,
-   
+
 ....
 </code></pre></div></li>
 </ol>

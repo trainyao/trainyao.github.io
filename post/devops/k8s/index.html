@@ -6,7 +6,7 @@
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.0" />
+<meta name="generator" content="Hugo 0.88.1" />
 
 
 
@@ -138,7 +138,7 @@
 <h2 id="使用-kubeadm">使用 kubeadm</h2>
 <p>ref <a href="https://www.cnblogs.com/xiao987334176/p/12696740.html">https://www.cnblogs.com/xiao987334176/p/12696740.html</a></p>
 <h2 id="安装-kubeadm-kubectl-kubelet">安装 kubeadm, kubectl, kubelet</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
@@ -151,7 +151,7 @@ echo <span style="color:#e6db74">&#34;deb [signed-by=/usr/share/keyrings/kuberne
 
 apt-get install docker-ce docker-ce-cli containerd.io
 </code></pre></div><h3 id="初始化-master-worker-节点">初始化 master worker 节点</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubeadm init --kubernetes-version<span style="color:#f92672">=</span>1.18.1 --apiserver-advertise-address<span style="color:#f92672">=</span>192.168.128.130 --image-repository registry.aliyuncs.com/google_containers  --service-cidr<span style="color:#f92672">=</span>10.1.0.0/16  --pod-network-cidr<span style="color:#f92672">=</span>10.244.0.0/16
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubeadm init --kubernetes-version<span style="color:#f92672">=</span>1.18.1 --apiserver-advertise-address<span style="color:#f92672">=</span>192.168.128.130 --image-repository registry.aliyuncs.com/google_containers  --service-cidr<span style="color:#f92672">=</span>10.1.0.0/16  --pod-network-cidr<span style="color:#f92672">=</span>10.244.0.0/16
               <span style="color:#e6db74">```</span>
 <span style="color:#75715e">### 安装 flannel</span>
 <span style="color:#e6db74">```</span>shell
@@ -187,7 +187,7 @@ wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-
 <li>挂在 bpf 目录 <code>sudo mount bpffs /sys/fs/bpf -t bpf &amp;&amp; echo 'bpffs        /sys/fs/bpf      bpf     defaults 0 0' &gt;&gt; /etc/fstab</code></li>
 <li>打开内核 cilium 依赖的关于 bpf 的参数 via <code>/boot/config-$(uname -r)</code> 参考<a href="https://docs.cilium.io/en/v1.9/operations/system_requirements/#linux-kernel">官方文档描述</a>, master ubuntu-18.04, kernel 4.15.0-143-generic, worker node ubuntu-18.04, kernel 5.4.0-74-generic</li>
 </ul>
-<pre><code>  CONFIG_BPF=y
+<pre tabindex="0"><code>  CONFIG_BPF=y
   CONFIG_BPF_SYSCALL=y
   CONFIG_NET_CLS_BPF=y
   CONFIG_BPF_JIT=y

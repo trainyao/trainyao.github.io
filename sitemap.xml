@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://trainyao.github.io/post/other/repid_develop/tmux/</loc>
+    <lastmod>2021-09-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://trainyao.github.io/post/kubernetes/changelog/v1.17.0-v1.18.0/</loc>
+    <lastmod>2021-07-18T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://trainyao.github.io/post/other/repid_develop/dopodlike/</loc>
     <lastmod>2020-03-25T00:00:00+00:00</lastmod>
   </url><url>
@@ -61,6 +67,8 @@
   </url><url>
     <loc>https://trainyao.github.io/post/devops/git/</loc>
   </url><url>
+    <loc>https://trainyao.github.io/post/devops/go/</loc>
+  </url><url>
     <loc>https://trainyao.github.io/post/devops/k8s/</loc>
   </url><url>
     <loc>https://trainyao.github.io/post/devops/linux/</loc>
@@ -74,16 +82,16 @@
     <loc>https://trainyao.github.io/post/devops/ssh/</loc>
   </url><url>
     <loc>https://trainyao.github.io/post/</loc>
-    <lastmod>2020-03-25T00:00:00+00:00</lastmod>
+    <lastmod>2021-09-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://trainyao.github.io/categories/</loc>
-    <lastmod>2020-03-25T00:00:00+00:00</lastmod>
+    <lastmod>2021-09-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://trainyao.github.io/</loc>
-    <lastmod>2020-03-25T00:00:00+00:00</lastmod>
+    <lastmod>2021-09-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2020-03-25T00:00:00+00:00</lastmod>
+    <lastmod>2021-09-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://trainyao.github.io/categories/mosn/</loc>
     <lastmod>2020-02-23T00:00:00+00:00</lastmod>
