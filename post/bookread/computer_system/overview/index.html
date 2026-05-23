@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title> &lt;&lt;深入了解计算机系统&gt;&gt;整理 &middot; trainyao.github.io </title>
-
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.88.1" />
+<head>
+    <title> &lt;&lt;深入了解计算机系统&gt;&gt;整理 &middot; trainyao.github.io </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.161.1">
 
 
 
@@ -14,12 +13,11 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.7.1/css/all.css" integrity="sha384-QI8z31KmtR+tk1MYi0DfgxrjYgpTpLLol3bqZA/Q1Y8BvH+6k7/Huoj38gQOaCS7" crossorigin="anonymous">
 
 
 <link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
@@ -28,113 +26,120 @@
 
 
 
-<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Concert+One&display=swap" rel="stylesheet">
 
 
 
 
 
 
-    </head>
+</head>
 
-    <body>
-        <header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+<body>
+    <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
+				trainyao@home ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
-        trainyao@home ~ $
-      </a>
-		</div>
 
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://trainyao.github.io/'>/home/trainyao</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://trainyao.github.io/post/">~/post</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/devops/">~/devops</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
-				    		</li>
-                		
-            		</ul>
-            		
-        		</li>
-        		
-
-			</ul>
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://trainyao.github.io/'>
+							/home/trainyao</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://trainyao.github.io/post/">~/post</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" 
+								aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+						<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/ai/">~/ai</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/devops/">~/devops</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+							</li>
+							
+						</ul>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
-        <div class="flex-wrapper">
-            <div class="container wrapper">
-                <h1><a href="https://trainyao.github.io/post/bookread/computer_system/overview/">&lt;&lt;深入了解计算机系统&gt;&gt;整理</a></h1>
-                <span class="post-date">2018-02-09 </span>
-                <div class="post-content">
-                    <h2 id="一-信息在计算机里面的存储">一. 信息在计算机里面的存储</h2>
+    <div class="flex-wrapper">
+        <div class="container wrapper">
+            <h1><a href="https://trainyao.github.io/post/bookread/computer_system/overview/">&lt;&lt;深入了解计算机系统&gt;&gt;整理</a></h1>
+            
+            
+            
+            <span class="post-date">2018-02-09</span>
+            
+                        
+            <div class="post-content">
+                <h2 id="一-信息在计算机里面的存储">一. 信息在计算机里面的存储</h2>
 <p>无论是保存在硬盘里面作永久储存,还是保存在内存/寄存器里面作为计算的临时储存,信息在计算机里面需要一个表示方法,或者叫做保存方法.</p>
 <p>首先,可以先来看一下c语言都有哪些信息的类型,或者说我们编程时候都用到哪些信息类型:</p>
 <ul>
@@ -178,10 +183,10 @@
 </ul>
 <p>可以回想一下笔算乘法的过程,需要将乘数的各个位与被乘数相乘,再作相加.其中还涉及进位操作.如果计算机计算单元使用乘法的定义来进行乘法运算,可以想象需要很多步骤,而乘法作为基础的运算,太过复杂的运算显然是不能接受的.</p>
 <p>于是人们利用了在计算机中,加法和位移是计算速度较快的特性(一次计算只需一个时钟周期),将乘法优化为被乘数乘以2的n次幂,再加上一个数,如:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">25</span>
-<span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>)
-<span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">4</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>
-</code></pre></div><p>如此, 7 * 25 被优化至5个时钟周期(位移<em>2 + 加法</em>3)即可完成</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">16</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">=</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">4</span>) <span style="color:#f92672">+</span> (<span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">^</span><span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>
+</span></span></code></pre></div><p>如此, 7 * 25 被优化至5个时钟周期(位移<em>2 + 加法</em>3)即可完成</p>
 <h4 id="3-机器机语言">3. 机器机语言</h4>
 <p>为什么需要计算机语言?</p>
 <p>逻辑计算,其实可以看作是对于计算机里面数据的访问(读)和修改(写).计算机语言可以看做是读写这些数据的命令.汇编语言就是这种命令.而像C,php这类高级语言..只是汇编的一些封装.当高级语言需要执行时,并通过编译/虚拟机的形式..还原回汇编语言去对数据进行操作.</p>
@@ -232,15 +237,15 @@
 <h2 id="5-优化程序性能">5. 优化程序性能</h2>
 <h2 id="heading">&hellip;</h2>
 
-                </div>
-                
-                <div class="post-comments">
-                    
-                </div>
+            </div>
+            
+            <div class="post-comments">
                 
             </div>
-            <footer class="footer text-center">
-<p>Copyright &copy; 2021 Hello, I&#39;m trainyao. -
+            
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2026 Hello, I&#39;m trainyao. -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>
@@ -250,5 +255,5 @@
 </p>
 </footer>
 
-        </div>
-    </body>
+    </div>
+</body>

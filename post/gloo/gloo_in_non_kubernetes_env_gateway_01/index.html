@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title> 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo &middot; trainyao.github.io </title>
-
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.88.1" />
+<head>
+    <title> 使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo &middot; trainyao.github.io </title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.161.1">
 
 
 
@@ -14,12 +13,11 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.7.1/css/all.css" integrity="sha384-QI8z31KmtR+tk1MYi0DfgxrjYgpTpLLol3bqZA/Q1Y8BvH+6k7/Huoj38gQOaCS7" crossorigin="anonymous">
 
 
 <link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
@@ -28,113 +26,120 @@
 
 
 
-<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Concert+One&display=swap" rel="stylesheet">
 
 
 
 
 
 
-    </head>
+</head>
 
-    <body>
-        <header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+<body>
+    <header>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
+				trainyao@home ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
-        trainyao@home ~ $
-      </a>
-		</div>
 
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://trainyao.github.io/'>/home/trainyao</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://trainyao.github.io/post/">~/post</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/devops/">~/devops</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
-				    		</li>
-                		
-            		</ul>
-            		
-        		</li>
-        		
-
-			</ul>
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://trainyao.github.io/'>
+							/home/trainyao</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://trainyao.github.io/post/">~/post</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" 
+								aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+						<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/ai/">~/ai</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/devops/">~/devops</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+							</li>
+							
+						</ul>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
-        <div class="flex-wrapper">
-            <div class="container wrapper">
-                <h1><a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/">使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo</a></h1>
-                <span class="post-date">2020-01-30 </span>
-                <div class="post-content">
-                    <p>本系列文章主要介绍了在非 kubernetes 环境，使用 gloo 搭建服务网关的过程，以及 gloo 的简单的使用指南。</p>
+    <div class="flex-wrapper">
+        <div class="container wrapper">
+            <h1><a href="https://trainyao.github.io/post/gloo/gloo_in_non_kubernetes_env_gateway_01/">使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo</a></h1>
+            
+            
+            
+            <span class="post-date">2020-01-30</span>
+            
+                        
+            <div class="post-content">
+                <p>本系列文章主要介绍了在非 kubernetes 环境，使用 gloo 搭建服务网关的过程，以及 gloo 的简单的使用指南。</p>
 <p>系列文章目录如下:</p>
 <ol>
 <li><a href="./">使用 gloo 在非 kubernetes 环境搭建服务网关指南 - 初识 gloo</a></li>
@@ -190,7 +195,7 @@
 <p>upstream 可以理解为后端真正提供业务逻辑的服务。</p>
 <p>upstream 对象也是无需用户配置的，gloo 内置服务发现组件，通过监听服务注册（如 k8s 内的 service、consul 里的 service）来生成 upstream 对象，供 xds 服务读取并生成 envoy 配置。</p>
 <h3 id="3-gloo-的架构">3. gloo 的架构</h3>
-<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
 <p>（上图来自 <a href="https://docs.solo.io/gloo/latest/introduction/architecture/">gloo 文档</a>）</p>
 <p>上述架构图基本上能和第二部分讲到的概念对应上：</p>
 <ul>
@@ -208,7 +213,7 @@
 <p>在 k8s 环境里，配置存储主要依赖 k8s 本身的配置存储，即 etcd + k8s crd 概念。而在非 k8s 环境下，consul 就成为了配置中心的位置。</p>
 <p>那么在 k8s 环境下通过操作 crd 来修改配置，对应过来就是修改 consul 里的 kv 对象了。</p>
 <p>在 consul 作为存储层的实现中，gloo 也为我们规划好了文件目录。</p>
-<p><!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
 <p>从上图看到，gloo 的配置信息在 consul kv 里用不同的文件目录进行规划，与用户打交道的放在 <code>gateway.solo.io</code>，而 xds 服务用到的放在 <code>gloo.solo.io</code>（其实也可以看作是根据监听的组件来安排文件目录，在 docker-compose + consul 实现中，<code>gateway.solo.io</code> 目录会被 gateway 组件监听，而 gateway 组件就是上文说的 &ldquo;翻译组件&rdquo;，<code>gloo.solo.io</code> 目录会被 gloo 组件监听，而 gloo 组件就是上文说的 &ldquo;xds 服务&rdquo;）。</p>
 </li>
 <li>
@@ -233,232 +238,232 @@ gloo 的服务发现组件会监听 consul 的服务注册，并生成对应的 
 <ol>
 <li>
 <p>运行初始化脚本</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  ~ cd path/to/gloo/source/install/docker-compose-consul
-➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat prepare-directories.sh
-<span style="color:#75715e">#!/usr/bin/env bash</span>
-
-mkdir -p ./data/artifacts/gloo-system
-➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ bash prepare-directories.sh
-</code></pre></div><p>这个脚本主要是初始化一个 artifacts 文件夹</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  ~ cd path/to/gloo/source/install/docker-compose-consul
+</span></span><span style="display:flex;"><span>➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat prepare-directories.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env bash</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p ./data/artifacts/gloo-system
+</span></span><span style="display:flex;"><span>➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ bash prepare-directories.sh
+</span></span></code></pre></div><p>这个脚本主要是初始化一个 artifacts 文件夹</p>
 </li>
 <li>
 <p>docker-compose 启动</p>
 <p>可以先看看 docker-compose.yml 里面有什么：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
-
-<span style="color:#f92672">services</span>:
-
-<span style="color:#75715e"># consul</span>
-<span style="color:#75715e"># note: this consul instance is being run in dev mode</span>
-<span style="color:#75715e"># and should not be used in production</span>
-<span style="color:#f92672">consul</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#75715e"># vault</span>
-<span style="color:#75715e"># note: this vault instance is being run in dev mode</span>
-<span style="color:#75715e"># and should not be used in production</span>
-<span style="color:#f92672">vault</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#75715e"># example application, the swagger petstore</span>
-<span style="color:#f92672">petstore</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#75715e"># Gloo components</span>
-<span style="color:#f92672">gloo</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#f92672">discovery</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#f92672">gateway</span>:
-    <span style="color:#ae81ff">...</span>
-
-<span style="color:#f92672">gateway-proxy</span>:
-    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${GLOO_REPO:-quay.io/solo-io}/gloo-envoy-wrapper:${GLOO_VERSION:-1.2.4}</span>
-    <span style="color:#f92672">entrypoint</span>: [<span style="color:#e6db74">&#34;envoy&#34;</span>]
-    <span style="color:#ae81ff">...</span>
-</code></pre></div><p>其中 <code>petstore</code> 是业务容器，<code>consul</code>、<code>vault</code> 负责服务注册和密钥管理，<code>gateway-proxy</code> 实际上是一个 envoy 容器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># consul</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># note: this consul instance is being run in dev mode</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># and should not be used in production</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">consul</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># vault</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># note: this vault instance is being run in dev mode</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># and should not be used in production</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">vault</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># example application, the swagger petstore</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">petstore</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Gloo components</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">gloo</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">discovery</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">gateway</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">gateway-proxy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">${GLOO_REPO:-quay.io/solo-io}/gloo-envoy-wrapper:${GLOO_VERSION:-1.2.4}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: [<span style="color:#e6db74">&#34;envoy&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">...</span>
+</span></span></code></pre></div><p>其中 <code>petstore</code> 是业务容器，<code>consul</code>、<code>vault</code> 负责服务注册和密钥管理，<code>gateway-proxy</code> 实际上是一个 envoy 容器。</p>
 <p>其他的 <code>gloo</code>、<code>discovery</code>、<code>gateway</code> 都是 gloo 的组件，
 其中 <code>gloo</code> 是 gloo 实现的 xds 服务，<code>gateway</code> 是上文说的&quot;翻译组件&quot;，<code>discovery</code> 是上文说的&quot;服务发现组件&quot;。</p>
 <p>运行 <code>docker-compose up &amp;</code> 启动：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
-➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ Creating network <span style="color:#e6db74">&#34;docker-compose-consul_default&#34;</span> with the default driver
-Creating docker-compose-consul_gloo_1          ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_vault_1         ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_gateway-proxy_1 ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_consul_1        ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_gateway_1       ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_petstore_1      ... <span style="color:#66d9ef">done</span>
-Creating docker-compose-consul_discovery_1     ... <span style="color:#66d9ef">done</span>
-Attaching to docker-compose-consul_vault_1, docker-compose-consul_discovery_1, docker-compose-consul_gateway_1, docker-compose-consul_gloo_1, docker-compose-consul_petstore_1, docker-compose-consul_gateway-pro
-xy_1, docker-compose-consul_consul_1
-vault_1          | Couldn<span style="color:#960050;background-color:#1e0010">&#39;</span>t start vault with IPC_LOCK. Disabling IPC_LOCK, please use --privileged or --cap-add IPC_LOCK
-discovery_1      | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:09.470Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;uds&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
-discovery_1      | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:09.470Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;fds&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
-gateway_1        | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:10.583Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;gateway&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
-gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;warn&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:10.628Z&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setup/setup.go:22&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;Could not create metrics storage loader - will not report usage: %s&#34;</span>,<span style="color:#e6db74">&#34;error&#34;</span>:<span style="color:#e6db74">&#34;invalid configuration: no co
-</span><span style="color:#e6db74">nfiguration has been provided&#34;</span>,<span style="color:#e6db74">&#34;errorCauses&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;err
-</span><span style="color:#e6db74">...
-</span></code></pre></div><p>看到上文信息即启动成功。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ docker-compose up &amp;
+</span></span><span style="display:flex;"><span>➜  docker-compose-consul git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ Creating network <span style="color:#e6db74">&#34;docker-compose-consul_default&#34;</span> with the default driver
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_gloo_1          ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_vault_1         ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_gateway-proxy_1 ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_consul_1        ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_gateway_1       ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_petstore_1      ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Creating docker-compose-consul_discovery_1     ... <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>Attaching to docker-compose-consul_vault_1, docker-compose-consul_discovery_1, docker-compose-consul_gateway_1, docker-compose-consul_gloo_1, docker-compose-consul_petstore_1, docker-compose-consul_gateway-pro
+</span></span><span style="display:flex;"><span>xy_1, docker-compose-consul_consul_1
+</span></span><span style="display:flex;"><span>vault_1          | Couldn<span style="color:#960050;background-color:#1e0010">&#39;</span>t start vault with IPC_LOCK. Disabling IPC_LOCK, please use --privileged or --cap-add IPC_LOCK
+</span></span><span style="display:flex;"><span>discovery_1      | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:09.470Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;uds&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>discovery_1      | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:09.470Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;fds&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>gateway_1        | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:10.583Z&#34;</span>,<span style="color:#e6db74">&#34;logger&#34;</span>:<span style="color:#e6db74">&#34;gateway&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setuputils/main_setup.go:108&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;using filesystem for settings&#34;</span>,<span style="color:#e6db74">&#34;version&#34;</span>:<span style="color:#e6db74">&#34;1.2.4&#34;</span>,<span style="color:#e6db74">&#34;directory&#34;</span>:<span style="color:#e6db74">&#34;/data/&#34;</span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;warn&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T07:02:10.628Z&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;setup/setup.go:22&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;Could not create metrics storage loader - will not report usage: %s&#34;</span>,<span style="color:#e6db74">&#34;error&#34;</span>:<span style="color:#e6db74">&#34;invalid configuration: no co
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nfiguration has been provided&#34;</span>,<span style="color:#e6db74">&#34;errorCauses&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;err
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">...
+</span></span></span></code></pre></div><p>看到上文信息即启动成功。</p>
 </li>
 <li>
 <p>服务注册到 consul</p>
 <p>首先我们要获取 petstore 的内网 ip 地址</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ PETSTORE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> docker-compose-consul_petstore_1<span style="color:#66d9ef">)</span>
-
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ echo <span style="color:#e6db74">${</span>PETSTORE_IP<span style="color:#e6db74">}</span>
-172.24.0.5
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">{
-</span><span style="color:#e6db74">  &#34;ID&#34;: &#34;petstore1&#34;,
-</span><span style="color:#e6db74">  &#34;Name&#34;: &#34;petstore&#34;,
-</span><span style="color:#e6db74">  &#34;Address&#34;: &#34;${PETSTORE_IP}&#34;,
-</span><span style="color:#e6db74">  &#34;Port&#34;: 8080
-</span><span style="color:#e6db74">}
-</span><span style="color:#e6db74">EOF</span>
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat petstore-service.json
-<span style="color:#f92672">{</span>
-  <span style="color:#e6db74">&#34;ID&#34;</span>: <span style="color:#e6db74">&#34;petstore1&#34;</span>,
-  <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;petstore&#34;</span>,
-  <span style="color:#e6db74">&#34;Address&#34;</span>: <span style="color:#e6db74">&#34;172.24.0.5&#34;</span>,
-  <span style="color:#e6db74">&#34;Port&#34;</span>: <span style="color:#ae81ff">8080</span>
-<span style="color:#f92672">}</span>
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat petstore-service.json
-<span style="color:#f92672">{</span>
-  <span style="color:#e6db74">&#34;ID&#34;</span>: <span style="color:#e6db74">&#34;petstore1&#34;</span>,
-  <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;petstore&#34;</span>,
-  <span style="color:#e6db74">&#34;Address&#34;</span>: <span style="color:#e6db74">&#34;172.24.0.5&#34;</span>,
-  <span style="color:#e6db74">&#34;Port&#34;</span>: <span style="color:#ae81ff">8080</span>
-<span style="color:#f92672">}</span>
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl -v <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    -XPUT <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --data @petstore-service.json <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#e6db74">&#34;http://127.0.0.1:8500/v1/agent/service/register&#34;</span>
-*   Trying 127.0.0.1...
-* TCP_NODELAY set
-* Connected to 127.0.0.1 <span style="color:#f92672">(</span>127.0.0.1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8500</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
-&gt; PUT /v1/agent/service/register HTTP/1.1
-&gt; Host: 127.0.0.1:8500
-&gt; User-Agent: curl/7.54.0
-&gt; Accept: */*
-&gt; Content-Length: <span style="color:#ae81ff">83</span>
-&gt; Content-Type: application/x-www-form-urlencoded
-&gt;
-* upload completely sent off: <span style="color:#ae81ff">83</span> out of <span style="color:#ae81ff">83</span> bytes
-&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
-&lt; Vary: Accept-Encoding
-&lt; Date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 07:35:15 GMT
-&lt; Content-Length: <span style="color:#ae81ff">0</span>
-&lt;
-* Connection <span style="color:#75715e">#0 to host 127.0.0.1 left intact</span>
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
-</code></pre></div><p>看到 consul 返回 200，服务注册成功。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ PETSTORE_IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>docker inspect -f <span style="color:#e6db74">&#39;{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}&#39;</span> docker-compose-consul_petstore_1<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ echo <span style="color:#e6db74">${</span>PETSTORE_IP<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>172.24.0.5
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat &gt; petstore-service.json <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;ID&#34;: &#34;petstore1&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Name&#34;: &#34;petstore&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Address&#34;: &#34;${PETSTORE_IP}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;Port&#34;: 8080
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat petstore-service.json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;ID&#34;</span>: <span style="color:#e6db74">&#34;petstore1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;petstore&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Address&#34;</span>: <span style="color:#e6db74">&#34;172.24.0.5&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Port&#34;</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ cat petstore-service.json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;ID&#34;</span>: <span style="color:#e6db74">&#34;petstore1&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Name&#34;</span>: <span style="color:#e6db74">&#34;petstore&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Address&#34;</span>: <span style="color:#e6db74">&#34;172.24.0.5&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Port&#34;</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl -v <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    -XPUT <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --data @petstore-service.json <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;http://127.0.0.1:8500/v1/agent/service/register&#34;</span>
+</span></span><span style="display:flex;"><span>*   Trying 127.0.0.1...
+</span></span><span style="display:flex;"><span>* TCP_NODELAY set
+</span></span><span style="display:flex;"><span>* Connected to 127.0.0.1 <span style="color:#f92672">(</span>127.0.0.1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8500</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
+</span></span><span style="display:flex;"><span>&gt; PUT /v1/agent/service/register HTTP/1.1
+</span></span><span style="display:flex;"><span>&gt; Host: 127.0.0.1:8500
+</span></span><span style="display:flex;"><span>&gt; User-Agent: curl/7.54.0
+</span></span><span style="display:flex;"><span>&gt; Accept: */*
+</span></span><span style="display:flex;"><span>&gt; Content-Length: <span style="color:#ae81ff">83</span>
+</span></span><span style="display:flex;"><span>&gt; Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>* upload completely sent off: <span style="color:#ae81ff">83</span> out of <span style="color:#ae81ff">83</span> bytes
+</span></span><span style="display:flex;"><span>&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>&lt; Vary: Accept-Encoding
+</span></span><span style="display:flex;"><span>&lt; Date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 07:35:15 GMT
+</span></span><span style="display:flex;"><span>&lt; Content-Length: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>&lt;
+</span></span><span style="display:flex;"><span>* Connection <span style="color:#75715e">#0 to host 127.0.0.1 left intact</span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗
+</span></span></code></pre></div><p>看到 consul 返回 200，服务注册成功。</p>
 <p>通过 <code>glooctl</code> 可以看到 upstream 已被 gateway 捕捉到，consul kv 也看到 upstream 对象已经创建了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl get upstream --use-consul
-+----------+--------+----------+--------------------+
-| UPSTREAM |  TYPE  |  STATUS  |      DETAILS       |
-+----------+--------+----------+--------------------+
-| consul   | Consul | Accepted | svc name: consul   |
-|          |        |          | svc tags: <span style="color:#f92672">[]</span>       |
-|          |        |          |                    |
-| petstore | Consul | Accepted | svc name: petstore |
-|          |        |          | svc tags: <span style="color:#f92672">[]</span>       |
-|          |        |          |                    |
-+----------+--------+----------+--------------------+
-</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl get upstream --use-consul
+</span></span><span style="display:flex;"><span>+----------+--------+----------+--------------------+
+</span></span><span style="display:flex;"><span>| UPSTREAM |  TYPE  |  STATUS  |      DETAILS       |
+</span></span><span style="display:flex;"><span>+----------+--------+----------+--------------------+
+</span></span><span style="display:flex;"><span>| consul   | Consul | Accepted | svc name: consul   |
+</span></span><span style="display:flex;"><span>|          |        |          | svc tags: <span style="color:#f92672">[]</span>       |
+</span></span><span style="display:flex;"><span>|          |        |          |                    |
+</span></span><span style="display:flex;"><span>| petstore | Consul | Accepted | svc name: petstore |
+</span></span><span style="display:flex;"><span>|          |        |          | svc tags: <span style="color:#f92672">[]</span>       |
+</span></span><span style="display:flex;"><span>|          |        |          |                    |
+</span></span><span style="display:flex;"><span>+----------+--------+----------+--------------------+
+</span></span></code></pre></div><!-- raw HTML omitted -->
 <p>从 <code>dicovered_by: consulplugin</code> 可以看出，这个 upstream 对象是 discovery 组件创建的，
 而 <code>status=accepted reportedBy gloo</code> 能看出，这个对象创建后 gloo 组件（xds 服务）发现了这个对象的创建，并附加了一个 <code>status=accepted</code> 的属性。</p>
 </li>
 <li>
 <p>增加路由</p>
 <p>使用 glooctl 增加到 petstore 的服务的路由</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl add route <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --path-exact /all-pets <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --dest-name petstore <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --prefix-rewrite /api/pets <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --use-consul
-<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T18:53:56.585+0800&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;selectionutils/virtual_service.go:99&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;Created new default virtual service&#34;</span>,<span style="color:#e6db74">&#34;virtualService&#34;</span>:<span style="color:#e6db74">&#34;virtual_host:&lt;domains:\&#34;*\&#34; &gt; status:&lt;&gt; metadata:&lt;name:\&#34;default\&#34; namespace:\&#34;gloo-system\&#34; &gt; &#34;</span><span style="color:#f92672">}</span>
-+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
-| VIRTUAL SERVICE | DISPLAY NAME | DOMAINS | SSL  | STATUS  | LISTENERPLUGINS |             ROUTES             |
-+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
-| default         |              | *       | none | Pending |                 | /all-pets -&gt;                   |
-|                 |              |         |      |         |                 | gloo-system.petstore           |
-|                 |              |         |      |         |                 | <span style="color:#f92672">(</span>upstream<span style="color:#f92672">)</span>                     |
-+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
-</code></pre></div><p>用 curl 验证请求正常</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8090/api/pets -v
-*   Trying ::1...
-* TCP_NODELAY set
-* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8090</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
-&gt; GET /api/pets HTTP/1.1
-&gt; Host: localhost:8090
-&gt; User-Agent: curl/7.54.0
-&gt; Accept: */*
-&gt;
-&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
-&lt; Content-Type: application/xml
-&lt; Date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 10:55:47 GMT
-&lt; Content-Length: <span style="color:#ae81ff">86</span>
-&lt;
-<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Dog&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;available&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:2,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Cat&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;pending&#34;</span><span style="color:#f92672">}]</span>
-* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
-
-
-➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8080/all-pets -v
-*   Trying ::1...
-* TCP_NODELAY set
-* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8080</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
-&gt; GET /all-pets HTTP/1.1
-&gt; Host: localhost:8080
-&gt; User-Agent: curl/7.54.0
-&gt; Accept: */*
-&gt;
-&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
-&lt; content-type: application/xml
-&lt; date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 10:55:53 GMT
-&lt; content-length: <span style="color:#ae81ff">86</span>
-&lt; x-envoy-upstream-service-time: <span style="color:#ae81ff">3</span>
-&lt; server: envoy
-&lt;
-<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Dog&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;available&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:2,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Cat&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;pending&#34;</span><span style="color:#f92672">}]</span>
-* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
-</code></pre></div><p>localhost:8090 提供是 petstore 服务提供的，8080 是经过 gloo 路由的请求，可以看到 http 返回头里有 <code>server: envoy</code> 的信息。</p>
-<p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ glooctl add route <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --path-exact /all-pets <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --dest-name petstore <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --prefix-rewrite /api/pets <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --use-consul
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span><span style="color:#e6db74">&#34;level&#34;</span>:<span style="color:#e6db74">&#34;info&#34;</span>,<span style="color:#e6db74">&#34;ts&#34;</span>:<span style="color:#e6db74">&#34;2020-01-31T18:53:56.585+0800&#34;</span>,<span style="color:#e6db74">&#34;caller&#34;</span>:<span style="color:#e6db74">&#34;selectionutils/virtual_service.go:99&#34;</span>,<span style="color:#e6db74">&#34;msg&#34;</span>:<span style="color:#e6db74">&#34;Created new default virtual service&#34;</span>,<span style="color:#e6db74">&#34;virtualService&#34;</span>:<span style="color:#e6db74">&#34;virtual_host:&lt;domains:\&#34;*\&#34; &gt; status:&lt;&gt; metadata:&lt;name:\&#34;default\&#34; namespace:\&#34;gloo-system\&#34; &gt; &#34;</span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
+</span></span><span style="display:flex;"><span>| VIRTUAL SERVICE | DISPLAY NAME | DOMAINS | SSL  | STATUS  | LISTENERPLUGINS |             ROUTES             |
+</span></span><span style="display:flex;"><span>+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
+</span></span><span style="display:flex;"><span>| default         |              | *       | none | Pending |                 | /all-pets -&gt;                   |
+</span></span><span style="display:flex;"><span>|                 |              |         |      |         |                 | gloo-system.petstore           |
+</span></span><span style="display:flex;"><span>|                 |              |         |      |         |                 | <span style="color:#f92672">(</span>upstream<span style="color:#f92672">)</span>                     |
+</span></span><span style="display:flex;"><span>+-----------------+--------------+---------+------+---------+-----------------+--------------------------------+
+</span></span></code></pre></div><p>用 curl 验证请求正常</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8090/api/pets -v
+</span></span><span style="display:flex;"><span>*   Trying ::1...
+</span></span><span style="display:flex;"><span>* TCP_NODELAY set
+</span></span><span style="display:flex;"><span>* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8090</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
+</span></span><span style="display:flex;"><span>&gt; GET /api/pets HTTP/1.1
+</span></span><span style="display:flex;"><span>&gt; Host: localhost:8090
+</span></span><span style="display:flex;"><span>&gt; User-Agent: curl/7.54.0
+</span></span><span style="display:flex;"><span>&gt; Accept: */*
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>&lt; Content-Type: application/xml
+</span></span><span style="display:flex;"><span>&lt; Date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 10:55:47 GMT
+</span></span><span style="display:flex;"><span>&lt; Content-Length: <span style="color:#ae81ff">86</span>
+</span></span><span style="display:flex;"><span>&lt;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Dog&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;available&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:2,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Cat&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;pending&#34;</span><span style="color:#f92672">}]</span>
+</span></span><span style="display:flex;"><span>* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:8080/all-pets -v
+</span></span><span style="display:flex;"><span>*   Trying ::1...
+</span></span><span style="display:flex;"><span>* TCP_NODELAY set
+</span></span><span style="display:flex;"><span>* Connected to localhost <span style="color:#f92672">(</span>::1<span style="color:#f92672">)</span> port <span style="color:#ae81ff">8080</span> <span style="color:#f92672">(</span><span style="color:#75715e">#0)</span>
+</span></span><span style="display:flex;"><span>&gt; GET /all-pets HTTP/1.1
+</span></span><span style="display:flex;"><span>&gt; Host: localhost:8080
+</span></span><span style="display:flex;"><span>&gt; User-Agent: curl/7.54.0
+</span></span><span style="display:flex;"><span>&gt; Accept: */*
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>&lt; HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>&lt; content-type: application/xml
+</span></span><span style="display:flex;"><span>&lt; date: Fri, <span style="color:#ae81ff">31</span> Jan <span style="color:#ae81ff">2020</span> 10:55:53 GMT
+</span></span><span style="display:flex;"><span>&lt; content-length: <span style="color:#ae81ff">86</span>
+</span></span><span style="display:flex;"><span>&lt; x-envoy-upstream-service-time: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>&lt; server: envoy
+</span></span><span style="display:flex;"><span>&lt;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;id&#34;</span>:1,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Dog&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;available&#34;</span><span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;id&#34;</span>:2,<span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Cat&#34;</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;pending&#34;</span><span style="color:#f92672">}]</span>
+</span></span><span style="display:flex;"><span>* Connection <span style="color:#75715e">#0 to host localhost left intact</span>
+</span></span></code></pre></div><p>localhost:8090 提供是 petstore 服务提供的，8080 是经过 gloo 路由的请求，可以看到 http 返回头里有 <code>server: envoy</code> 的信息。</p>
+<!-- raw HTML omitted -->
 <p>这时候查看 consul kv 查看 virtual service 有一个对应的对象被创建了，其中 <code>matchers</code> 属性里和我们填写的路由信息很相似，而 gloo 组件也对此附加了 accepted status。</p>
 <p>我们还能查看到 proxy 对象的内容和通过 envoy 的 debug 端口查看到翻译过来的配置。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:19000/config_dump
-<span style="color:#f92672">{</span>
- <span style="color:#e6db74">&#34;configs&#34;</span>: <span style="color:#f92672">[</span>
-  <span style="color:#f92672">{</span>
-   <span style="color:#e6db74">&#34;@type&#34;</span>: <span style="color:#e6db74">&#34;type.googleapis.com/envoy.admin.v2alpha.BootstrapConfigDump&#34;</span>,
-   <span style="color:#e6db74">&#34;bootstrap&#34;</span>: <span style="color:#f92672">{</span>
-    <span style="color:#e6db74">&#34;node&#34;</span>: <span style="color:#f92672">{</span>
-     <span style="color:#e6db74">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;docker-compose-node&#34;</span>,
-     <span style="color:#e6db74">&#34;cluster&#34;</span>: <span style="color:#e6db74">&#34;gateway&#34;</span>,
-     <span style="color:#e6db74">&#34;metadata&#34;</span>: <span style="color:#f92672">{</span>
-      <span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;gloo-system~gateway-proxy&#34;</span>
-     <span style="color:#f92672">}</span>,
-     <span style="color:#e6db74">&#34;build_version&#34;</span>: <span style="color:#e6db74">&#34;3bf7d19b3405ebf85dbc6aac3fc15214a190b970/1.12.0-dev/Distribution/RELEASE/BoringSSL&#34;</span>
-    <span style="color:#f92672">}</span>,
-
-....
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  gloo git:<span style="color:#f92672">(</span>master<span style="color:#f92672">)</span> ✗ curl localhost:19000/config_dump
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;configs&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;@type&#34;</span>: <span style="color:#e6db74">&#34;type.googleapis.com/envoy.admin.v2alpha.BootstrapConfigDump&#34;</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;bootstrap&#34;</span>: <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;node&#34;</span>: <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;docker-compose-node&#34;</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;cluster&#34;</span>: <span style="color:#e6db74">&#34;gateway&#34;</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;metadata&#34;</span>: <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;gloo-system~gateway-proxy&#34;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;build_version&#34;</span>: <span style="color:#e6db74">&#34;3bf7d19b3405ebf85dbc6aac3fc15214a190b970/1.12.0-dev/Distribution/RELEASE/BoringSSL&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>....
+</span></span></code></pre></div></li>
 </ol>
 <h3 id="6-总结">6. 总结</h3>
 <p>本篇是系列文章的第一篇，主要介绍了 gloo 的基本情况和简单跑起了非 k8s 环境下的 gloo，为后续的其他功能介绍做个铺垫。
 后续文章就可以更多涉及网关能力的介绍。</p>
 
-                </div>
-                
-                <div class="post-comments">
-                    
-                </div>
+            </div>
+            
+            <div class="post-comments">
                 
             </div>
-            <footer class="footer text-center">
-<p>Copyright &copy; 2021 Hello, I&#39;m trainyao. -
+            
+        </div>
+        <footer class="footer text-center">
+<p>Copyright &copy; 2026 Hello, I&#39;m trainyao. -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>
@@ -468,5 +473,5 @@ gloo_1           | <span style="color:#f92672">{</span><span style="color:#e6db7
 </p>
 </footer>
 
-        </div>
-    </body>
+    </div>
+</body>

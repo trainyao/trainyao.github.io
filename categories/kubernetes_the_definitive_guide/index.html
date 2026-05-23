@@ -2,11 +2,11 @@
 <html lang="en">
 
 	<head>
-		<title> kubernetes_the_definitive_guide &middot; trainyao.github.io </title>
+		<title> Kubernetes_the_definitive_guide &middot; trainyao.github.io </title>
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.88.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.161.1">
 
 
 
@@ -14,12 +14,11 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.7.1/css/all.css" integrity="sha384-QI8z31KmtR+tk1MYi0DfgxrjYgpTpLLol3bqZA/Q1Y8BvH+6k7/Huoj38gQOaCS7" crossorigin="anonymous">
 
 
 <link rel="stylesheet" href="https://trainyao.github.io/css/nix.css">
@@ -28,7 +27,7 @@
 
 
 
-<link href="https://fonts.googleapis.com/css?family=Inconsolata%7COpen+Sans%7CConcert+One" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Concert+One&display=swap" rel="stylesheet">
 
 
 
@@ -39,133 +38,153 @@
 
 	<body>
 		<header>
-<nav class="navbar navbar-default navbar-fixed-top navbar-inverse font-header">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
+	<nav class="navbar navbar-dark bg-dark fixed-top navbar-expand-lg font-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
+				trainyao@home ~ $
+			</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-1" 
+					aria-controls="navbar-collapse-1" aria-expanded="false">
+				<span class="visually-hidden">Toggle navigation</span>
+				<span class="navbar-toggler-icon"></span>
 			</button>
-      <a class="navbar-brand" id="green-terminal" href='https://trainyao.github.io/'>
-        trainyao@home ~ $
-      </a>
-		</div>
 
-		
-		<div class="collapse navbar-collapse" id="navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a href='https://trainyao.github.io/'>/home/trainyao</a>
-        </li>
-        
-				
-				
-				<li class="dropdown">
-                    
-            		<a href="https://trainyao.github.io/post/">~/post</a>
-            		
-        		</li>
-        		
-				
-				<li class="dropdown">
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/devops/">~/devops</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
-				    		</li>
-                		
-                    		<li>
-                    		<a href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
-				    		</li>
-                		
-            		</ul>
-            		
-        		</li>
-        		
-
-			</ul>
+			
+			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+				<ul class="nav navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href='https://trainyao.github.io/'>
+							/home/trainyao</a>
+					</li>
+					
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a class="nav-link" href="https://trainyao.github.io/post/">~/post</a>
+						
+					</li>
+					
+					
+					<li class="nav-item dropdown">
+						
+						<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" 
+								aria-haspopup="true" aria-expanded="false">category <span class="caret"></span></a>
+						<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/ai/">~/ai</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes/">~/kubernetes</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/devops/">~/devops</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/istio/">~/service mesh/istio</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/gloo/">~/service mesh/envoy/gloo</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/mosn/">~/service mesh/mosn</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/skynet/">~/skynet</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E8%84%91%E6%B4%9E/">~/脑洞</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E5%85%B6%E4%BB%96/">~/其他</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E7%BF%BB%E8%AF%91/">~/翻译</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/kubernetes-%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97/">~/读书笔记/kubernetes 权威指南</a>
+							</li>
+							
+							<li>
+								<a class="dropdown-item" href="https://trainyao.github.io/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/">~/读书笔记/深入理解计算机系统</a>
+							</li>
+							
+						</ul>
+						
+					</li>
+					
+				</ul>
+			</div>
 		</div>
-	</div>
-</nav>
+	</nav>
 </header>
 
 		<div class="flex-wrapper">
 			<div class="container wrapper">
 				<div class="row">
 					<div class="col-xs-12 text-center">
-						<h1 id=>kubernetes_the_definitive_guide</h1>
+						<h1 id=>Kubernetes_the_definitive_guide</h1>
 					</div>
 				</div>
 				<ul id="post-list">
-						
-					<li>
-						<div class="post-list-item">
-							<div class="post-header">
-								<h4 class="post-link"><a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">kubernetes是怎么工作的以及其架构</a></h4>
-								<h4 class="post-date">2018-09-16</h4>
-							</div>
-							<div class="post-summary"><p>本文简单概括了 kubernetes 里有什么组件，以及它们是如何工作的。
-一、kubernetes 的组件和架构 一个	kubernetes 集群包含两部分：master 节点和 node 节点。master 节点负责接收管理员对于 kubernetes 资源对象的修改，并根据这些修改，对 node 节点进行配置和调度。node 节点是 kubernetes 集群内的计算节点，负责给部署在上面的业务应用提供计算以及储存能力。
-kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Scheduler、kubelet 和 kube-proxy。
-其中，Kubernetes API Server、Controll Manager、Scheduler 运行在 master节点上。而 kubelet 和 kube-proxy 运行在 node 节点上。
-这些组件分别负责 kubernetes 运行的不同职责：
-  Kubernetes API Server：kubernetes 集群的管理入口，它提供 HTTP REST 接口给 kubernetes 用户进行集群的配置，这些配置将会保存在 master 节点运行的 etcd 里面，供其他组件查阅。
-  Controll Manager：负责监听 etcd 变化并作出对应的动作。Controll Manager 是一系列 manager 的统称，其中有以下这些manager：
- Replication Manager：负责 node 节点的 pod 管理。 Node Controller：负责 node 节点管理。 Namespace Controller：负责管理集群内的命名空间。 ResourceQuota Controller：负责针对 namespace、pod、容器这三个维度的资源限制管理。 ServiceAccount Controller：负责管理集群内访问的账号。 Token Controller：负责允许访问 kubernetes 集群的 token。 Service Controller：负责管理集群内的 Service。 Endpoint Controller：负责管理集群内的 Endpoint。    Scheduler：负责接收 Replication Controller 的指挥，对要部署在 node 上的 pod 进行调度。Scheduler 会根据调度算法以及调度策略，调度 pod 在哪个 node 上部署。</p></div>
-							<div class="post-list-footer text-center">
-								<a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">Read More</a>
-							</div>
-						</div>
-					</li>
-				
-				</ul>
+	
+	<li>
+		<div class="post-list-item">
+			<div class="post-header">
+				<h4 class="post-link"><a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">kubernetes是怎么工作的以及其架构</a></h4>
+				<h4 class="post-date">2018-09-16</h4>
+			</div>
+			<div class="post-summary"><p><p>本文简单概括了 kubernetes 里有什么组件，以及它们是如何工作的。</p>
+<h1 id="一kubernetes-的组件和架构">一、kubernetes 的组件和架构</h1>
+<p>一个	kubernetes 集群包含两部分：master 节点和 node 节点。master 节点负责接收管理员对于 kubernetes 资源对象的修改，并根据这些修改，对 node 节点进行配置和调度。node 节点是 kubernetes 集群内的计算节点，负责给部署在上面的业务应用提供计算以及储存能力。</p>
+<p>kubernetes 里有以下组件：Kubernetes API Server、Controll Manager、Scheduler、kubelet 和 kube-proxy。</p>
+<p>其中，Kubernetes API Server、Controll Manager、Scheduler 运行在 master节点上。而 kubelet 和 kube-proxy 运行在 node 节点上。</p>
+<p>这些组件分别负责 kubernetes 运行的不同职责：</p>
+<ul>
+<li>
+<p>Kubernetes API Server：kubernetes 集群的管理入口，它提供 HTTP REST 接口给 kubernetes 用户进行集群的配置，这些配置将会保存在 master 节点运行的 etcd 里面，供其他组件查阅。</p>
+</li>
+<li>
+<p>Controll Manager：负责监听 etcd 变化并作出对应的动作。Controll Manager 是一系列 manager 的统称，其中有以下这些manager：</p>
+<ul>
+<li>Replication Manager：负责 node 节点的 pod 管理。</li>
+<li>Node Controller：负责 node 节点管理。</li>
+<li>Namespace Controller：负责管理集群内的命名空间。</li>
+<li>ResourceQuota Controller：负责针对 namespace、pod、容器这三个维度的资源限制管理。</li>
+<li>ServiceAccount Controller：负责管理集群内访问的账号。</li>
+<li>Token Controller：负责允许访问 kubernetes 集群的 token。</li>
+<li>Service Controller：负责管理集群内的 Service。</li>
+<li>Endpoint Controller：负责管理集群内的 Endpoint。</li>
+</ul>
+</li>
+<li>
+<p>Scheduler：负责接收 Replication Controller 的指挥，对要部署在 node 上的 pod 进行调度。Scheduler 会根据调度算法以及调度策略，调度 pod 在哪个 node 上部署。</p></p></div>
+			<div class="post-list-footer text-center">
+				<a href="https://trainyao.github.io/post/bookread/kubernetes_the_definitive_guide/kubernetes_architecture/">Read More</a>
+			</div>
+		</div>
+	</li>
+	
+</ul>
+
 				
 
 
 
 			</div>
 			<footer class="footer text-center">
-<p>Copyright &copy; 2021 Hello, I&#39;m trainyao. -
+<p>Copyright &copy; 2026 Hello, I&#39;m trainyao. -
 <span class="credit">
 	Powered by
 	<a target="_blank" href="https://gohugo.io">Hugo</a>
